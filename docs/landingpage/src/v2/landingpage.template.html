@@ -61,13 +61,13 @@
 
   /* Hero: Tiefgrün, riesige Zeile, der Google-Screenshot schiebt sich von rechts unten rein */
   .hero { background: radial-gradient(1200px 600px at 85% 110%, #1f5a48 0%, var(--ink) 55%); color: var(--white); padding-block: 84px 0; position: relative; }
-  .hero .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+  .hero .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; max-width: none; margin: 0; padding-left: max(20px, calc(50vw - 560px)); padding-right: 0; }
   .hero .copy { display: grid; gap: 24px; padding-bottom: 84px; align-self: center; }
   .hero .lead { font-size: 1.2rem; max-width: 40ch; opacity: 0.92; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero .stage { position: relative; align-self: end; margin-right: calc(50% - 50vw); min-height: 0; }
+  .hero .stage { position: relative; align-self: end; min-height: 0; }
   .hero .shot-a { position: relative; width: 100%; border-radius: var(--radius) 0 0 0; overflow: hidden; background: #fff; border: 1px solid rgba(255,255,255,0.14); border-right: 0; border-bottom: 0; }
-  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; } .hero .copy { padding-bottom: 36px; } .hero .stage { margin-right: -20px; } } }
+  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; padding-right: 0; } .hero .copy { padding-bottom: 36px; padding-right: 20px; } }
 
   section { padding-block: 104px; }
   section.white { background: var(--white); }
