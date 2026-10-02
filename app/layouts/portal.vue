@@ -3,13 +3,8 @@
     <!-- Desktop: Seitenleiste -->
     <aside class="hidden md:sticky md:top-0 md:flex md:h-screen md:flex-col p-5" style="background: var(--portal-ink); color: var(--portal-white)">
       <p class="portal-display text-xl" style="color: var(--portal-white)">pflege-jobs</p>
-      <p class="mt-4 truncate text-sm font-semibold" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
-      <template v-if="me?.user.role === 'rhowerk' && me.employers?.length">
-        <label for="employer-switch-d" class="sr-only">Dienst wechseln</label>
-        <select id="employer-switch-d" :value="me.employer?.id" class="portal-input mt-2 !min-h-11 text-sm" @change="switchEmployer(($event.target as HTMLSelectElement).value)">
-          <option v-for="e in me.employers" :key="e.id" :value="e.id">{{ e.name }}</option>
-        </select>
-      </template>
+      <PortalEmployerSwitch v-if="canSwitch" class="mt-4" :employers="me.employers" :current="me.employer" @switch="switchEmployer" />
+      <p v-else class="mt-4 truncate text-sm font-semibold" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
       <nav class="mt-6 grid gap-1 text-sm" aria-label="Portal">
         <NuxtLink
           v-for="l in links" :key="l.to" :to="withEmployer(l.to)"
@@ -31,13 +26,8 @@
     <header class="flex items-center gap-3 px-4 py-3 md:hidden" style="background: var(--portal-ink); color: var(--portal-white)">
       <div class="min-w-0 flex-1">
         <p class="portal-display text-lg leading-tight" style="color: var(--portal-white)">pflege-jobs</p>
-        <p v-if="!(me?.user.role === 'rhowerk' && me.employers?.length)" class="truncate text-xs" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
-        <template v-else>
-          <label for="employer-switch-m" class="sr-only">Dienst wechseln</label>
-          <select id="employer-switch-m" :value="me.employer?.id" class="portal-input mt-1 !min-h-11 text-sm" @change="switchEmployer(($event.target as HTMLSelectElement).value)">
-            <option v-for="e in me.employers" :key="e.id" :value="e.id">{{ e.name }}</option>
-          </select>
-        </template>
+        <PortalEmployerSwitch v-if="canSwitch" class="mt-1" :employers="me.employers" :current="me.employer" @switch="switchEmployer" />
+        <p v-else class="truncate text-xs" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
       </div>
       <button type="button" class="portal-nav portal-nav-idle flex size-11 shrink-0 items-center justify-center rounded-lg" title="Abmelden" aria-label="Abmelden" @click="logout">
         <LogOut class="size-5" aria-hidden="true" />
@@ -66,6 +56,7 @@ import { LayoutDashboard, Briefcase, Users, Building2, LogOut } from 'lucide-vue
 const route = useRoute()
 // /api/portal/me entsteht in Task 7; bis dahin Fehler abfangen und „…“ anzeigen.
 const { data: me } = await useFetch<any>('/api/portal/me', { query: computed(() => ({ employer: route.query.employer })), onResponseError: () => {} })
+const canSwitch = computed(() => me.value?.user.role === 'rhowerk' && !!me.value.employers?.length)
 const links = [
   { to: '/portal', label: 'Übersicht', icon: LayoutDashboard }, { to: '/portal/stellen', label: 'Stellen', icon: Briefcase },
   { to: '/portal/bewerbungen', label: 'Bewerbungen', icon: Users }, { to: '/portal/profil', label: 'Profil', icon: Building2 },
