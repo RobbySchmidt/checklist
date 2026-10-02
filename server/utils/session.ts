@@ -6,8 +6,17 @@ export interface SessionUser { id: string; name: string; email: string; role: 'd
 
 export async function requirePortalUser(event: any): Promise<{ user: SessionUser; employer: Employer }> {
   const session = await getUserSession(event)
-  const user = session?.user as SessionUser | undefined
-  if (!user) throw createError({ statusCode: 401, statusMessage: 'Bitte anmelden' })
+  const sessionUser = session?.user as SessionUser | undefined
+  if (!sessionUser) throw createError({ statusCode: 401, statusMessage: 'Bitte anmelden' })
+
+  // Nutzer bei jedem Request gegen die Datenbank prüfen: Sperrung und Rollenwechsel wirken sofort
+  const dbUsers = await appItems<{ id: string; status: string; role: 'dienst' | 'rhowerk'; employer: string | null }>('portal_users', { filter: { id: { _eq: sessionUser.id } }, fields: 'id,status,role,employer', limit: 1 })
+  const db = dbUsers[0]
+  if (!db || db.status !== 'active') {
+    await clearUserSession(event)
+    throw createError({ statusCode: 401, statusMessage: 'Bitte anmelden' })
+  }
+  const user: SessionUser = { ...sessionUser, role: db.role, employerId: db.employer ?? null }
 
   const hostEmployer = event.context.employer as Employer | null
   let employerId: string | null

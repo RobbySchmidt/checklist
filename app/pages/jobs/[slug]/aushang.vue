@@ -14,6 +14,7 @@
 <script setup lang="ts">
 import { salaryText } from '#shared/utils/jobs'
 import { shareLinks } from '#shared/utils/share'
+import { employerSiteUrl } from '#shared/utils/host'
 definePageMeta({ layout: 'bare' })
 const route = useRoute()
 const { public: pub } = useRuntimeConfig()
@@ -21,7 +22,7 @@ const { employer } = await useEmployer()
 const { data: job } = await useJob(route.params.slug as string)
 if (!employer.value || !job.value) throw createError({ statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar', fatal: true })
 const salary = computed(() => salaryText(job.value!))
-const links = computed(() => shareLinks({ siteUrl: pub.siteUrl as string, slug: job.value!.slug, title: job.value!.title, employerName: employer.value!.name }))
+const links = computed(() => shareLinks({ siteUrl: employerSiteUrl(employer.value, pub.siteUrl as string), slug: job.value!.slug, title: job.value!.title, employerName: employer.value!.name }))
 const print = () => window.print()
 useSeoMeta({ title: () => `Aushang: ${job.value?.title}`, robots: 'noindex, nofollow' })
 </script>

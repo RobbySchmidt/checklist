@@ -2,6 +2,7 @@
 // Nimmt die Kurzbewerbung an: Honeypot, Rate-Limit, Validierung, Stelle erneut prüfen, Speichern über App-Token, Benachrichtigung.
 import { applicationSchema, normalizePhone } from '#shared/utils/applicationSchema'
 import { isJobVisible, jobPath } from '#shared/utils/jobs'
+import { employerSiteUrl } from '#shared/utils/host'
 import type { Job, Employer } from '#shared/utils/jobs'
 import { createRateLimiter } from '../utils/rateLimit'
 import { appFetch, appItems } from '../utils/directus'
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
 
   // Stelle erneut laden: zwischen Seitenaufruf und Absenden kann sie geschlossen worden sein (appItems wirft bei Ausfall 503)
   const jobs = await appItems<Job & { employer: Employer }>('jobs', {
-    filter: { id: { _eq: input.job } }, fields: 'id,status,title,slug,valid_through,apply_email_override,employer.id,employer.name,employer.apply_email,employer.is_demo', limit: 1,
+    filter: { id: { _eq: input.job } }, fields: 'id,status,title,slug,valid_through,apply_email_override,employer.id,employer.name,employer.apply_email,employer.is_demo,employer.domains', limit: 1,
   })
   const job = jobs[0]
   if (!job || !isJobVisible(job)) throw createError({ statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar' })
@@ -59,7 +60,7 @@ export default defineEventHandler(async (event) => {
   let previewId: string | undefined
   try {
     const mail = renderApplicationMail({
-      employerName: job.employer.name, jobTitle: job.title, jobUrl: `${config.public.siteUrl}${jobPath(job.slug)}`,
+      employerName: job.employer.name, jobTitle: job.title, jobUrl: `${employerSiteUrl(job.employer, config.public.siteUrl as string)}${jobPath(job.slug)}`,
       name: input.name, phone, email: input.email, qualification: input.qualification, hoursWish: input.hours_wish,
       earliestStart: input.earliest_start, message: input.message, source, createdAt: new Date(),
     })

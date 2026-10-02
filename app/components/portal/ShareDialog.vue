@@ -26,6 +26,7 @@
 <script setup lang="ts">
 import type { Employer } from '#shared/utils/jobs'
 import { shareLinks } from '#shared/utils/share'
+import { employerSiteUrl } from '#shared/utils/host'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '~/components/ui/dialog'
 
 const props = defineProps<{ job: { title: string; slug: string }; employer: Employer & { domains?: string[] | null } }>()
@@ -33,10 +34,7 @@ const open = defineModel<boolean>('open', { default: false })
 const pub = useRuntimeConfig().public
 const copied = ref(false)
 
-const siteUrl = computed(() => {
-  const d = props.employer.domains?.[0]
-  return d ? `https://${d}` : (pub.siteUrl as string)
-})
+const siteUrl = computed(() => employerSiteUrl(props.employer, pub.siteUrl as string))
 const links = computed(() => shareLinks({ siteUrl: siteUrl.value, slug: props.job.slug, title: props.job.title, employerName: props.employer.name }))
 
 async function copy() {

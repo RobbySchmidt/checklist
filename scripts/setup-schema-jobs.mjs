@@ -150,7 +150,9 @@ for (const { field, related_collection, meta } of restrictRelations) {
 }
 
 console.log('\n[4/4] Rechte');
-await ensurePublicRead('employers', { permissions: { status: { _eq: 'published' } } });
+// Nur veröffentlichte Felder; domains, apply_email, report_email, template_*, notify_reminders bleiben intern (Zugriff über App-Token)
+const EMPLOYER_PUBLIC_FIELDS = ['id', 'status', 'name', 'slug', 'legal_name', 'logo', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'service_area', 'about', 'schedule_model', 'benefits', 'is_demo'];
+await ensurePublicRead('employers', { permissions: { status: { _eq: 'published' } }, fields: EMPLOYER_PUBLIC_FIELDS });
 await ensurePublicRead('jobs', { permissions: { _and: [{ status: { _eq: 'published' } }, { valid_through: { _gte: '$NOW' } }] } });
 
 console.log('\nFertig.\n');

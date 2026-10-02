@@ -16,9 +16,10 @@
 <script setup lang="ts">
 import type { Job, Employer } from '#shared/utils/jobs'
 import { shareLinks } from '#shared/utils/share'
+import { employerSiteUrl } from '#shared/utils/host'
 const props = defineProps<{ job: Job; employer: Employer }>()
 const { public: pub } = useRuntimeConfig()
-const links = computed(() => shareLinks({ siteUrl: pub.siteUrl as string, slug: props.job.slug, title: props.job.title, employerName: props.employer.name }))
+const links = computed(() => shareLinks({ siteUrl: employerSiteUrl(props.employer, pub.siteUrl as string), slug: props.job.slug, title: props.job.title, employerName: props.employer.name }))
 const copied = ref(false)
 async function copy() {
   try { await navigator.clipboard.writeText(links.value.url); copied.value = true; setTimeout(() => (copied.value = false), 2000) } catch { window.prompt('Link kopieren:', links.value.url) }

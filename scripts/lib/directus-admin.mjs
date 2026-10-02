@@ -146,7 +146,9 @@ export async function ensurePublicRead(collection, { permissions = {}, fields = 
     fields: ['id'],
   }));
   if (existing.length) {
-    console.log(`  = Public-Read auf ${collection} existiert bereits`);
+    // Bestehende Permission angleichen (idempotent): fields und permissions bleiben Quelle der Wahrheit im Skript
+    await directus.request(updatePermission(existing[0].id, { fields, permissions }));
+    console.log(`  ~ Public-Read auf ${collection} aktualisiert (Felder: ${fields.join(', ')})`);
     return false;
   }
   await directus.request(createPermission({ policy, collection, action: 'read', permissions, validation: {}, fields }));

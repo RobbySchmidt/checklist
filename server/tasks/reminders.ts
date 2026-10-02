@@ -1,4 +1,5 @@
 import { selectReminderCandidates, groupByEmployer } from '#shared/utils/reminders'
+import { employerSiteUrl } from '#shared/utils/host'
 import { appFetch, appItems } from '../utils/directus'
 import { renderReminderMail, sendMail } from '../utils/notify'
 
@@ -10,7 +11,7 @@ export async function runReminders(now = new Date()) {
   for (const [, items] of groups) {
     const employer = items[0]!.employer as any
     try {
-      const portalUrl = (config.portalBaseUrl as string) || (employer.domains?.[0] ? `https://${employer.domains[0]}` : (config.public.siteUrl as string))
+      const portalUrl = (config.portalBaseUrl as string) || employerSiteUrl(employer, config.public.siteUrl as string)
       const mail = renderReminderMail({ employerName: employer.name, portalUrl: `${portalUrl}/portal/bewerbungen`, items: items.map((a: any) => ({ name: a.name, phone: a.phone, jobTitle: a.job?.title ?? '', hours: Math.round((now.getTime() - new Date(a.date_created).getTime()) / 3600000) })) })
       await sendMail(employer.apply_email, config.notifyBcc as string, mail)
       for (const a of items) await appFetch(`/items/applications/${a.id}`, { method: 'PATCH', body: { reminder_sent_at: now.toISOString() } })

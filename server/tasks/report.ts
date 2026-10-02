@@ -1,4 +1,5 @@
 import { aggregateReport, previousMonthRange } from '#shared/utils/report'
+import { employerSiteUrl } from '#shared/utils/host'
 import { appItems } from '../utils/directus'
 import { renderReportMail, sendMail } from '../utils/notify'
 
@@ -17,7 +18,7 @@ export async function runReport(now = new Date(), { force = false } = {}) {
       ])
       if (!jobs.length) continue
       const report = aggregateReport({ ...range, views, applications, jobs })
-      const portalUrl = (config.portalBaseUrl as string) || (e.domains?.[0] ? `https://${e.domains[0]}` : (config.public.siteUrl as string))
+      const portalUrl = (config.portalBaseUrl as string) || employerSiteUrl(e, config.public.siteUrl as string)
       await sendMail(e.report_email || e.apply_email, config.notifyBcc as string, renderReportMail({ employerName: e.name, label: range.label, report, portalUrl: `${portalUrl}/portal` }))
       sent++
     } catch (err: unknown) {

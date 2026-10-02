@@ -27,6 +27,7 @@ export interface Employer {
   schedule_model?: string | null
   benefits?: Benefit[] | null
   is_demo?: boolean | null
+  domains?: string[] | null
 }
 
 export interface Job {

@@ -45,7 +45,7 @@ Zusätzlich zu den Basis-Variablen (`DIRECTUS_URL`, `DIRECTUS_ADMIN_TOKEN`, `SIT
 | `DIRECTUS_APP_TOKEN` | Token der Rolle „App“, nur serverseitig; erzeugt `yarn directus:schema:portal` |
 | `NUXT_SESSION_PASSWORD` | Passwort für die Sitzungs-Cookies (mind. 32 Zeichen) |
 | `TASK_SECRET` | Geheimnis für `POST /api/tasks/<name>` (Header `x-task-secret`) |
-| `PORTAL_BASE_URL` | Basis-URL für Links in Mails; leer = erste Domain des Dienstes |
+| `PORTAL_BASE_URL` | Basis-URL für Links in Mails; leer = erste Domain des Dienstes des Nutzers (Rolle `dienst`), sonst `SITE_URL`; der Host-Header der Anfrage wird nie verwendet |
 | `NOTIFY_BCC` | Blindkopie aller Mails an Dienste |
 | `NUXT_MAIL_HOST`, `NUXT_MAIL_PORT`, `NUXT_MAIL_SECURE`, `NUXT_MAIL_USER`, `NUXT_MAIL_PASS`, `NUXT_MAIL_FROM` | SMTP; leer = Mailvorschau |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Pfad zum Schlüssel für die Indexing API |

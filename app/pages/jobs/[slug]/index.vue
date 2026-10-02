@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { buildJobPosting } from '#shared/utils/buildJobPosting'
+import { employerSiteUrl } from '#shared/utils/host'
 
 const route = useRoute()
 const { public: pub } = useRuntimeConfig()
@@ -41,13 +42,14 @@ if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst
 const { data: job } = await useJob(slug)
 if (!job.value) throw createError({ statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar', fatal: true })
 
+const baseUrl = computed(() => employerSiteUrl(employer.value, pub.siteUrl as string))
 const logoUrl = computed(() => {
   const logo = employer.value?.logo
   const id = typeof logo === 'string' ? logo : logo?.id
   return id ? `${pub.directusUrl}/assets/${id}` : null
 })
 const posting = computed(() => job.value && employer.value
-  ? buildJobPosting({ job: job.value, employer: employer.value, siteUrl: pub.siteUrl as string, logoUrl: logoUrl.value })
+  ? buildJobPosting({ job: job.value, employer: employer.value, siteUrl: baseUrl.value, logoUrl: logoUrl.value })
   : null)
 
 // Für den Prüfbericht in der DevToolbar
@@ -72,7 +74,7 @@ useSeoMeta({
   description: () => description.value,
   ogTitle: () => `${job.value?.title} – ${employer.value?.name}`,
   ogDescription: () => description.value,
-  ogUrl: () => pub.siteUrl + route.path,
+  ogUrl: () => baseUrl.value + route.path,
   robots: 'index, follow',
 })
 </script>
