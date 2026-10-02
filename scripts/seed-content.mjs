@@ -4,7 +4,7 @@
 // Aufruf: yarn directus:seed   (braucht DIRECTUS_URL + DIRECTUS_ADMIN_TOKEN in .env)
 import { directus, upsertItem, readItems, createItem, deleteItems, updateSingleton } from './lib/directus-admin.mjs';
 
-const SITE_NAME = process.env.SITE_NAME || 'Pflege-Jobs';
+const SITE_NAME = process.env.SITE_NAME || 'schichtstark';
 const block = (collection, data) => ({ collection, data });
 
 async function upsertPage(slug, data, blocks) {
@@ -50,5 +50,5 @@ await upsertMenu('Footer', [{ title: 'Offene Stellen', type: 'url', url: '/jobs'
 await upsertMenu('Legal', [{ title: 'Impressum', type: 'page', page: impressum.id }, { title: 'Datenschutz', type: 'page', page: datenschutz.id }]);
 
 console.log('\n[3/3] general');
-await directus.request(updateSingleton('general', { homepage: start.id, claim: 'Bewerbungen vom Handy, in einer Minute.' }));
+await directus.request(updateSingleton('general', { homepage: start.id, claim: 'Bewerbungen für Pflegedienste' }));
 console.log('\nFertig.\n');

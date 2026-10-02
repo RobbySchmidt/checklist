@@ -2,8 +2,9 @@
   <div class="portal grid min-h-screen place-items-center px-4 py-10" style="background: var(--portal-ink)">
     <div class="portal-card grid w-full max-w-md gap-6 p-5 sm:p-6">
       <div>
-        <p class="portal-display text-xl font-bold">pflege-jobs</p>
-        <p class="portal-eyebrow mt-1">Portal für Pflegedienste</p>
+        <p class="portal-display text-xl font-bold">schichtstark</p>
+        <p class="mt-1 text-sm opacity-75">Bewerbungen für Pflegedienste</p>
+        <p class="portal-eyebrow mt-2">Portal</p>
       </div>
       <h1 class="portal-display text-xl">Anmelden</h1>
       <p v-if="state === 'consuming'" class="opacity-75">Link wird geprüft …</p>

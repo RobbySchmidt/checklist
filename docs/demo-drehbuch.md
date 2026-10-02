@@ -1,4 +1,4 @@
-# Demo-Drehbuch: pflege-jobs in fünf Minuten
+# Demo-Drehbuch: schichtstark in fünf Minuten
 
 Für eine Bildschirmaufnahme oder ein Gespräch. Vorher: Docker läuft, `yarn dev`, Browser mit zwei Tabs (öffentliche Seite und Portal). Demo-Dienst ist „Pflegedienst Sonnenhof Leipzig“, Login im Portal mit `pdl@sonnenhof.example` und dem gesetzten Passwort oder per Anmeldelink.
 
