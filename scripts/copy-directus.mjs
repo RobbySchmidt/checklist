@@ -112,9 +112,12 @@ if (!SKIP_SCHEMA) {
 if (ONLY_SCHEMA) { log('\nFertig (--only-schema).'); process.exit(0); }
 
 // ---------------------------------------------------------------- [2/6] Medienordner
+const folderMap = new Map(); // src id → dst id
+const fileMap = new Map(); // src id → dst id
+if (PREFIX) log('\n[2/6] + [3/6] Medienordner und Dateien übersprungen (--prefix: keine fremden Ordner in die geteilte Instanz)');
+if (!PREFIX) {
 log('\n[2/6] Medienordner');
 const srcFolders = await src('GET', '/folders?limit=-1&fields=id,name,parent');
-const folderMap = new Map(); // src id → dst id
 {
   const dstFolders = await dst('GET', '/folders?limit=-1&fields=id,name,parent');
   const pending = [...srcFolders];
@@ -135,7 +138,6 @@ const folderMap = new Map(); // src id → dst id
 
 // ---------------------------------------------------------------- [3/6] Dateien
 log('\n[3/6] Dateien');
-const fileMap = new Map(); // src id → dst id
 {
   const srcFiles = await src('GET', '/files?limit=-1&fields=id,filename_download,title,type,folder,description,tags,width,height,filesize');
   const dstFiles = await dst('GET', '/files?limit=-1&fields=id,filename_download');
@@ -155,6 +157,7 @@ const fileMap = new Map(); // src id → dst id
   }
 }
 
+}
 // ---------------------------------------------------------------- [4/6] Inhalte
 log('\n[4/6] Inhalte');
 // M2O-Felder je Collection: field → related_collection (inkl. directus_files); Alias-Felder (O2M/M2M/M2A-Listen) werden nicht kopiert

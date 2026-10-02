@@ -2,7 +2,7 @@
 
 Stellenseiten für Pflegedienste: Nuxt 4 + Directus 11, Bewerbung vom Handy in einer Minute.
 
-> Alle Produkt-Collections heißen mit Präfix `sp_` (`sp_employers`, `sp_jobs`, `sp_applications`, `sp_portal_users`, `sp_login_tokens`, `sp_job_views`) im Directus-Ordner „stellenpflege“, Namen zentral in `shared/utils/collections.ts`. Grund: Die Ziel-Instanz ist geteilt und hat schon eine eigene `jobs`-Collection. Umzug: `yarn directus:copy -- --prefix sp_` (Schema und Rechte vorher mit `yarn directus:schema:jobs` und `yarn directus:schema:portal` gegen das Ziel anlegen geht auch, dann `--skip-schema`).
+> Alle Produkt-Collections heißen mit Präfix `sp_` (`sp_employers`, `sp_jobs`, `sp_applications`, `sp_portal_users`, `sp_login_tokens`, `sp_job_views`) im Directus-Ordner „stellenpflege“, Namen zentral in `shared/utils/collections.ts`. Grund: Die Ziel-Instanz ist geteilt und hat schon eine eigene `jobs`-Collection. Umzug in die geteilte Instanz (so am 2. Oktober 2026 gemacht): erst Schema und Rechte gegen das Ziel anlegen mit `DIRECTUS_URL=<Ziel> DIRECTUS_ADMIN_TOKEN=<Admin> DIRECTUS_APP_TOKEN=<neuer App-Token> node scripts/setup-schema-jobs.mjs` und ebenso `setup-schema-portal.mjs` (ein gesetzter `DIRECTUS_APP_TOKEN` verhindert, dass das Skript die lokale .env überschreibt), dann die Daten mit `REAL_DIRECTUS_URL=<Ziel> REAL_DIRECTUS_ADMIN_TOKEN=<Admin> node --env-file=.env scripts/copy-directus.mjs --prefix sp_ --skip-schema`. Mit `--prefix` werden keine Medienordner und Dateien kopiert.
 
 ## Start
 
