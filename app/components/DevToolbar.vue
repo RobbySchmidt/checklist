@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const showTailwindBreakpoints = ref(true)
+const showTailwindBreakpoints = ref(false)
 </script>
 <template>
   <div v-if="showTailwindBreakpoints" class="fixed top-0 left-0 z-50 m-5">
