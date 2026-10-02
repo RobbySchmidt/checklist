@@ -34,6 +34,7 @@ await ensureCollection('portal_users', {
     timestamp('last_login', 'Letzter Login', { readonly: true }),
   ],
 });
+await ensureField('portal_users', 'password_hash', input('password_hash', 'Passwort-Hash (per yarn portal:password setzen)', { hidden: true, width: 'full' }));
 await ensureCollection('login_tokens', {
   meta: { group: 'Recruiting', icon: 'key', note: 'Magic-Link-Tokens (nur Hash)', hidden: true, sort: 5 },
   schema: {},

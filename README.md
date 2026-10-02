@@ -15,7 +15,8 @@ Stellenseiten für Pflegedienste: Nuxt 4 + Directus 11, Bewerbung vom Handy in e
 
 Unter `/portal` verwalten Dienste Stellen, Bewerbungen und ihr Profil.
 
-- **Login:** E-Mail eingeben, Anmeldelink per Mail (lokal über die Mailvorschau), Klick auf den Link startet die Sitzung. Kein Passwort.
+- **Login:** Standard ist der Anmeldelink: E-Mail eingeben, Link per Mail (lokal über die Mailvorschau), Klick startet die Sitzung. Optional geht auch ein Passwort-Login.
+- **Passwort setzen:** `yarn portal:password <email> <passwort>` (mindestens 10 Zeichen, wird als scrypt-Hash in `portal_users.password_hash` gespeichert). Ohne Passwort bleibt der Magic-Link der Weg.
 - **Nutzer anlegen:** in Directus unter `portal_users` (E-Mail, Dienst, Rolle). Der Dienst bestimmt, was der Nutzer sieht.
 - **Rhowerk-Rolle:** Nutzer mit der Rolle Rhowerk sehen alle Dienste und haben im Portal einen Dienst-Umschalter.
 - Das Portal liest und schreibt serverseitig mit dem App-Token (`DIRECTUS_APP_TOKEN`, Benutzer `app@pflege-jobs.example.com`). Alle Portal-Routen filtern nach dem Dienst der Sitzung.

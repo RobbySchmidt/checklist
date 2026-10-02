@@ -5,11 +5,14 @@
     <p v-else-if="state === 'error'" class="rounded-lg bg-destructive/10 p-3 text-destructive">Link ungültig oder abgelaufen. Bitte neuen Link anfordern.</p>
     <p v-if="state === 'sent'" class="rounded-lg bg-secondary p-4" role="status">Wenn die Adresse bekannt ist, haben wir einen Link geschickt. Er gilt 15 Minuten.
       <a v-if="previewId" :href="`/__mail/${previewId}`" target="_blank" class="block mt-2 text-sm underline">Mailvorschau öffnen (nur Entwicklung)</a></p>
-    <form v-if="state !== 'sent' && state !== 'consuming'" class="grid gap-3" @submit.prevent="request">
+    <form v-if="state !== 'sent' && state !== 'consuming'" class="grid gap-3" @submit.prevent="submit">
       <label for="login-email" class="font-semibold">Ihre E-Mail-Adresse</label>
       <input id="login-email" v-model="email" type="email" required autocomplete="email" class="h-12 rounded-lg border border-border px-4 text-base">
+      <label for="login-password" class="font-semibold">Passwort (optional)</label>
+      <input id="login-password" v-model="password" type="password" autocomplete="current-password" class="h-12 rounded-lg border border-border px-4 text-base">
+      <p class="text-sm text-muted-foreground">Ohne Passwort schicken wir Ihnen einen Anmeldelink.</p>
       <p v-if="formError" class="text-sm text-destructive">{{ formError }}</p>
-      <button type="submit" :disabled="busy" class="h-12 rounded-full bg-primary font-bold text-primary-foreground disabled:opacity-60">Link senden</button>
+      <button type="submit" :disabled="busy" class="h-12 rounded-full bg-primary font-bold text-primary-foreground disabled:opacity-60">{{ password ? 'Anmelden' : 'Link senden' }}</button>
     </form>
   </div>
 </template>
@@ -17,6 +20,7 @@
 definePageMeta({ layout: 'bare' })
 const route = useRoute()
 const email = ref('')
+const password = ref('')
 const busy = ref(false)
 const formError = ref('')
 const previewId = ref<string | null>(null)
@@ -31,6 +35,17 @@ onMounted(async () => {
     navigateTo(String(route.query.next || '/portal'))
   } catch { state.value = 'error' }
 })
+async function submit() {
+  if (!password.value) return request()
+  busy.value = true; formError.value = ''
+  try {
+    await $fetch('/api/auth/password', { method: 'POST', body: { email: email.value, password: password.value } })
+    await useUserSession().fetch()
+    await navigateTo(String(route.query.next || '/portal'))
+  } catch (err: any) {
+    formError.value = err?.statusCode === 401 ? 'E-Mail oder Passwort falsch.' : err?.statusCode === 429 ? 'Zu viele Versuche. Bitte später erneut oder Link anfordern.' : 'Gerade nicht möglich.'
+  } finally { busy.value = false }
+}
 async function request() {
   busy.value = true; formError.value = ''
   try {

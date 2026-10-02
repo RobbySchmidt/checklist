@@ -17,6 +17,7 @@
     "directus:schema:portal": "node scripts/setup-schema-portal.mjs",
     "directus:seed:jobs": "node scripts/seed-jobs.mjs",
     "directus:seed:portal": "node scripts/seed-portal.mjs",
+    "portal:password": "node scripts/set-password.mjs",
     "google:index": "node --env-file=.env scripts/google-index.mjs"
   },
   "dependencies": {
