@@ -41,3 +41,11 @@ test('unbekannte Quelle fällt auf direct zurück, Nachricht max 2000 Zeichen', 
   if (r.success) assert.equal(r.data.source, 'direct')
   assert.equal(applicationSchema.safeParse({ ...ok, message: 'x'.repeat(2001) }).success, false)
 })
+
+test('E-Mail optional, aber wenn gesetzt gültig', () => {
+  assert.equal(applicationSchema.safeParse({ ...ok, email: '' }).success, true)
+  assert.equal(applicationSchema.safeParse({ ...ok, email: 'anna@example.com' }).success, true)
+  assert.equal(applicationSchema.safeParse({ ...ok, email: 'keine-mail' }).success, false)
+  const r = applicationSchema.safeParse(ok)
+  if (r.success) assert.equal(r.data.email, '')
+})

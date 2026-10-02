@@ -16,6 +16,11 @@
         <p v-if="errors.phone" class="text-sm text-destructive">{{ errors.phone }}</p>
       </div>
       <div class="grid gap-1">
+        <label for="apply-email" class="font-semibold">Deine E-Mail <span class="font-normal text-muted-foreground">(optional)</span></label>
+        <input id="apply-email" v-model="form.email" type="email" autocomplete="email" inputmode="email" class="h-12 rounded-lg border border-border px-4 text-base">
+        <p v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</p>
+      </div>
+      <div class="grid gap-1">
         <label for="apply-qualification" class="font-semibold">Deine Qualifikation</label>
         <select id="apply-qualification" v-model="form.qualification" required class="h-12 rounded-lg border border-border px-4 text-base bg-background">
           <option value="" disabled>Bitte wählen</option>
@@ -62,7 +67,7 @@ import { applicationSchema, SOURCES } from '#shared/utils/applicationSchema'
 const props = defineProps<{ job: Job; employer: Employer }>()
 const route = useRoute()
 
-const form = reactive({ name: '', phone: '', qualification: '', hours_wish: '', earliest_start: '', message: '', consent: false, website: '' })
+const form = reactive({ name: '', phone: '', email: '', qualification: '', hours_wish: '', earliest_start: '', message: '', consent: false, website: '' })
 const errors = reactive<Record<string, string>>({})
 const busy = ref(false)
 const done = ref(false)

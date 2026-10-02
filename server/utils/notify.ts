@@ -10,7 +10,7 @@ const SOURCE_LABELS: Record<string, string> = { google: 'Google', wa: 'WhatsApp'
 
 export interface ApplicationMailInput {
   employerName: string; jobTitle: string; jobUrl: string
-  name: string; phone: string; qualification: string; hoursWish: string; earliestStart: string; message: string; source: string
+  name: string; phone: string; email?: string; qualification: string; hoursWish: string; earliestStart: string; message: string; source: string
   createdAt: Date
 }
 
@@ -24,7 +24,7 @@ export function renderApplicationMail(i: ApplicationMailInput) {
   const subject = `Neue Bewerbung: ${i.jobTitle} – ${i.name}`
   const lines = [
     `Neue Bewerbung für ${i.jobTitle} (${i.employerName})`, '',
-    `Name: ${i.name}`, `Telefon: ${i.phone}`, `Qualifikation: ${q}`, `Wunschstunden: ${h}`,
+    `Name: ${i.name}`, `Telefon: ${i.phone}`, i.email ? `E-Mail: ${i.email}` : '', `Qualifikation: ${q}`, `Wunschstunden: ${h}`,
     i.earliestStart ? `Frühester Start: ${i.earliestStart}` : '', i.message ? `Nachricht: ${i.message}` : '', '',
     `Quelle: ${src}`, `Eingegangen: ${when}`, `Stelle: ${i.jobUrl}`, '',
     'Bitte innerhalb von 24 Stunden zurückrufen.',
@@ -36,6 +36,7 @@ export function renderApplicationMail(i: ApplicationMailInput) {
 <table style="border-collapse:collapse"><tbody>
 <tr><td style="padding:6px 12px 6px 0;font-weight:600">Name</td><td>${esc(i.name)}</td></tr>
 <tr><td style="padding:6px 12px 6px 0;font-weight:600">Telefon</td><td><a href="tel:${esc(i.phone)}">${esc(i.phone)}</a></td></tr>
+${i.email ? `<tr><td style="padding:6px 12px 6px 0;font-weight:600">E-Mail</td><td><a href="mailto:${esc(i.email)}">${esc(i.email)}</a></td></tr>` : ''}
 <tr><td style="padding:6px 12px 6px 0;font-weight:600">Qualifikation</td><td>${esc(q)}</td></tr>
 <tr><td style="padding:6px 12px 6px 0;font-weight:600">Wunschstunden</td><td>${esc(h)}</td></tr>
 ${i.earliestStart ? `<tr><td style="padding:6px 12px 6px 0;font-weight:600">Frühester Start</td><td>${esc(i.earliestStart)}</td></tr>` : ''}

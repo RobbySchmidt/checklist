@@ -21,6 +21,7 @@ export const applicationSchema = z.object({
   phone: phoneSchema,
   qualification: z.enum(Object.keys(QUALIFICATION_LABELS) as [keyof typeof QUALIFICATION_LABELS, ...Array<keyof typeof QUALIFICATION_LABELS>], { errorMap: () => ({ message: 'Bitte wähle deine Qualifikation.' }) }),
   hours_wish: z.enum(Object.keys(HOURS_WISH_LABELS) as [keyof typeof HOURS_WISH_LABELS, ...Array<keyof typeof HOURS_WISH_LABELS>], { errorMap: () => ({ message: 'Bitte wähle deinen Stundenwunsch.' }) }),
+  email: z.preprocess((v) => (typeof v === 'string' ? v.trim() : ''), z.union([z.literal(''), z.string().email('Bitte eine gültige E-Mail-Adresse angeben.').max(200)])).default(''),
   earliest_start: z.string().trim().max(80).optional().default(''),
   message: z.string().trim().max(2000, 'Bitte höchstens 2000 Zeichen.').optional().default(''),
   consent: z.literal(true, { errorMap: () => ({ message: 'Bitte stimme der Kontaktaufnahme zu.' }) }),
