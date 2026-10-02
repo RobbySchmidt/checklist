@@ -17,4 +17,5 @@ const showTailwindBreakpoints = ref(true)
       <div class="hidden sm:hidden md:hidden lg:hidden xl:hidden 2xl:hidden 3xl:hidden 4xl:block">4xl</div>
     </div>
   </div>
+  <JobsJobPostingCheckPanel />
 </template>
