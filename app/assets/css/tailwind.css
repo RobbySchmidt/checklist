@@ -164,7 +164,7 @@
 .prose-job p, .prose-job li { margin-bottom: 0.25rem; }
 
 @utility jobs-paper {
-  background-color: color-mix(in srgb, var(--secondary) 40%, white);
+  background-color: color-mix(in srgb, var(--secondary) 12%, white);
 }
 
 @utility font-roboto {
@@ -293,6 +293,9 @@
   &:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }
   @media (hover: hover) { &:hover { background: var(--portal-paper); } }
 }
+
+.portal :is(button:not(:disabled), [role='button'], label[for], summary) { cursor: pointer; }
+.portal button:disabled { cursor: not-allowed; }
 
 .portal [data-slot='table-head'] {
   font-family: 'Space Mono', ui-monospace, monospace;

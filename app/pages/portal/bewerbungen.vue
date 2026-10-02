@@ -52,6 +52,10 @@
                 @click="a.status !== key && setStatus(a, String(key))"
               >{{ label }}</button>
             </div>
+            <p v-if="a.status === 'zusage' && a.job?.status === 'published'" class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+              Stelle besetzt?
+              <button type="button" class="min-h-11 border-b px-1 font-medium underline-offset-2 hover:underline" style="border-color: var(--portal-line)" @click="closeJob(a)">Stelle schließen</button>
+            </p>
           </div>
           <CollapsibleContent class="mt-4 grid gap-4 border-t pt-4" style="border-color: var(--portal-line)">
             <div v-if="a.message"><p class="portal-eyebrow">Nachricht</p><p class="whitespace-pre-line">{{ a.message }}</p></div>
@@ -72,7 +76,8 @@
         </Collapsible>
       </li>
     </ul>
-    <p v-if="actionError" class="rounded-lg p-3 text-sm" style="background: #fee2e2; color: var(--portal-danger)" role="alert">{{ actionError }}</p>
+    <p v-if="jobClosed" class="rounded-lg p-3 text-sm" style="background: var(--portal-paper); color: var(--portal-text)" role="status">Stelle geschlossen. Sie ist nicht mehr öffentlich sichtbar.</p>
+    <p v-if="actionError"class="rounded-lg p-3 text-sm" style="background: #fee2e2; color: var(--portal-danger)" role="alert">{{ actionError }}</p>
     <PortalMessageDialog v-if="me?.employer && msgApp" v-model:open="msgOpen" :kind="msgKind" :application="msgApp" :employer="me.employer" />
   </div>
 </template>
@@ -108,6 +113,19 @@ async function patch(id: string, body: Record<string, string>) {
 }
 async function setStatus(a: any, status: string) {
   await patch(a.id, { status })
+  await refresh()
+}
+const jobClosed = ref(false)
+async function closeJob(a: any) {
+  actionError.value = ''
+  jobClosed.value = false
+  try {
+    await $fetch(`/api/portal/jobs/${a.job.id}`, { method: 'PATCH', body: { status: 'filled' }, query: empQuery.value })
+  } catch (e: any) {
+    actionError.value = e?.data?.statusMessage || 'Das hat nicht geklappt. Bitte erneut versuchen.'
+    return
+  }
+  jobClosed.value = true
   await refresh()
 }
 async function saveNote(a: any) {
