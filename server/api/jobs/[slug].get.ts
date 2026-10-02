@@ -2,7 +2,7 @@
 import type { Job } from '#shared/utils/jobs'
 import { isJobVisible, toIsoDate } from '#shared/utils/jobs'
 
-const JOB_DETAIL_FIELDS = ['*', 'employer.*', 'employer.logo.id', 'employer.logo.title']
+const JOB_DETAIL_FIELDS = ['id', 'status', 'title', 'slug', 'employment_types', 'hours_min', 'hours_max', 'start_note', 'salary_min', 'salary_max', 'salary_unit', 'salary_note', 'location_override', 'intro', 'tasks', 'requirements', 'benefits_override', 'contact_name', 'date_posted', 'valid_through', 'employer.*', 'employer.logo.id', 'employer.logo.title']
 const NOT_FOUND = { statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar' }
 
 export default defineEventHandler(async (event) => {
