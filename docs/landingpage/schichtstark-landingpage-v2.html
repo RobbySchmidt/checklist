@@ -61,7 +61,7 @@
 
   /* Hero: Tiefgrün, riesige Zeile, der Google-Screenshot schiebt sich von rechts unten rein */
   .hero { background: radial-gradient(1200px 600px at 85% 110%, #1f5a48 0%, var(--ink) 55%); color: var(--white); position: relative; }
-  .hero .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: stretch; max-width: none; margin: 0; padding-left: max(20px, calc(50vw - 560px)); padding-right: 0; }
+  .hero .grid { display: grid; grid-template-columns: minmax(0, 1fr) 50vw; gap: 40px; align-items: stretch; max-width: none; margin: 0; padding-left: max(20px, calc(50vw - 560px)); padding-right: 0; }
   .hero .copy { display: grid; gap: 22px; padding-block: 72px; align-self: center; }
   .hero .lead { font-size: 1.2rem; max-width: 40ch; opacity: 0.92; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
