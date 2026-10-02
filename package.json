@@ -8,7 +8,6 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "setup": "node scripts/init-env.mjs",
     "directus:schema": "node scripts/setup-schema.mjs",
     "directus:seed": "node scripts/seed-content.mjs",
     "directus:copy": "node --env-file=.env scripts/copy-directus.mjs",

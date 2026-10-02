@@ -20,7 +20,7 @@ Projekt aus `nuxt-directus-base`. Spec: `docs/superpowers/specs/2026-10-02-pfleg
 
 Starter für Websites mit **Nuxt 4 + Directus 11 (Page Builder)**. Seiten werden im CMS aus Blöcken (M2A) zusammengesetzt, Nuxt rendert sie dynamisch. Das Repo bringt einen Grundinhalt (Startseite, Impressum, Datenschutz, Menüs) und einen **fiktiven** Demo-Pflegedienst mit Stellen mit: `yarn directus:schema` + `yarn directus:seed` bauen den Grundinhalt auf einer leeren Directus-Instanz auf, `yarn directus:schema:jobs` + `yarn directus:seed:jobs` den Demo-Dienst. Keine echten Kundendaten – alle Namen und Kontaktdaten sind erfunden und werden pro Projekt ersetzt; der Block-Katalog (Hero, Features, Cards, Text+Bild, Produkte, Galerie, Stimmen, FAQ, Kontakt, Text) ist generisch geschnitten.
 
-Tech-Stack: Nuxt 4, Tailwind v4 (`@tailwindcss/vite`) + shadcn-nuxt (reka-ui, `app/components/ui/`), lucide-vue-next, Pinia, `nuxt-directus`, `@nuxtjs/sitemap`, isomorphic-dompurify. CMS: Directus 11 + Postgres 16 lokal via Docker (`docker/`).
+Tech-Stack: Nuxt 4, Tailwind v4 (`@tailwindcss/vite`) + shadcn-nuxt (reka-ui, `app/components/ui/`), lucide-vue-next, Pinia, `nuxt-directus`, `@nuxtjs/sitemap`, isomorphic-dompurify. CMS: Directus 11 (geteilte Rhowerk-Instanz, Zugänge in `.env`).
 
 ## Dateikarte (Stellenseiten)
 
@@ -35,20 +35,13 @@ Tech-Stack: Nuxt 4, Tailwind v4 (`@tailwindcss/vite`) + shadcn-nuxt (reka-ui, `a
 
 ## Projekt starten (Kurzfassung, Details in README.md)
 
+Seit 2. Oktober 2026 läuft das Produkt gegen Robbys geteilte Directus-Instanz (Zugänge in `.env`: `DIRECTUS_URL`, `DIRECTUS_ADMIN_TOKEN` nur für Skripte, `DIRECTUS_APP_TOKEN` für den Betrieb). Kein Docker mehr im Repo; der alte lokale Stand liegt als `LOCAL_*`-Variablen in Robbys `.env` und als Docker-Volume `pflege-jobs_database`.
+
 1. `yarn`
-2. `yarn setup --name <projekt-slug> [--email …] [--directus-port 8055] [--nuxt-port 3000]` → erzeugt `.env` + `docker/.env` (Compose-Projektname, Ports, Secrets, `SITE_NAME`). Später anpassen: `--force` (Secrets/Tokens bleiben), Secrets neu: `--rotate-secrets` (Volume vorher löschen)
-3. `cd docker`, dann `docker compose up -d` → Directus auf `DIRECTUS_PORT`
-4. In Directus einloggen (Zugang in `docker/.env`), Static Token beim Admin-User erzeugen → `.env` `DIRECTUS_ADMIN_TOKEN`
-5. `yarn directus:schema` (Datenmodell) und `yarn directus:seed` (Startinhalt)
-6. `yarn dev` (bei anderem Port: `yarn dev --port <nuxt-port>`)
+2. `.env` nach `.env.example` füllen
+3. `yarn dev` (bei anderem Port: `yarn dev --port <nuxt-port>`)
 
-## Mehrere Projekte parallel (wichtig!)
-
-Jedes Projekt aus diesem Starter hat einen **eigenen Compose-Projektnamen** (`COMPOSE_PROJECT_NAME` in `docker/.env`, gesetzt von `yarn setup`). Daraus entstehen eigene Container und ein eigenes DB-Volume `<name>_database`. Parallel laufende Projekte brauchen außerdem verschiedene `DIRECTUS_PORT` / Nuxt-Ports.
-
-- `docker compose down` **ohne** `-v` – `down -v` löscht die Datenbank dieses Projekts.
-- **Nie `docker volume prune`** – trifft alle gestoppten Projekte auf der Maschine. Gezielt: `docker volume rm <name>_database`.
-- `docker compose ls` zeigt, welche Projekte laufen.
+Neue Instanz: `yarn directus:schema:jobs` + `yarn directus:schema:portal` (idempotent; ein gesetzter `DIRECTUS_APP_TOKEN` verhindert, dass das Portal-Skript `.env` überschreibt), Demo-Dienst per `yarn directus:seed:jobs` + `yarn directus:seed:portal`. **Nie `setup-schema.mjs`/`seed-content.mjs` gegen die geteilte Instanz laufen lassen** (Starter-Collections, dort liegen fremde `general`/`pages`).
 
 ## Page Builder – Architektur
 
@@ -68,12 +61,12 @@ Jedes Projekt aus diesem Starter hat einen **eigenen Compose-Projektnamen** (`CO
 
 ## Arbeitsumgebung (Windows / Git Bash)
 
-- Docker: `cd docker`, dann `docker compose up -d` (PowerShell 5 kennt kein `&&` – Befehle einzeln); Directus-MCP für Claude Code: `.mcp.json.example` → `.mcp.json` (Token `DIRECTUS_MCP_TOKEN`, **URL-Port an `DIRECTUS_PORT` anpassen**).
-- Skripte: `yarn setup`, `yarn directus:schema`, `yarn directus:seed`; Dev-Server `yarn dev [--port N]`; Build `yarn build`.
+- PowerShell 5 kennt kein `&&` – Befehle einzeln. Directus-MCP für Claude Code: `.mcp.json.example` → `.mcp.json` (Token `DIRECTUS_MCP_TOKEN`, URL der Instanz aus `.env`).
+- Skripte: `yarn directus:schema:jobs`, `yarn directus:schema:portal`, `yarn directus:seed:jobs`, `yarn directus:seed:portal`, `yarn portal:password`, `yarn directus:copy`; Dev-Server `yarn dev [--port N]`; Build `yarn build`.
 - Blockierter Port: `netstat -ano | findstr :3000` (deutsche Locale zeigt „ABHÖREN" statt LISTENING) → `taskkill /PID … /F /T`; in Git Bash doppelte Slashes `//PID … //F //T`.
 - Screenshot-Check: Chrome headless (`"/c/Program Files/Google/Chrome/Application/chrome.exe" --headless=new --window-size=1440,2000 --screenshot=out.png http://localhost:3000/`). **Nur den eigenen Chrome-PID beenden, nie `taskkill /IM chrome.exe`.** In Git Bash `MSYS_NO_PATHCONV=1`, sonst werden Pfade wie `/kontakt` zu Windows-Pfaden. **Mobile-Screenshots nicht über `--window-size=<500`** – Chrome hält eine Mindestbreite (Viewport bleibt ~485 px, Bild wird nur beschnitten → sieht wie horizontaler Überlauf aus). Stattdessen per CDP (`--remote-debugging-port`, Node-WebSocket) `Emulation.setDeviceMetricsOverride` + `Page.captureScreenshot`; Überlauf prüfen mit `scrollWidth == clientWidth`.
 - Typecheck: `npx vue-tsc --noEmit -p .nuxt/tsconfig.json` (Client) und `-p .nuxt/tsconfig.server.json` (Server). `typeCheck` ist im Build aus.
-- Vor dem Livegang: `SITE_URL` auf die Domain (sonst localhost-URLs in Schema/Sitemap), `DIRECTUS_PUBLIC_URL`/`CORS_ORIGIN` in `docker/.env`. **Netlify:** Env-Variablen `DIRECTUS_URL`, `SITE_URL`, `NUXT_PUBLIC_SITE_NAME` (`SITE_NAME` ist bei Netlify reserviert = Projekt-Slug, deshalb liest `nuxt.config.ts` `NUXT_PUBLIC_SITE_NAME || SITE_NAME`); kein Admin-Token ins Deployment. Werte werden beim Build gelesen → nach Änderung neu deployen. `isomorphic-dompurify` ist **exakt auf 2.22.0 gepinnt** (jsdom 26): ab 2.23 zieht jsdom 27+ ESM-only-Pakete, die die Netlify-Function ohne `require(esm)` (Node < 20.19/22.12) mit 500 „require() of ES Module …“ bei jedem SSR-Request quittiert – Client-Navigation geht trotzdem, weil der Browser Directus direkt liest. `.nvmrc` (= 24) setzt die Build-Node-Version (Netlify koppelt die Functions-Runtime daran); im Netlify-Log „Now using Node v24“ prüfen, sonst `AWS_LAMBDA_JS_RUNTIME=nodejs24.x` im Netlify-UI. `.netlify/` ist Build-Output und gitignored.
+- Vor dem Livegang: `SITE_URL` auf die Domain (sonst localhost-URLs in Schema/Sitemap), `CORS_ORIGIN` in der Directus-Instanz. **Netlify:** Env-Variablen `DIRECTUS_URL`, `SITE_URL`, `NUXT_PUBLIC_SITE_NAME` (`SITE_NAME` ist bei Netlify reserviert = Projekt-Slug, deshalb liest `nuxt.config.ts` `NUXT_PUBLIC_SITE_NAME || SITE_NAME`); kein Admin-Token ins Deployment. Werte werden beim Build gelesen → nach Änderung neu deployen. `isomorphic-dompurify` ist **exakt auf 2.22.0 gepinnt** (jsdom 26): ab 2.23 zieht jsdom 27+ ESM-only-Pakete, die die Netlify-Function ohne `require(esm)` (Node < 20.19/22.12) mit 500 „require() of ES Module …“ bei jedem SSR-Request quittiert – Client-Navigation geht trotzdem, weil der Browser Directus direkt liest. `.nvmrc` (= 24) setzt die Build-Node-Version (Netlify koppelt die Functions-Runtime daran); im Netlify-Log „Now using Node v24“ prüfen, sonst `AWS_LAMBDA_JS_RUNTIME=nodejs24.x` im Netlify-UI. `.netlify/` ist Build-Output und gitignored.
 
 ## Arbeitsweise
 

@@ -6,12 +6,13 @@ Stellenseiten für Pflegedienste: Nuxt 4 + Directus 11, Bewerbung vom Handy in e
 
 ## Start
 
+Das Produkt läuft gegen die geteilte Directus-Instanz von Rhowerk (kein lokales Docker mehr seit 2. Oktober 2026). Die Collections liegen dort schon.
+
 1. `yarn`
-2. `yarn setup --name pflege-jobs --email admin@example.com`, dann `cd docker && docker compose up -d`
-3. Static Token im Directus-Admin-User erzeugen und als `DIRECTUS_ADMIN_TOKEN` in `.env` eintragen
-4. `yarn directus:schema && yarn directus:schema:jobs && yarn directus:schema:portal` (das Portal-Skript legt Rolle „App“ an und erzeugt `DIRECTUS_APP_TOKEN` in `.env`, falls leer)
-5. `yarn directus:seed && yarn directus:seed:jobs`
-6. `yarn dev`
+2. `.env` aus `.env.example` anlegen: `DIRECTUS_URL`, `DIRECTUS_APP_TOKEN` (App-Rolle) und für Skripte `DIRECTUS_ADMIN_TOKEN` eintragen, dazu `SITE_URL`, `EMPLOYER_SLUG=sonnenhof-leipzig`, `DEMO_EMAIL`, `NUXT_SESSION_PASSWORD`, `TASK_SECRET` (Werte von Robby)
+3. `yarn dev`
+
+Neue Instanz aufsetzen: `yarn directus:schema:jobs && yarn directus:schema:portal` (legt Ordner, Collections, Rechte, Rolle „App“ und den App-Token an), dann `yarn directus:seed:jobs && yarn directus:seed:portal` für den Demo-Dienst.
 
 ## Portal
 
@@ -98,14 +99,11 @@ Die Startseite `/` leitet per 302 auf `/jobs` um; Page-Builder und CMS-Seiten bl
 
 ## Schnellstart für Dritte (Prototyp ansehen)
 
-Voraussetzungen: Node 24, Yarn, Docker Desktop. Dann im Projektordner:
+Voraussetzungen: Node 24, Yarn, eine `.env` mit den Zugängen zur Directus-Instanz (bekommt ihr von Robby). Dann im Projektordner:
 
 1. `yarn`
-2. `yarn setup --name pflege-jobs --email admin@example.com`, danach `cd docker && docker compose up -d && cd ..`
-3. Directus unter `http://localhost:8055` öffnen (Zugang in `docker/.env`), beim Admin-User einen Static Token erzeugen, als `DIRECTUS_ADMIN_TOKEN` in `.env` eintragen; dort auch `EMPLOYER_SLUG=sonnenhof-leipzig` und `DEMO_EMAIL=<eigene Adresse>` setzen
-4. `yarn directus:schema && yarn directus:schema:jobs && yarn directus:schema:portal`
-5. `yarn directus:seed && yarn directus:seed:jobs && yarn directus:seed:portal`
-6. `yarn portal:password <eigene Adresse> <Passwort>` für den Portal-Login
-7. `yarn dev`, dann `http://localhost:3000/jobs` (öffentliche Seite) und `http://localhost:3000/portal` (Portal)
+2. `.env` ins Projekt legen, darin `EMPLOYER_SLUG=sonnenhof-leipzig` und `DEMO_EMAIL=<eigene Adresse>` setzen
+3. `yarn portal:password <eigene Adresse> <Passwort>` für den Portal-Login (legt den Nutzer bei Bedarf nicht an; Nutzer kommen aus `yarn directus:seed:portal` oder werden im Directus angelegt)
+4. `yarn dev`, dann `http://localhost:3000/jobs` (öffentliche Seite) und `http://localhost:3000/portal` (Portal)
 
 Ohne SMTP-Zugang landen Mails als Vorschau unter `/__mail/<id>`; der Link steht nach jeder Bewerbung und jedem Anmeldelink auf der Seite. Der Ablauf für eine Vorführung steht in `docs/demo-drehbuch.md`.
