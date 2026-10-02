@@ -1,37 +1,13 @@
 <template>
   <div v-if="job && employer" class="jobs-paper text-foreground">
-    <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <article :aria-labelledby="headingId" class="lp-card overflow-hidden">
-        <JobsJobHeader :job="job" :employer="employer" :heading-id="headingId" />
-
-        <a href="#bewerben" class="lp-btn fixed inset-x-4 bottom-4 z-40 shadow-lg md:!hidden">Jetzt bewerben <ArrowRight class="arrow" :size="19" aria-hidden="true" /></a>
-
-        <section class="grid gap-3 border-t border-border p-5 text-sm prose-job">
-          <h2 class="text-base font-medium">Stellenbeschreibung</h2>
-          <p v-if="job.intro">{{ job.intro }}</p>
-          <div v-if="job.tasks"><h3 class="mb-1 text-sm font-medium">Aufgaben</h3><div v-html="sanitizeHtml(job.tasks)" /></div>
-          <div v-if="job.requirements"><h3 class="mb-1 text-sm font-medium">Voraussetzungen</h3><div v-html="sanitizeHtml(job.requirements)" /></div>
-          <p v-if="employer.about" class="text-foreground opacity-75">{{ employer.about }}</p>
-        </section>
-
-        <JobsJobBenefits :job="job" :employer="employer" />
-
-        <section id="bewerben" aria-labelledby="apply-heading" class="grid scroll-mt-24 gap-3 border-t border-border p-5">
-          <h2 id="apply-heading" class="text-base font-medium">In einer Minute bewerben</h2>
-          <p class="text-sm text-foreground opacity-75">Kein Lebenslauf, kein Anschreiben. {{ employer.name }} ruft dich innerhalb von 24 Stunden zurück.</p>
-          <JobsApplyForm :job="job" :employer="employer" />
-        </section>
-
-        <JobsShareBox :job="job" :employer="employer" />
-
-        <p class="border-t border-border p-5 text-sm text-foreground opacity-75">Veröffentlicht: {{ published }}</p>
-      </article>
+    <div class="mx-auto grid w-full max-w-6xl items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <JobsJobList :jobs="jobs ?? []" :employer="employer" :active-slug="job.slug" heading-tag="h2" class="hidden lg:sticky lg:top-6 lg:block" />
+      <JobsJobDetail :job="job" :employer="employer" :heading-id="headingId" show-mobile-apply />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ArrowRight } from 'lucide-vue-next'
 import { buildJobPosting } from '#shared/utils/buildJobPosting'
 import { employerSiteUrl } from '#shared/utils/host'
 
@@ -45,9 +21,9 @@ const { employer } = await useEmployer()
 if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst nicht konfiguriert', fatal: true })
 
 const { data: job } = await useJob(slug)
+const { data: jobs } = await useJobs()
 if (!job.value) throw createError({ statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar', fatal: true })
 
-const published = computed(() => job.value ? new Date(job.value.date_posted).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' }) : '')
 const baseUrl = computed(() => employerSiteUrl(employer.value, pub.siteUrl as string))
 const logoUrl = computed(() => {
   const logo = employer.value?.logo

@@ -224,6 +224,11 @@
   }
 }
 
+@utility row-tint-active {
+  background-color: color-mix(in srgb, var(--secondary) 14%, white);
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
 @utility font-jobs {
   font-family: Archivo, system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-weight: 400;

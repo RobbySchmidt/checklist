@@ -3,7 +3,7 @@
     <div class="flex items-start justify-between gap-4">
     <div class="grid min-w-0 flex-1 gap-1">
       <p class="text-sm text-foreground opacity-75">{{ employer.name }} · {{ location.city }}<span v-if="employer.service_area"> · Einsatz: {{ employer.service_area }}</span></p>
-      <h1 :id="headingId" class="text-[22px] leading-snug lp-title">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm font-normal text-foreground opacity-75">{{ splitJobTitle(job.title).suffix }}</span></h1>
+      <component :is="headingTag" :id="headingId" class="text-[22px] leading-snug lp-title">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm font-normal text-foreground opacity-75">{{ splitJobTitle(job.title).suffix }}</span></component>
       <p class="text-sm text-foreground opacity-75">{{ location.street }}, {{ location.zip }} {{ location.city }}</p>
     </div>
     <img v-if="logoSrc" :src="logoSrc" alt="" width="56" height="56" class="h-14 w-14 shrink-0 rounded-lg border border-border bg-white object-contain">
@@ -20,7 +20,7 @@
 import { Briefcase, Clock, ArrowRight } from 'lucide-vue-next'
 import type { Job, Employer } from '#shared/utils/jobs'
 import { EMPLOYMENT_TYPE_LABELS, jobLocation, salaryText, splitJobTitle } from '#shared/utils/jobs'
-const props = defineProps<{ job: Job; employer: Employer; headingId: string }>()
+const props = withDefaults(defineProps<{ job: Job; employer: Employer; headingId: string; headingTag?: 'h1' | 'h2' }>(), { headingTag: 'h1' })
 const pub = useRuntimeConfig().public
 const logoId = computed(() => { const l = props.employer.logo; return typeof l === 'string' ? l : l?.id })
 const logoSrc = computed(() => logoId.value ? `${pub.directusUrl}/assets/${logoId.value}?width=112&height=112&fit=contain&format=auto` : '')

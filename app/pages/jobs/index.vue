@@ -1,19 +1,8 @@
 <template>
   <div class="jobs-paper text-foreground">
-    <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <section aria-labelledby="jobs-heading" class="lp-card overflow-hidden">
-        <header class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
-          <div class="grid min-w-0 gap-1">
-            <h1 id="jobs-heading" class="text-xl lp-title">{{ employer?.name }}</h1>
-            <p v-if="employer?.service_area" class="text-sm text-foreground opacity-75">{{ employer.service_area }}</p>
-          </div>
-          <img v-if="logoSrc" :src="logoSrc" alt="" width="40" height="40" class="h-10 w-10 shrink-0 rounded-lg border border-border bg-white object-contain">
-        </header>
-        <ul v-if="jobs?.length" class="divide-y divide-border">
-          <li v-for="job in jobs" :key="job.id"><JobsJobCard :job="job" :employer="employer!" /></li>
-        </ul>
-        <p v-else class="px-5 py-4 text-sm text-foreground opacity-75">Gerade ist keine Stelle offen. Schauen Sie bald wieder vorbei.</p>
-      </section>
+    <div class="mx-auto grid w-full max-w-6xl items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <JobsJobList :jobs="jobs ?? []" :employer="employer!" :active-slug="first?.slug" class="lg:sticky lg:top-6" />
+      <JobsJobDetail v-if="first" :job="first" :employer="employer!" heading-tag="h2" class="hidden lg:block" />
     </div>
   </div>
 </template>
@@ -21,9 +10,9 @@
 useHead({ htmlAttrs: { class: 'font-jobs' } })
 const { employer } = await useEmployer()
 if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst nicht konfiguriert', fatal: true })
-const pub = useRuntimeConfig().public
-const logoSrc = computed(() => { const l = employer.value?.logo; const id = typeof l === 'string' ? l : l?.id; return id ? `${pub.directusUrl}/assets/${id}?width=112&height=112&fit=contain&format=auto` : '' })
 const { data: jobs } = await useJobs()
+// Auf breiten Bildschirmen steht die erste Stelle gleich rechts, wie in der Google-Jobansicht.
+const first = computed(() => jobs.value?.[0] ?? null)
 useGenericPageSchema({ title: 'Offene Stellen' })
 useSeoMeta({
   title: () => `Offene Stellen – ${employer.value?.name}`,
