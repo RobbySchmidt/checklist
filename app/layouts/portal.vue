@@ -3,7 +3,7 @@
     <!-- Desktop: Seitenleiste -->
     <aside class="hidden md:sticky md:top-0 md:flex md:h-screen md:flex-col p-5" style="background: var(--portal-ink); color: var(--portal-white)">
       <p class="portal-display text-xl font-bold" style="color: var(--portal-white)">pflege-jobs</p>
-      <PortalEmployerSwitch v-if="canSwitch" class="mt-3" :employers="me.employers" :current="me.employer" @switch="switchEmployer" />
+      <div v-if="canSwitch" class="mt-4"><PortalEmployerSwitch :employers="me.employers" :current="me.employer" @switch="switchEmployer" /></div>
       <p v-else class="mt-3 truncate text-sm font-medium" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
       <nav class="mt-6 grid gap-1 text-sm" aria-label="Portal">
         <NuxtLink
@@ -26,7 +26,7 @@
     <header class="flex items-center gap-3 px-4 py-3 md:hidden" style="background: var(--portal-ink); color: var(--portal-white)">
       <div class="min-w-0 flex-1">
         <p class="portal-display text-xl font-bold leading-tight" style="color: var(--portal-white)">pflege-jobs</p>
-        <PortalEmployerSwitch v-if="canSwitch" class="mt-1" :employers="me.employers" :current="me.employer" @switch="switchEmployer" />
+        <div v-if="canSwitch" class="mt-2"><PortalEmployerSwitch :employers="me.employers" :current="me.employer" @switch="switchEmployer" /></div>
         <p v-else class="truncate text-sm" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
       </div>
       <button type="button" class="portal-nav portal-nav-idle flex size-11 shrink-0 items-center justify-center rounded-lg" title="Abmelden" aria-label="Abmelden" @click="logout">
