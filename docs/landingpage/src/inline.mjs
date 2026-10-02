@@ -1,5 +1,5 @@
 // Baut aus einer Vorlage eine einzelne HTML-Datei mit eingebetteten Bildern.
-// Aufruf: node docs/landingpage/src/inline.mjs <v1|v2> <ausgabe.html>
+// Aufruf: node docs/landingpage/src/inline.mjs <v2> <ausgabe.html>
 import { readFileSync, writeFileSync, statSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'

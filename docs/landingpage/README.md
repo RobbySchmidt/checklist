@@ -1,18 +1,14 @@
 # Landingpage (statisch)
 
-Zwei Varianten als einzelne HTML-Dateien mit eingebetteten Screenshots, zum Verschicken oder Öffnen im Browser:
+Eine einzelne HTML-Datei mit eingebetteten Screenshots, zum Verschicken oder Öffnen im Browser: `schichtstark-landingpage-v2.html` (kräftig, große Typografie, gestapelte Screenshots). Eine ruhigere Variante V1 gab es bis zum 2. Oktober 2026, sie wurde verworfen.
 
-- `schichtstark-landingpage-v1.html`: ruhig, Abschnitte mit Haarlinien, Screenshots gerahmt
-- `schichtstark-landingpage-v2.html`: kräftig, große Typografie, gestapelte Screenshots, Lauftext mit Chips
-
-Quellen unter `src/v1` und `src/v2`, Bilder unter `src/img` (aus dem Produktions-Build ohne Dev-Werkzeuge und ohne Demo-Balken, Demo-Dienst in Tiefgrün/Mint). Neu bauen:
+Quelle unter `src/v2`, Bilder unter `src/img` (2x-Screenshots aus dem Dev-Server ohne Breakpoint-Anzeige, Demo-Hinweis und Prüfpanel per `?markup=0` ausgeblendet bzw. weggeschnitten, Demo-Dienst in Tiefgrün/Mint). Neu bauen:
 
 ```
-node docs/landingpage/src/inline.mjs v1
 node docs/landingpage/src/inline.mjs v2
 ```
 
-Später wird die gewählte Variante nach Nuxt übernommen und unter der Produkt-Domain ausgeliefert.
+Später wird die Landingpage nach Nuxt übernommen und unter der Produkt-Domain ausgeliefert.
 
 ## Quellen der Vergleichszahlen (Stand Oktober 2026)
 
