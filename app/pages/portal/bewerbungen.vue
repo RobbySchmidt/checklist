@@ -1,9 +1,9 @@
 <template>
-  <div class="grid gap-6">
+  <div class="space-y-10">
     <PortalPageHeader title="Bewerbungen" />
-    <div class="grid gap-3 sm:flex sm:flex-wrap sm:gap-4">
+    <div class="grid gap-4 sm:flex sm:flex-wrap">
       <div class="grid gap-1">
-        <label for="f-status" class="portal-eyebrow">Stand</label>
+        <label for="f-status" class="text-sm font-medium">Stand</label>
         <Select :model-value="statusFilter || 'all'" @update:model-value="(v) => (statusFilter = v === 'all' ? '' : String(v))">
           <SelectTrigger id="f-status" class="!h-12 w-full bg-white sm:w-52" style="border-color: var(--portal-line)"><SelectValue /></SelectTrigger>
           <SelectContent>
@@ -13,7 +13,7 @@
         </Select>
       </div>
       <div class="grid gap-1">
-        <label for="f-job" class="portal-eyebrow">Stelle</label>
+        <label for="f-job" class="text-sm font-medium">Stelle</label>
         <Select :model-value="jobFilter || 'all'" @update:model-value="(v) => (jobFilter = v === 'all' ? '' : String(v))">
           <SelectTrigger id="f-job" class="!h-12 w-full bg-white sm:w-72" style="border-color: var(--portal-line)"><SelectValue /></SelectTrigger>
           <SelectContent>
@@ -23,45 +23,45 @@
         </Select>
       </div>
     </div>
-    <div v-if="error" class="portal-card p-4" style="color: var(--portal-ink-soft)">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
+    <p v-if="error" class="opacity-75">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</p>
     <PortalEmptyState v-else-if="data && !data.length" text="Keine Bewerbungen in dieser Ansicht. Wählen Sie einen anderen Stand oder eine andere Stelle." />
-    <ul v-else-if="data" class="grid gap-3">
-      <li v-for="a in data" :key="a.id" class="portal-card p-4">
+    <ul v-else-if="data" class="divide-y">
+      <li v-for="a in data" :key="a.id" class="py-6 first:pt-2">
         <Collapsible>
-          <div class="grid gap-4">
+          <div>
             <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
               <div class="min-w-0">
-                <p class="flex flex-wrap items-center gap-2 font-semibold">
+                <p class="font-medium">
                   {{ a.name }}
-                  <span class="rounded-full px-2.5 py-0.5 text-[0.85rem] font-semibold" style="background: var(--portal-paper); color: var(--portal-ink)">{{ QUALIFICATION_LABELS[a.qualification as keyof typeof QUALIFICATION_LABELS] ?? a.qualification }}</span>
+                  <span class="ml-2 text-sm font-normal opacity-75">{{ QUALIFICATION_LABELS[a.qualification as keyof typeof QUALIFICATION_LABELS] ?? a.qualification }}</span>
                 </p>
-                <p class="mt-1 text-sm" style="color: var(--portal-ink-soft)">{{ a.job?.title }}</p>
+                <p class="mt-1 text-sm opacity-75">{{ a.job?.title }}</p>
               </div>
-              <p class="portal-eyebrow">{{ HOURS_WISH_LABELS[a.hours_wish as keyof typeof HOURS_WISH_LABELS] ?? a.hours_wish }} · Eingang {{ new Date(a.date_created).toLocaleDateString('de-DE') }}</p>
+              <p class="text-sm opacity-75">{{ HOURS_WISH_LABELS[a.hours_wish as keyof typeof HOURS_WISH_LABELS] ?? a.hours_wish }} · Eingang {{ new Date(a.date_created).toLocaleDateString('de-DE') }}</p>
             </div>
-            <div class="flex flex-wrap items-center gap-2">
+            <div class="mt-4 flex flex-wrap items-center gap-2">
               <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />{{ a.phone }}</a>
               <a v-if="a.email" :href="`mailto:${a.email}`" class="portal-btn"><Mail class="size-4" aria-hidden="true" />E-Mail</a>
               <CollapsibleTrigger as-child><button type="button" class="portal-btn">Details</button></CollapsibleTrigger>
             </div>
-            <div class="flex flex-wrap gap-2" role="group" :aria-label="`Stand von ${a.name}`">
+            <div class="mt-4 flex flex-wrap gap-2" role="group" :aria-label="`Stand von ${a.name}`">
               <button
                 v-for="(label, key) in STATUS_LABELS" :key="key" type="button" :aria-pressed="a.status === key"
-                class="portal-seg min-h-11 rounded-full border px-4 text-sm font-semibold"
+                class="portal-seg min-h-11 rounded-full border px-4 text-sm font-medium"
                 :style="a.status === key ? { color: `var(--portal-${key}-fg)`, background: `var(--portal-${key}-bg)`, borderColor: `var(--portal-${key}-fg)` } : {}"
                 @click="a.status !== key && setStatus(a, String(key))"
               >{{ label }}</button>
             </div>
           </div>
-          <CollapsibleContent class="mt-4 grid gap-4 border-t pt-4" style="border-color: var(--portal-line)">
-            <div v-if="a.message"><p class="portal-eyebrow">Nachricht</p><p class="whitespace-pre-line">{{ a.message }}</p></div>
-            <p v-if="a.earliest_start" class="text-sm"><span class="portal-eyebrow mr-2">Frühester Start</span>{{ a.earliest_start }}</p>
+          <CollapsibleContent class="mt-4 space-y-4 border-t pt-4">
+            <div v-if="a.message"><p class="text-sm opacity-75">Nachricht</p><p class="whitespace-pre-line">{{ a.message }}</p></div>
+            <p v-if="a.earliest_start" class="text-sm"><span class="mr-2 opacity-75">Frühester Start</span>{{ a.earliest_start }}</p>
             <div class="grid gap-1">
-              <label :for="`note-${a.id}`" class="portal-eyebrow">Notiz</label>
+              <label :for="`note-${a.id}`" class="text-sm font-medium">Notiz</label>
               <textarea :id="`note-${a.id}`" v-model="notes[a.id]" rows="3" maxlength="2000" class="portal-textarea" />
               <div class="flex items-center gap-3">
                 <button type="button" class="portal-btn" @click="saveNote(a)">Notiz speichern</button>
-                <span v-if="noteSaved === a.id" class="text-sm" style="color: var(--portal-ink-soft)">Gespeichert</span>
+                <span v-if="noteSaved === a.id" class="text-sm opacity-75">Gespeichert</span>
               </div>
             </div>
             <div class="flex flex-wrap gap-2">

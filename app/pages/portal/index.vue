@@ -1,30 +1,30 @@
 <template>
-  <div class="grid gap-8">
+  <div class="space-y-10">
     <PortalPageHeader :title="`Übersicht ${monthLabel}`" />
-    <div v-if="error" class="portal-card p-4" style="color: var(--portal-ink-soft)">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
+    <p v-if="error" class="opacity-75">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</p>
     <template v-else-if="data">
-      <ul class="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <li v-for="t in tiles" :key="t.label" class="portal-card p-4">
-          <p class="portal-display text-4xl" style="font-size: 2.25rem">{{ t.value }}</p>
-          <p class="portal-eyebrow mt-1">{{ t.label }}</p>
+      <ul class="grid grid-cols-2 gap-8 md:grid-cols-4">
+        <li v-for="t in tiles" :key="t.label" class="md:border-l md:pl-6 md:first:border-l-0 md:first:pl-0">
+          <p class="portal-display text-3xl leading-tight md:text-4xl">{{ t.value }}</p>
+          <p class="mt-1 text-sm opacity-75">{{ t.label }}</p>
         </li>
       </ul>
-      <section class="grid gap-3">
-        <h2 class="portal-display text-xl">Wen muss ich heute anrufen?</h2>
+      <section class="space-y-4">
+        <h2 class="portal-display text-xl leading-tight">Wen muss ich heute anrufen?</h2>
         <PortalEmptyState v-if="!data.waiting.length" text="Alles erledigt. Es wartet niemand auf einen Rückruf." />
-        <ul v-else class="grid gap-3">
-          <li v-for="a in data.waiting" :key="a.id" class="portal-card grid gap-4 p-4">
+        <ul v-else class="divide-y">
+          <li v-for="a in data.waiting" :key="a.id" class="py-6 first:pt-2">
             <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
               <div class="min-w-0">
-                <p class="flex flex-wrap items-center gap-2 font-semibold">
+                <p class="font-medium">
                   {{ a.name }}
-                  <span class="rounded-full px-2.5 py-0.5 text-[0.85rem] font-semibold" style="background: var(--portal-paper); color: var(--portal-ink)">{{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span>
+                  <span class="ml-2 text-sm font-normal opacity-75">{{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span>
                 </p>
-                <p class="mt-1 text-sm" style="color: var(--portal-ink-soft)">{{ a.job?.title }}</p>
+                <p class="mt-1 text-sm opacity-75">{{ a.job?.title }}</p>
               </div>
-              <p class="portal-eyebrow" :style="isOverdue(a.date_created) ? { color: 'var(--portal-neu-fg)', fontWeight: 700 } : { color: 'var(--portal-ink-soft)' }">wartet {{ waitingLabel(a.date_created) }}</p>
+              <p class="text-sm" :class="isOverdue(a.date_created) ? 'font-medium' : 'opacity-75'" :style="isOverdue(a.date_created) ? { color: 'var(--portal-neu-fg)' } : {}">wartet {{ waitingLabel(a.date_created) }}</p>
             </div>
-            <div class="grid grid-cols-2 gap-2 sm:flex">
+            <div class="mt-4 grid grid-cols-2 gap-2 sm:flex">
               <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />Anrufen</a>
               <button type="button" class="portal-btn" @click="contacted(a.id)">Kontaktiert</button>
             </div>

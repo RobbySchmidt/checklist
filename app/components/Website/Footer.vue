@@ -12,12 +12,12 @@
               height="37"
               class="block h-auto w-[140px] opacity-90">
           </NuxtLink>
-          <p v-if="general?.footer_text" class="text-xs leading-[1.6] text-muted-foreground">{{ general.footer_text }}</p>
+          <p v-if="general?.footer_text" class="text-sm leading-[1.6] text-muted-foreground">{{ general.footer_text }}</p>
         </div>
 
-        <nav aria-label="Footer-Navigation" class="flex flex-wrap gap-x-16 gap-y-8 text-xs leading-[2.2] text-muted-foreground">
+        <nav aria-label="Footer-Navigation" class="flex flex-wrap gap-x-16 gap-y-8 text-sm leading-[2.2] text-muted-foreground">
           <div v-for="col in columns" :key="col.id">
-            <div class="mb-1 font-semibold text-foreground">{{ col.title }}</div>
+            <div class="mb-1 font-medium text-foreground">{{ col.title }}</div>
             <ul>
               <template v-for="child in col.children" :key="child.id">
                 <li v-if="menuVisible(child)">
@@ -27,7 +27,7 @@
             </ul>
           </div>
           <div v-if="general">
-            <div class="mb-1 font-semibold text-foreground">Kontakt</div>
+            <div class="mb-1 font-medium text-foreground">Kontakt</div>
             <a v-if="general.phone" :href="`tel:${general.phone.replace(/[^\d+]/g, '')}`" class="block hover:text-foreground">{{ general.phone }}</a>
             <a v-if="general.email" :href="`mailto:${general.email}`" class="block hover:text-foreground">{{ general.email }}</a>
             <span v-if="general.opening_hours" class="block">{{ general.opening_hours }}</span>
@@ -35,7 +35,7 @@
         </nav>
       </div>
 
-      <div class="mt-11 flex flex-col gap-2 border-t border-border pt-5 text-xs text-muted-foreground sm:flex-row sm:justify-between">
+      <div class="mt-11 flex flex-col gap-2 border-t border-border pt-5 text-sm text-muted-foreground sm:flex-row sm:justify-between">
         <span>© {{ year }} {{ siteName }}</span>
         <ul v-if="legal?.items?.length" class="flex flex-wrap items-center" aria-label="Rechtliches">
           <template v-for="(item, i) in legal.items" :key="item.id">

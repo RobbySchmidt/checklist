@@ -1,5 +1,5 @@
 <template>
-  <div class="portal-card grid justify-items-start gap-4 p-6">
+  <div class="grid justify-items-start gap-4">
     <p class="text-base" style="color: var(--portal-ink)">{{ text }}</p>
     <slot />
   </div>

@@ -7,14 +7,14 @@
       </DialogHeader>
       <div class="grid gap-4">
         <div class="grid gap-1">
-          <label for="msg-text" class="font-semibold">Nachricht</label>
+          <label for="msg-text" class="text-sm font-medium">Nachricht</label>
           <textarea id="msg-text" v-model="text" rows="10" class="rounded-lg border border-border px-4 py-3 text-base" />
-          <p class="text-sm text-muted-foreground">Sie versenden die Nachricht selbst. Das Portal verschickt nichts an Bewerber.</p>
+          <p class="text-sm opacity-75">Sie versenden die Nachricht selbst. Das Portal verschickt nichts an Bewerber.</p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <a :href="waHref" target="_blank" rel="noopener" class="inline-flex h-12 items-center rounded-full bg-primary px-5 font-semibold text-primary-foreground">Per WhatsApp</a>
-          <a v-if="application.email" :href="mailHref" class="inline-flex h-12 items-center rounded-full border border-border px-5 font-semibold">Als E-Mail</a>
-          <button type="button" class="h-12 rounded-full border border-border px-5 font-semibold" @click="copy">{{ copied ? 'Kopiert' : 'Text kopieren' }}</button>
+          <a :href="waHref" target="_blank" rel="noopener" class="inline-flex h-12 items-center rounded-full bg-primary px-5 font-medium text-primary-foreground">Per WhatsApp</a>
+          <a v-if="application.email" :href="mailHref" class="inline-flex h-12 items-center rounded-full border border-border px-5 font-medium">Als E-Mail</a>
+          <button type="button" class="h-12 rounded-full border border-border px-5 font-medium" @click="copy">{{ copied ? 'Kopiert' : 'Text kopieren' }}</button>
         </div>
       </div>
     </DialogContent>

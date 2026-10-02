@@ -2,13 +2,17 @@
   <div>
     <BlockSection background="white" padding-bottom labelledby="jobs-heading">
       <div class="mx-auto w-full max-w-3xl px-4 md:px-8">
-        <p v-if="employer?.service_area" class="text-sm font-semibold uppercase tracking-wide text-muted-foreground">{{ employer.service_area }}</p>
-        <h1 id="jobs-heading" class="mt-2 text-4xl font-extrabold tracking-tight text-balance">Offene Stellen bei {{ employer?.name }}</h1>
-        <p v-if="employer?.about" class="mt-4 text-lg text-muted-foreground">{{ employer.about }}</p>
-        <ul v-if="jobs?.length" class="mt-8 grid gap-4">
+        <header class="space-y-4">
+          <div class="space-y-1">
+            <h1 id="jobs-heading" class="text-3xl font-medium leading-tight text-balance md:text-4xl">Offene Stellen bei {{ employer?.name }}</h1>
+            <p v-if="employer?.service_area" class="text-sm opacity-75">{{ employer.service_area }}</p>
+          </div>
+          <p v-if="employer?.about" class="opacity-75">{{ employer.about }}</p>
+        </header>
+        <ul v-if="jobs?.length" class="mt-10 divide-y border-y">
           <li v-for="job in jobs" :key="job.id"><JobsJobCard :job="job" :employer="employer!" /></li>
         </ul>
-        <p v-else class="mt-8 text-muted-foreground">Gerade ist keine Stelle offen. Schauen Sie bald wieder vorbei.</p>
+        <p v-else class="mt-10 opacity-75">Gerade ist keine Stelle offen. Schauen Sie bald wieder vorbei.</p>
       </div>
     </BlockSection>
   </div>

@@ -2,21 +2,21 @@
   <div class="portal grid min-h-screen place-items-center px-4 py-10" style="background: var(--portal-ink)">
     <div class="portal-card grid w-full max-w-md gap-6 p-6 sm:p-8">
       <div>
-        <p class="portal-display text-2xl">pflege-jobs</p>
-        <p class="portal-eyebrow mt-1">Portal für Pflegedienste</p>
+        <p class="portal-display text-xl leading-tight">pflege-jobs</p>
+        <p class="mt-1 text-sm opacity-75">Portal für Pflegedienste</p>
       </div>
-      <h1 class="portal-display text-xl">Anmelden</h1>
-      <p v-if="state === 'consuming'" style="color: var(--portal-ink-soft)">Link wird geprüft …</p>
-      <p v-else-if="state === 'error'" class="rounded-lg p-3 font-semibold" style="background: #fee2e2; color: var(--portal-danger)">Link ungültig oder abgelaufen. Bitte neuen Link anfordern.</p>
+      <h1 class="portal-display text-3xl leading-tight md:text-4xl">Anmelden</h1>
+      <p v-if="state === 'consuming'" class="opacity-75">Link wird geprüft …</p>
+      <p v-else-if="state === 'error'" class="rounded-lg p-3 font-medium" style="background: #fee2e2; color: var(--portal-danger)">Link ungültig oder abgelaufen. Bitte neuen Link anfordern.</p>
       <p v-if="state === 'sent'" class="rounded-lg p-4" style="background: var(--portal-zusage-bg); color: var(--portal-zusage-fg)" role="status">Wenn die Adresse bekannt ist, haben wir einen Link geschickt. Er gilt 15 Minuten.
         <a v-if="previewId" :href="`/__mail/${previewId}`" target="_blank" class="mt-2 block text-sm underline">Mailvorschau öffnen (nur Entwicklung)</a></p>
       <form v-if="state !== 'sent' && state !== 'consuming'" class="grid gap-3" @submit.prevent="submit">
-        <label for="login-email" class="font-semibold">Ihre E-Mail-Adresse</label>
+        <label for="login-email" class="text-sm font-medium">Ihre E-Mail-Adresse</label>
         <input id="login-email" v-model="email" type="email" required autocomplete="email" class="portal-input">
-        <label for="login-password" class="font-semibold">Passwort (optional)</label>
+        <label for="login-password" class="text-sm font-medium">Passwort (optional)</label>
         <input id="login-password" v-model="password" type="password" autocomplete="current-password" class="portal-input">
-        <p class="text-sm" style="color: var(--portal-ink-soft)">Ohne Passwort schicken wir Ihnen einen Anmeldelink.</p>
-        <p v-if="formError" class="text-sm font-semibold" style="color: var(--portal-danger)">{{ formError }}</p>
+        <p class="text-sm opacity-75">Ohne Passwort schicken wir Ihnen einen Anmeldelink.</p>
+        <p v-if="formError" class="text-sm font-medium" style="color: var(--portal-danger)">{{ formError }}</p>
         <button type="submit" :disabled="busy" class="portal-btn portal-btn-primary !min-h-12">{{ password ? 'Anmelden' : 'Link senden' }}</button>
       </form>
     </div>
