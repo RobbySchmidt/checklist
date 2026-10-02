@@ -91,6 +91,7 @@ async function submit() {
     if (err?.statusCode === 422 && data) for (const [k, v] of Object.entries(data)) errors[k] = (v as string[])?.[0] ?? 'Bitte prüfen.'
     else if (err?.statusCode === 404) errors._form = 'Diese Stelle ist inzwischen nicht mehr verfügbar.'
     else if (err?.statusCode === 429) errors._form = 'Zu viele Bewerbungen von diesem Anschluss. Bitte später erneut versuchen.'
+    else if (err?.statusCode === 503) errors._form = `Gerade nicht möglich. Bitte rufen Sie an: ${props.employer.phone || props.employer.apply_email}`
     else errors._form = `Gerade nicht möglich. Bitte rufen Sie an: ${props.employer.phone || props.employer.apply_email}`
   } finally {
     busy.value = false

@@ -7,13 +7,24 @@ import { createRateLimiter } from '../utils/rateLimit'
 import { renderApplicationMail, notifyApplication } from '../utils/notify'
 
 const FETCH_TIMEOUT_MS = 8000
+// Client-IP für das Rate-Limit. Der erste X-Forwarded-For-Eintrag ist vom Client fälschbar;
+// den letzten Eintrag hängt der vertrauenswürdige Proxy an. Ohne Header: Socket-Adresse.
+function clientIp(event: Parameters<typeof getHeader>[0]): string {
+  const xff = getHeader(event, 'x-forwarded-for')
+  if (xff) {
+    const parts = xff.split(',').map((p) => p.trim()).filter(Boolean)
+    if (parts.length) return parts[parts.length - 1]!
+  }
+  return event.node.req.socket.remoteAddress || 'unknown'
+}
+
 const limiter = createRateLimiter({ limit: 5, windowMs: 60 * 60 * 1000 })
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   if (body?.website) return { ok: true } // Honeypot
 
-  const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
+  const ip = clientIp(event)
   if (!limiter.check(ip)) throw createError({ statusCode: 429, statusMessage: 'Zu viele Bewerbungen. Bitte später erneut versuchen.' })
 
   const parsed = applicationSchema.safeParse(body)
@@ -27,10 +38,16 @@ export default defineEventHandler(async (event) => {
   if (!directusUrl) throw createError({ statusCode: 503, statusMessage: 'CMS nicht konfiguriert' })
 
   // Stelle erneut laden: zwischen Seitenaufruf und Absenden kann sie geschlossen worden sein
-  const jobRes = await $fetch<{ data: Array<Job & { employer: Employer }> }>(`${directusUrl}/items/jobs`, {
+  let jobRes: { data: Array<Job & { employer: Employer }> }
+  try {
+    jobRes = await $fetch<{ data: Array<Job & { employer: Employer }> }>(`${directusUrl}/items/jobs`, {
     query: { filter: { id: { _eq: input.job } }, fields: 'id,status,title,slug,valid_through,apply_email_override,employer.id,employer.name,employer.apply_email,employer.is_demo', limit: 1 },
     timeout: FETCH_TIMEOUT_MS,
-  }).catch(() => ({ data: [] }))
+    })
+  } catch (err: unknown) {
+    console.error('Stelle konnte nicht geladen werden:', err instanceof Error ? err.message : err)
+    throw createError({ statusCode: 503, statusMessage: 'Gerade nicht möglich' })
+  }
   const job = jobRes.data?.[0]
   if (!job || !isJobVisible(job)) throw createError({ statusCode: 404, statusMessage: 'Diese Stelle ist nicht mehr verfügbar' })
 

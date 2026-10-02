@@ -5,7 +5,7 @@ import {
   createDirectus, rest, staticToken,
   readItems, readItem, createItem, updateItem, deleteItem, deleteItems, updateSingleton, readSingleton,
   createCollection, deleteCollection, createField, readField, updateField, createRelation, updateRelation, readRelation,
-  readPolicies, readPermissions, createPermission,
+  readPolicies, readPermissions, createPermission, updatePermission,
   uploadFiles, readFiles, readFolders, createFolder,
 } from '@directus/sdk';
 import { readFile } from 'node:fs/promises';
@@ -163,7 +163,9 @@ export async function ensurePublicCreate(collection, { fields = ['*'], validatio
     fields: ['id'],
   }));
   if (existing.length) {
-    console.log(`  = Public-Create auf ${collection} existiert bereits`);
+    // Bestehende Permission angleichen (idempotent): validation und fields bleiben Quelle der Wahrheit im Skript
+    await directus.request(updatePermission(existing[0].id, { validation, fields }));
+    console.log(`  ~ Public-Create auf ${collection} aktualisiert (validation, Felder: ${fields.join(', ')})`);
     return false;
   }
   await directus.request(createPermission({ policy, collection, action: 'create', permissions: {}, validation, presets, fields }));

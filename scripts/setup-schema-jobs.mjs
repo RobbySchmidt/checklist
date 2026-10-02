@@ -1,7 +1,8 @@
 // scripts/setup-schema-jobs.mjs
 // Collections für Stellenseiten: employers (Pflegedienste), jobs (Stellen), applications (Bewerbungen).
 // Idempotent, läuft nach scripts/setup-schema.mjs. Aufruf: yarn directus:schema:jobs
-import { ensureCollection, ensureRelation, ensurePublicRead, ensurePublicCreate } from './lib/directus-admin.mjs';
+import { updateRelation, readRelation, deleteRelation, createRelation } from '@directus/sdk';
+import { directus, ensureCollection, ensureRelation, ensurePublicRead, ensurePublicCreate } from './lib/directus-admin.mjs';
 import { pkUuid, statusField, auditFields, input, slugField, textarea, richText, fileField, boolField, intField, dateField, select } from './lib/fields.mjs';
 
 const uuidM2o = (field, template, note, extra = {}) => ({
@@ -124,12 +125,41 @@ await ensureCollection('applications', {
 console.log('\n[3/4] Relationen');
 await ensureRelation({ collection: 'employers', field: 'logo', related_collection: 'directus_files', schema: { on_delete: 'SET NULL' } });
 await ensureRelation({ collection: 'jobs', field: 'employer', related_collection: 'employers', meta: { one_field: 'jobs' }, schema: { on_delete: 'CASCADE' } });
-await ensureRelation({ collection: 'applications', field: 'job', related_collection: 'jobs', meta: { one_field: 'applications' }, schema: { on_delete: 'CASCADE' } });
-await ensureRelation({ collection: 'applications', field: 'employer', related_collection: 'employers', schema: { on_delete: 'CASCADE' } });
+await ensureRelation({ collection: 'applications', field: 'job', related_collection: 'jobs', meta: { one_field: 'applications' }, schema: { on_delete: 'RESTRICT' } });
+await ensureRelation({ collection: 'applications', field: 'employer', related_collection: 'employers', schema: { on_delete: 'RESTRICT' } });
+// ensureRelation überspringt bestehende Relationen, und ensureCollection legt für m2o-Felder nur die Relation-Meta ohne
+// Fremdschlüssel an (schema: null). Bewerbungen sollen beim Löschen von Stelle/Dienst nicht still verschwinden:
+// Fehlt der Fremdschlüssel, Relation neu anlegen (nur Meta + FK, Daten bleiben); sonst on_delete patchen.
+const restrictRelations = [
+  { field: 'job', related_collection: 'jobs', meta: { one_field: 'applications' } },
+  { field: 'employer', related_collection: 'employers' },
+];
+for (const { field, related_collection, meta } of restrictRelations) {
+  const current = await directus.request(readRelation('applications', field));
+  if (current.schema?.on_delete === 'RESTRICT') {
+    console.log(`  = Relation applications.${field}: on_delete RESTRICT`);
+    continue;
+  }
+  if (current.schema) {
+    await directus.request(updateRelation('applications', field, { schema: { on_delete: 'RESTRICT' } }));
+  } else {
+    await directus.request(deleteRelation('applications', field));
+    await directus.request(createRelation({ collection: 'applications', field, related_collection, ...(meta ? { meta } : {}), schema: { on_delete: 'RESTRICT' } }));
+  }
+  console.log(`  ~ Relation applications.${field}: on_delete RESTRICT`);
+}
 
 console.log('\n[4/4] Rechte');
 await ensurePublicRead('employers', { permissions: { status: { _eq: 'published' } } });
 await ensurePublicRead('jobs', { permissions: { _and: [{ status: { _eq: 'published' } }, { valid_through: { _gte: '$NOW' } }] } });
-await ensurePublicCreate('applications', { fields: ['job', 'employer', 'name', 'phone', 'qualification', 'hours_wish', 'earliest_start', 'message', 'source', 'consent', 'user_agent', 'referrer'] });
+await ensurePublicCreate('applications', { fields: ['job', 'employer', 'name', 'phone', 'qualification', 'hours_wish', 'earliest_start', 'message', 'source', 'consent', 'user_agent', 'referrer'],
+  // _submitted: Directus-Validierung lässt fehlende Felder sonst durch (nur gesendete Werte werden geprüft)
+  validation: {
+    _and: [
+      ...['consent', 'name', 'phone', 'job', 'employer'].map((f) => ({ [f]: { _submitted: true } })),
+      { consent: { _eq: true } }, { name: { _nnull: true } }, { phone: { _nnull: true } }, { job: { _nnull: true } }, { employer: { _nnull: true } },
+    ],
+  },
+});
 
 console.log('\nFertig.\n');

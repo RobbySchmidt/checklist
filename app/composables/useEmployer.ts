@@ -16,11 +16,15 @@ export async function useEmployer() {
     },
   }))
   if (!employer.value) {
-    const rows = await getItems<Employer>({
-      collection: 'employers',
-      params: { filter: { status: { _eq: 'published' }, slug: { _eq: pub.employerSlug } }, fields: EMPLOYER_FIELDS, limit: 1 },
-    }) as unknown as Employer[]
-    employer.value = rows?.[0] ?? null
+    try {
+      const rows = await getItems<Employer>({
+        collection: 'employers',
+        params: { filter: { status: { _eq: 'published' }, slug: { _eq: pub.employerSlug } }, fields: EMPLOYER_FIELDS, limit: 1 },
+      }) as unknown as Employer[]
+      employer.value = rows?.[0] ?? null
+    } catch {
+      throw createError({ statusCode: 503, statusMessage: 'Dienst gerade nicht erreichbar', fatal: true })
+    }
   }
   return { employer }
 }

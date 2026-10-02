@@ -3,10 +3,10 @@
     <div class="w-full">
       <div class="bg-black text-white p-8 max-w-2xl">
         <h1 class="text-f-4xl font-semibold mb-6">
-          {{ isJob404 ? 'Diese Stelle ist nicht mehr verfügbar' : `${error?.statusCode} – Seite nicht gefunden` }}
+          {{ title }}
         </h1>
         <p class="text-f-xl font-light mb-10">
-          {{ isJob404 ? 'Vielleicht ist sie schon besetzt. Alle offenen Stellen finden Sie auf der Übersicht.' : 'Diese Seite konnten wir leider nicht finden. Probieren Sie es über unsere Startseite.' }}
+          {{ text }}
         </p>
         <button
           type="button"
@@ -30,5 +30,13 @@
 
   // 404 unter /jobs/… heißt: Stelle nicht (mehr) sichtbar, Link zurück auf die Liste
   const isJob404 = computed(() => props.error?.statusCode === 404 && useRoute().path.startsWith('/jobs'))
+  const is503 = computed(() => props.error?.statusCode === 503)
+  const title = computed(() => isJob404.value ? 'Diese Stelle ist nicht mehr verfügbar'
+    : is503.value ? 'Gerade nicht erreichbar'
+    : props.error?.statusCode === 404 ? 'Seite nicht gefunden' : 'Da ist etwas schiefgelaufen')
+  const text = computed(() => isJob404.value ? 'Vielleicht ist sie schon besetzt. Alle offenen Stellen finden Sie auf der Übersicht.'
+    : is503.value ? 'Bitte versuchen Sie es in ein paar Minuten noch einmal.'
+    : props.error?.statusCode === 404 ? 'Diese Seite konnten wir leider nicht finden. Probieren Sie es über unsere Startseite.'
+    : 'Bitte versuchen Sie es später noch einmal.')
   const handleClearError = () => clearError({ redirect: isJob404.value ? '/jobs' : '/' })
 </script>
