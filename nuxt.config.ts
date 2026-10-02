@@ -13,7 +13,7 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
 
-  modules: ['@pinia/nuxt', 'nuxt-directus', '@nuxtjs/sitemap', 'shadcn-nuxt'],
+  modules: ['@pinia/nuxt', 'nuxt-directus', '@nuxtjs/sitemap', 'shadcn-nuxt', 'nuxt-auth-utils'],
 
   shadcn: {
     /**
@@ -78,5 +78,9 @@ export default defineNuxtConfig({
     notifyBcc: process.env.NOTIFY_BCC || '',
     // mail.* wird zur Laufzeit aus NUXT_MAIL_HOST usw. befüllt; secure als String, damit die Env-Überschreibung greift
     mail: { host: '', port: '587', secure: 'false', user: '', pass: '', from: '' },
+    directusAppToken: process.env.DIRECTUS_APP_TOKEN || '',
+    taskSecret: process.env.TASK_SECRET || '',
+    portalBaseUrl: process.env.PORTAL_BASE_URL || '',
+    session: { maxAge: 60 * 60 * 24 * 30 },
   },
 })
