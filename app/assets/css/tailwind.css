@@ -169,8 +169,8 @@
 
 /* Zweitfarbe des Dienstes nur als zarter Ton */
 @utility chip-tint {
-  background-color: color-mix(in srgb, var(--secondary) 18%, white);
-  color: var(--foreground);
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
 }
 
 @utility row-tint-hover {
