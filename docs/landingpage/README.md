@@ -1,11 +1,15 @@
 # Landingpage (statisch)
 
-`pflege-jobs-landingpage.html` ist eine einzelne Datei mit eingebetteten Screenshots, zum Verschicken per Mail oder Öffnen im Browser.
+Zwei Varianten als einzelne HTML-Dateien mit eingebetteten Screenshots, zum Verschicken oder Öffnen im Browser:
 
-Quelle: `src/landingpage.template.html` (verweist auf `src/img/*.png`). Neu bauen nach Änderungen:
+- `pflege-jobs-landingpage-v1.html`: ruhig, Abschnitte mit Haarlinien, Screenshots gerahmt
+- `pflege-jobs-landingpage-v2.html`: kräftig, große Typografie, gestapelte Screenshots, Lauftext mit Chips
+
+Quellen unter `src/v1` und `src/v2`, Bilder unter `src/img` (aus dem Produktions-Build ohne Dev-Werkzeuge und ohne Demo-Balken, Demo-Dienst in Tiefgrün/Mint). Neu bauen:
 
 ```
-node docs/landingpage/src/inline.mjs docs/landingpage/pflege-jobs-landingpage.html
+node docs/landingpage/src/inline.mjs v1
+node docs/landingpage/src/inline.mjs v2
 ```
 
-Screenshots stammen aus dem laufenden Prototyp (Demo-Dienst in Tiefgrün/Mint). Später wird die Seite nach Nuxt übernommen und unter der Produkt-Domain ausgeliefert.
+Später wird die gewählte Variante nach Nuxt übernommen und unter der Produkt-Domain ausgeliefert.
