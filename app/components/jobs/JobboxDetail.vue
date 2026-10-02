@@ -5,7 +5,7 @@
       <h2 class="text-[22px] leading-snug font-normal">{{ title }}</h2>
       <p class="text-sm text-[#5f6368]">{{ org }} · {{ place }}</p>
     </div>
-    <JobsJobboxChips :chips="chips" />
+    <JobsJobboxChips variant="google" :chips="chips" />
     <a v-if="to" :href="to" target="_blank" rel="noopener" class="inline-flex h-10 w-fit items-center rounded-full bg-[#1a73e8] px-6 text-sm font-medium text-white hover:bg-[#1765cc]">Bewerben auf {{ orgName }}</a>
     <template v-if="job">
       <div class="grid gap-3 border-t border-[#dadce0] pt-4">

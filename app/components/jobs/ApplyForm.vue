@@ -1,28 +1,28 @@
 <template>
   <form class="grid gap-5" novalidate @submit.prevent="submit">
-    <p v-if="done" class="rounded-lg border border-[#dadce0] p-4 text-sm" role="status">
+    <p v-if="done" class="rounded-lg border border-border p-4 text-sm" role="status">
       Danke, {{ form.name }}! {{ employer.name }} meldet sich innerhalb von 24 Stunden bei dir.
       <a v-if="previewId" :href="`/__mail/${previewId}`" target="_blank" class="block mt-2 text-sm underline">Mailvorschau öffnen (nur Entwicklung)</a>
     </p>
     <template v-else>
       <div class="grid gap-1">
         <label for="apply-name" class="text-sm font-medium">Dein Name</label>
-        <input id="apply-name" v-model="form.name" type="text" autocomplete="name" required class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
+        <input id="apply-name" v-model="form.name" type="text" autocomplete="name" required class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
         <p v-if="errors.name" class="text-sm text-destructive">{{ errors.name }}</p>
       </div>
       <div class="grid gap-1">
         <label for="apply-phone" class="text-sm font-medium">Deine Telefonnummer</label>
-        <input id="apply-phone" v-model="form.phone" type="tel" autocomplete="tel" inputmode="tel" required class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
+        <input id="apply-phone" v-model="form.phone" type="tel" autocomplete="tel" inputmode="tel" required class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
         <p v-if="errors.phone" class="text-sm text-destructive">{{ errors.phone }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-email" class="text-sm font-medium">Deine E-Mail <span class="font-normal text-[#5f6368]">(optional)</span></label>
-        <input id="apply-email" v-model="form.email" type="email" autocomplete="email" inputmode="email" class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
+        <label for="apply-email" class="text-sm font-medium">Deine E-Mail <span class="font-normal text-foreground opacity-75">(optional)</span></label>
+        <input id="apply-email" v-model="form.email" type="email" autocomplete="email" inputmode="email" class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
         <p v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</p>
       </div>
       <div class="grid gap-1">
         <label for="apply-qualification" class="text-sm font-medium">Deine Qualifikation</label>
-        <select id="apply-qualification" v-model="form.qualification" required class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base bg-white">
+        <select id="apply-qualification" v-model="form.qualification" required class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base bg-white">
           <option value="" disabled>Bitte wählen</option>
           <option v-for="(label, key) in QUALIFICATION_LABELS" :key="key" :value="key">{{ label }}</option>
         </select>
@@ -30,19 +30,19 @@
       </div>
       <div class="grid gap-1">
         <label for="apply-hours" class="text-sm font-medium">Wie viel möchtest du arbeiten?</label>
-        <select id="apply-hours" v-model="form.hours_wish" required class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base bg-white">
+        <select id="apply-hours" v-model="form.hours_wish" required class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base bg-white">
           <option value="" disabled>Bitte wählen</option>
           <option v-for="(label, key) in HOURS_WISH_LABELS" :key="key" :value="key">{{ label }}</option>
         </select>
         <p v-if="errors.hours_wish" class="text-sm text-destructive">{{ errors.hours_wish }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-start" class="text-sm font-medium">Ab wann? <span class="font-normal text-[#5f6368]">(optional)</span></label>
-        <input id="apply-start" v-model="form.earliest_start" type="text" placeholder="z. B. ab sofort, ab Januar" class="h-12 rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
+        <label for="apply-start" class="text-sm font-medium">Ab wann? <span class="font-normal text-foreground opacity-75">(optional)</span></label>
+        <input id="apply-start" v-model="form.earliest_start" type="text" placeholder="z. B. ab sofort, ab Januar" class="h-12 rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 text-base">
       </div>
       <div class="grid gap-1">
-        <label for="apply-message" class="text-sm font-medium">Möchtest du noch etwas sagen? <span class="font-normal text-[#5f6368]">(optional)</span></label>
-        <textarea id="apply-message" v-model="form.message" rows="3" class="rounded-lg border border-[#dadce0] focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 py-3 text-base" />
+        <label for="apply-message" class="text-sm font-medium">Möchtest du noch etwas sagen? <span class="font-normal text-foreground opacity-75">(optional)</span></label>
+        <textarea id="apply-message" v-model="form.message" rows="3" class="rounded-lg border border-border focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary px-4 py-3 text-base" />
         <p v-if="errors.message" class="text-sm text-destructive">{{ errors.message }}</p>
       </div>
       <input v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">

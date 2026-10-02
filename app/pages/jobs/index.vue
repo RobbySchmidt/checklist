@@ -1,18 +1,18 @@
 <template>
-  <div class="bg-[#f8f9fa] text-[#202124]">
+  <div class="jobs-paper text-foreground">
     <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <section aria-labelledby="jobs-heading" class="overflow-hidden rounded-lg border border-[#dadce0] bg-white">
-        <header class="flex items-center justify-between gap-4 border-b border-[#dadce0] px-5 py-4">
+      <section aria-labelledby="jobs-heading" class="overflow-hidden rounded-lg border border-border bg-white">
+        <header class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <div class="grid min-w-0 gap-1">
             <h1 id="jobs-heading" class="text-xl font-medium">{{ employer?.name }}</h1>
-            <p v-if="employer?.service_area" class="text-sm text-[#5f6368]">{{ employer.service_area }}</p>
+            <p v-if="employer?.service_area" class="text-sm text-foreground opacity-75">{{ employer.service_area }}</p>
           </div>
-          <img v-if="logoSrc" :src="logoSrc" alt="" width="40" height="40" class="h-10 w-10 shrink-0 rounded-lg border border-[#dadce0] bg-white object-contain">
+          <img v-if="logoSrc" :src="logoSrc" alt="" width="40" height="40" class="h-10 w-10 shrink-0 rounded-lg border border-border bg-white object-contain">
         </header>
-        <ul v-if="jobs?.length" class="divide-y divide-[#dadce0]">
+        <ul v-if="jobs?.length" class="divide-y divide-border">
           <li v-for="job in jobs" :key="job.id"><JobsJobCard :job="job" :employer="employer!" /></li>
         </ul>
-        <p v-else class="px-5 py-4 text-sm text-[#5f6368]">Gerade ist keine Stelle offen. Schauen Sie bald wieder vorbei.</p>
+        <p v-else class="px-5 py-4 text-sm text-foreground opacity-75">Gerade ist keine Stelle offen. Schauen Sie bald wieder vorbei.</p>
       </section>
     </div>
   </div>

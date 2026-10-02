@@ -4,7 +4,7 @@
     <span class="text-base font-medium text-[#202124]">{{ title }}</span>
     <span class="flex items-center gap-2 text-sm text-[#5f6368]">{{ org }}<img v-if="logoSrc" :src="logoSrc" alt="" width="20" height="20" class="h-5 w-5 object-contain"></span>
     <span class="text-sm text-[#5f6368]">{{ place }}<template v-if="via"> · über {{ via }}</template></span>
-    <JobsJobboxChips :chips="chips" class="mt-2" />
+    <JobsJobboxChips variant="google" :chips="chips" class="mt-2" />
   </button>
 </template>
 <script setup lang="ts">

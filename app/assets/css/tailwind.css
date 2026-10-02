@@ -163,6 +163,10 @@
 .prose-job ol { list-style: decimal; padding-left: 1.25rem; }
 .prose-job p, .prose-job li { margin-bottom: 0.25rem; }
 
+@utility jobs-paper {
+  background-color: color-mix(in srgb, var(--secondary) 40%, white);
+}
+
 @utility font-roboto {
   font-family: Roboto, Arial, sans-serif;
 }

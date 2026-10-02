@@ -1,30 +1,30 @@
 <template>
-  <div v-if="job && employer" class="bg-[#f8f9fa] text-[#202124]">
+  <div v-if="job && employer" class="jobs-paper text-foreground">
     <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <article :aria-labelledby="headingId" class="overflow-hidden rounded-lg border border-[#dadce0] bg-white">
+      <article :aria-labelledby="headingId" class="overflow-hidden rounded-lg border border-border bg-white">
         <JobsJobHeader :job="job" :employer="employer" :heading-id="headingId" />
 
         <a href="#bewerben" class="fixed inset-x-4 bottom-4 z-40 rounded-full bg-primary py-4 text-center text-base font-medium text-primary-foreground shadow-lg md:hidden">Jetzt bewerben</a>
 
-        <section class="grid gap-3 border-t border-[#dadce0] p-5 text-sm prose-job">
+        <section class="grid gap-3 border-t border-border p-5 text-sm prose-job">
           <h2 class="text-base font-medium">Stellenbeschreibung</h2>
           <p v-if="job.intro">{{ job.intro }}</p>
           <div v-if="job.tasks"><h3 class="mb-1 text-sm font-medium">Aufgaben</h3><div v-html="sanitizeHtml(job.tasks)" /></div>
           <div v-if="job.requirements"><h3 class="mb-1 text-sm font-medium">Voraussetzungen</h3><div v-html="sanitizeHtml(job.requirements)" /></div>
-          <p v-if="employer.about" class="text-[#5f6368]">{{ employer.about }}</p>
+          <p v-if="employer.about" class="text-foreground opacity-75">{{ employer.about }}</p>
         </section>
 
         <JobsJobBenefits :job="job" :employer="employer" />
 
-        <section id="bewerben" aria-labelledby="apply-heading" class="grid scroll-mt-24 gap-3 border-t border-[#dadce0] p-5">
+        <section id="bewerben" aria-labelledby="apply-heading" class="grid scroll-mt-24 gap-3 border-t border-border p-5">
           <h2 id="apply-heading" class="text-base font-medium">In einer Minute bewerben</h2>
-          <p class="text-sm text-[#5f6368]">Kein Lebenslauf, kein Anschreiben. {{ employer.name }} ruft dich innerhalb von 24 Stunden zurück.</p>
+          <p class="text-sm text-foreground opacity-75">Kein Lebenslauf, kein Anschreiben. {{ employer.name }} ruft dich innerhalb von 24 Stunden zurück.</p>
           <JobsApplyForm :job="job" :employer="employer" />
         </section>
 
         <JobsShareBox :job="job" :employer="employer" />
 
-        <p class="border-t border-[#dadce0] p-5 text-sm text-[#5f6368]">Veröffentlicht: {{ published }}</p>
+        <p class="border-t border-border p-5 text-sm text-foreground opacity-75">Veröffentlicht: {{ published }}</p>
       </article>
     </div>
   </div>

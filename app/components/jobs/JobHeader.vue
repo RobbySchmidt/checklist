@@ -2,11 +2,11 @@
   <header class="grid gap-4 p-5">
     <div class="flex items-start justify-between gap-4">
     <div class="grid min-w-0 flex-1 gap-1">
-      <p class="text-sm text-[#5f6368]">{{ employer.name }} · {{ location.city }}<span v-if="employer.service_area"> · Einsatz: {{ employer.service_area }}</span></p>
-      <h1 :id="headingId" class="text-[22px] leading-snug font-normal">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm text-[#5f6368]">{{ splitJobTitle(job.title).suffix }}</span></h1>
-      <p class="text-sm text-[#5f6368]">{{ location.street }}, {{ location.zip }} {{ location.city }}</p>
+      <p class="text-sm text-foreground opacity-75">{{ employer.name }} · {{ location.city }}<span v-if="employer.service_area"> · Einsatz: {{ employer.service_area }}</span></p>
+      <h1 :id="headingId" class="text-[22px] leading-snug font-normal">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm text-foreground opacity-75">{{ splitJobTitle(job.title).suffix }}</span></h1>
+      <p class="text-sm text-foreground opacity-75">{{ location.street }}, {{ location.zip }} {{ location.city }}</p>
     </div>
-    <img v-if="logoSrc" :src="logoSrc" alt="" width="56" height="56" class="h-14 w-14 shrink-0 rounded-lg border border-[#dadce0] bg-white object-contain">
+    <img v-if="logoSrc" :src="logoSrc" alt="" width="56" height="56" class="h-14 w-14 shrink-0 rounded-lg border border-border bg-white object-contain">
     </div>
     <JobsJobboxChips :chips="chips" />
     <div v-if="salary" class="rounded-lg bg-primary px-5 py-4 text-primary-foreground">
