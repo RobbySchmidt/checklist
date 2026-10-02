@@ -10,11 +10,21 @@ Ein Pflegedienst bekommt pro offene Stelle eine Bewerbungsseite, die in der Goog
 
 Zusätzlich ein Demo-Modus, mit dem Rhowerk den gesamten Vorgang (Google-Jobbox, Stellenseite, Bewerbung, Benachrichtigung) lokal vorführen kann, ohne dass eine Stelle bei Google gelistet ist.
 
-Geschäftlicher Rahmen: Projektgeschäft „Arbeitgeberseite in 14 Tagen“ (2.000 € einmalig, 149 €/Monat). Diese Spec deckt die Stellenseite und den Demo-Modus ab, nicht die Arbeitgeberseite (die wird später als CMS-Seite aus Blöcken gebaut) und nicht Kundenlogin, Bewerber-Liste, Report oder Mehrsprachigkeit.
+Geschäftlicher Rahmen: Projektgeschäft „Arbeitgeberseite in 14 Tagen“ (2.000 € einmalig, 149 €/Monat).
 
-## Nicht-Ziele (v1)
+## Einordnung: Teil 1 von 3
 
-- Kundenlogin oder Portal; Stellen werden von Rhowerk in Directus gepflegt
+Das Gesamtprodukt wird in drei Teilen gebaut, jeder mit eigener Spec und eigenem Plan:
+
+1. **Stellenseite und Demo-Modus** (diese Spec): Datenmodell, öffentliche Seiten, Kurzbewerbung, QR, Google-Vorschau, Prüfbericht, Seed.
+2. **Kundenportal**: Magic-Link-Login für Dienste, Stellen anlegen/bearbeiten/schließen, Bewerber-Liste mit Status, Erinnerung nach 24 Stunden, Vorlagen für Einladung/Absage, Monatsreport, Arbeitgeberprofil pflegen.
+3. **Arbeitgeberseite und Träger-Übersicht**: öffentliche Seite des Dienstes aus dem Page-Builder, mehrere Einrichtungen pro Träger.
+
+Das Datenmodell in Teil 1 ist so angelegt, dass Teil 2 nichts umbaut: mehrere Dienste in einer Instanz, Status an jeder Bewerbung, Status `filled`/`expired` an Stellen. Teil 2 ergänzt lediglich ein Feld `employer` (M2O) auf `directus_users` und eine Rolle „Dienst“; beides wird in Teil 1 noch nicht angelegt.
+
+## Nicht in Teil 1
+
+- Kundenlogin oder Portal; in Teil 1 pflegt Rhowerk Stellen direkt in Directus
 - Bewerber-Liste mit Erinnerungen, Monatsreport
 - Mehrsprachigkeit
 - Feed an Indeed oder Bundesagentur
