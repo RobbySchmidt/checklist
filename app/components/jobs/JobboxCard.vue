@@ -1,15 +1,14 @@
 <!-- app/components/jobs/JobboxCard.vue -->
 <template>
-  <component :is="to ? NuxtLink : 'div'" :to="to" class="grid gap-1 rounded-lg border border-border bg-white p-4 text-left text-foreground" :class="to ? 'hover:bg-secondary/40' : 'opacity-80'">
-    <p class="text-base font-medium">{{ title }}</p>
-    <p class="text-sm">{{ org }}<span v-if="logoSrc"><img :src="logoSrc" alt="" width="20" height="20" class="ml-2 inline h-5 w-5 object-contain"></span></p>
-    <p class="text-sm opacity-75">{{ place }}<span v-if="via"> · über {{ via }}</span></p>
-    <ul class="mt-1 flex flex-wrap gap-2 text-sm">
-      <li v-for="c in chips" :key="c" class="rounded-lg border border-border px-2 py-1">{{ c }}</li>
-    </ul>
-  </component>
+  <button type="button" class="grid w-full gap-1 border-l-[3px] px-4 py-4 text-left" :class="active ? 'border-l-[#1a73e8] bg-[#e8f0fe]' : 'border-l-transparent hover:bg-[#f8f9fa]'" :aria-current="active || undefined" @click="$emit('select')">
+    <span class="text-base font-medium text-[#202124]">{{ title }}</span>
+    <span class="flex items-center gap-2 text-sm text-[#5f6368]">{{ org }}<img v-if="logoSrc" :src="logoSrc" alt="" width="20" height="20" class="h-5 w-5 object-contain"></span>
+    <span class="text-sm text-[#5f6368]">{{ place }}<template v-if="via"> · über {{ via }}</template></span>
+    <JobsJobboxChips :chips="chips" class="mt-2" />
+  </button>
 </template>
 <script setup lang="ts">
-import { NuxtLink } from '#components'
-defineProps<{ title: string; org: string; place: string; chips: string[]; via?: string; to?: string; logoSrc?: string }>()
+import type { Component } from 'vue'
+defineProps<{ title: string; org: string; place: string; chips: { icon: Component; label: string }[]; via?: string; logoSrc?: string; active?: boolean }>()
+defineEmits<{ select: [] }>()
 </script>

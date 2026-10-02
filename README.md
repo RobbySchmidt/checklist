@@ -89,3 +89,7 @@ JSON-LD aus dem Quelltext von `/jobs/pflegefachkraft` kopieren und unter https:/
 2. JSON-Schlüsseldatei herunterladen und außerhalb des Repos speichern.
 3. Pfad in `.env` als `GOOGLE_SERVICE_ACCOUNT_JSON` eintragen.
 4. Die Konto-Mail in der Search Console als Inhaber der Domain eintragen.
+
+## Startseite
+
+Die Startseite `/` leitet per 302 auf `/jobs` um; Page-Builder und CMS-Seiten bleiben im Code, werden aber nicht mehr als Startseite genutzt.

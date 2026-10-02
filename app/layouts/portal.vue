@@ -15,6 +15,9 @@
         </NuxtLink>
       </nav>
       <div class="mt-auto grid gap-2 pt-6">
+        <a :href="siteLink" target="_blank" rel="noopener" class="portal-nav portal-nav-idle flex min-h-11 items-center gap-3 rounded-lg px-3 text-sm font-medium">
+          <ExternalLink class="size-5 shrink-0" aria-hidden="true" />Stellenseite öffnen
+        </a>
         <p class="truncate text-sm" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.user?.name ?? me?.user?.email ?? '' }}</p>
         <button type="button" class="portal-nav portal-nav-idle flex min-h-11 items-center gap-3 rounded-lg px-3 text-left text-sm font-medium" @click="logout">
           <LogOut class="size-5 shrink-0" aria-hidden="true" />Abmelden
@@ -29,6 +32,9 @@
         <div v-if="canSwitch" class="mt-2"><PortalEmployerSwitch :employers="me.employers" :current="me.employer" @switch="switchEmployer" /></div>
         <p v-else class="truncate text-sm" style="color: color-mix(in srgb, var(--portal-white) 70%, transparent)">{{ me?.employer?.name ?? '…' }}</p>
       </div>
+      <a :href="siteLink" target="_blank" rel="noopener" class="portal-nav portal-nav-idle flex size-11 shrink-0 items-center justify-center rounded-lg" title="Stellenseite öffnen" aria-label="Stellenseite öffnen">
+        <ExternalLink class="size-5" aria-hidden="true" />
+      </a>
       <button type="button" class="portal-nav portal-nav-idle flex size-11 shrink-0 items-center justify-center rounded-lg" title="Abmelden" aria-label="Abmelden" @click="logout">
         <LogOut class="size-5" aria-hidden="true" />
       </button>
@@ -51,11 +57,14 @@
   </div>
 </template>
 <script setup lang="ts">
-import { LayoutDashboard, Briefcase, Users, Building2, LogOut } from 'lucide-vue-next'
+import { LayoutDashboard, Briefcase, Users, Building2, LogOut, ExternalLink } from 'lucide-vue-next'
+import { employerSiteUrl } from '#shared/utils/host'
 
 const route = useRoute()
 // /api/portal/me entsteht in Task 7; bis dahin Fehler abfangen und „…“ anzeigen.
 const { data: me } = await useFetch<any>('/api/portal/me', { query: computed(() => ({ employer: route.query.employer })), onResponseError: () => {} })
+const runtimeConfig = useRuntimeConfig()
+const siteLink = computed(() => `${employerSiteUrl(me.value?.employer, runtimeConfig.public.siteUrl as string)}/jobs`)
 const canSwitch = computed(() => me.value?.user.role === 'rhowerk' && !!me.value.employers?.length)
 const links = [
   { to: '/portal', label: 'Übersicht', icon: LayoutDashboard }, { to: '/portal/stellen', label: 'Stellen', icon: Briefcase },
