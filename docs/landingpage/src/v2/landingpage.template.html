@@ -65,10 +65,12 @@
   .hero .copy { display: grid; gap: 22px; padding-block: 72px; align-self: center; }
   .hero .lead { font-size: 1.2rem; max-width: 40ch; opacity: 0.92; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero .stage { position: relative; min-height: 520px; }
-  .hero .shot-a { position: absolute; inset: 0; overflow: hidden; background: #f4f7f5; }
+  .hero .stage { position: relative; min-height: 620px; }
+  .hero .shot-a { position: absolute; left: 120px; top: 48px; right: 0; bottom: 48px; overflow: hidden; border-radius: 14px 0 0 14px; background: #f8f9fa; box-shadow: 0 30px 70px rgba(0,0,0,0.35); }
   .hero .shot-a img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left top; }
-  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; gap: 0; padding-left: 0; } .hero .copy { padding-block: 48px; padding-inline: 20px; } .hero .stage { min-height: 0; aspect-ratio: 1040 / 1000; } }
+  .hero .phone { position: absolute; left: 0; bottom: 0; width: 240px; border-radius: 32px; padding: 10px; background: #0b1f19; box-shadow: 0 40px 90px rgba(0,0,0,0.45), inset 0 0 0 2px rgba(255,255,255,0.08); }
+  .hero .phone img { display: block; width: 100%; height: auto; border-radius: 24px; }
+  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; gap: 0; padding-left: 0; } .hero .copy { padding-block: 48px; padding-inline: 20px; } .hero .stage { min-height: 520px; } .hero .shot-a { left: 80px; top: 24px; bottom: 24px; } .hero .phone { left: 16px; width: 200px; } }
 
   section { padding-block: 104px; }
   section.white { background: var(--white); }
@@ -192,7 +194,8 @@
         </div>
       </div>
       <div class="stage">
-        <div class="shot-a"><img src="img/jobs-hero.png" alt="Stellenseite eines Pflegedienstes: links alle offenen Stellen, rechts die Stelle Pflegefachkraft mit Gehaltsband und Bewerben-Knopf" width="2080" height="2000"></div>
+        <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="2880" height="2100"></div>
+        <div class="phone"><img src="img/phone-form.png" alt="Bewerbungsformular auf dem Handy: Name, Telefon, Qualifikation, Wunschstunden" width="780" height="1688"></div>
       </div>
     </div>
   </div>
