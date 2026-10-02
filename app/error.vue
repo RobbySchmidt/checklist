@@ -1,42 +1,37 @@
 <template>
-  <div class="min-h-screen bg-primary flex items-center">
-    <div class="w-full">
-      <div class="bg-black text-white p-8 max-w-2xl">
-        <h1 class="text-f-4xl font-semibold mb-6">
-          {{ title }}
-        </h1>
-        <p class="text-f-xl font-light mb-10">
-          {{ text }}
-        </p>
-        <button
-          type="button"
-          @click="handleClearError"
-          class="inline-flex items-center gap-2 bg-primary text-black rounded-full px-6 py-3 cursor-pointer group">
-          <span>{{ isJob404 ? 'Offene Stellen' : 'Zur Startseite' }}</span>
-          <MoveRight class="size-5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
-        </button>
-      </div>
+  <div class="min-h-screen flex items-center justify-center px-4" style="background: #f8f9fa; color: #15221d; font-family: Roboto, Arial, sans-serif;">
+    <div class="w-full max-w-md rounded-lg border bg-white p-8" style="border-color: #e3e8e5;">
+      <h1 class="text-xl font-medium leading-tight">{{ title }}</h1>
+      <p class="mt-3 text-base" style="color: #5a6b64;">{{ text }}</p>
+      <NuxtLink
+        :to="target"
+        class="mt-6 inline-flex min-h-11 items-center rounded-full px-5 text-base font-medium"
+        style="background: #13392d; color: #ffffff;"
+        @click="clearError()">
+        {{ label }}
+      </NuxtLink>
+      <p v-if="error?.statusCode && error.statusCode !== 404" class="mt-4 text-sm" style="color: #5a6b64;">Fehler {{ error.statusCode }}</p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  import type { NuxtError } from '#app'
-  import { MoveRight } from 'lucide-vue-next'
+const props = defineProps<{ error: { statusCode?: number; statusMessage?: string; url?: string } }>()
+const route = useRoute()
+const isJob = computed(() => (props.error?.url || route.path || '').startsWith('/jobs'))
+const isPortal = computed(() => (props.error?.url || route.path || '').startsWith('/portal'))
 
-  const props = defineProps({
-    error: Object as () => NuxtError,
-  })
-
-  // 404 unter /jobs/… heißt: Stelle nicht (mehr) sichtbar, Link zurück auf die Liste
-  const isJob404 = computed(() => props.error?.statusCode === 404 && useRoute().path.startsWith('/jobs'))
-  const is503 = computed(() => props.error?.statusCode === 503)
-  const title = computed(() => isJob404.value ? 'Diese Stelle ist nicht mehr verfügbar'
-    : is503.value ? 'Gerade nicht erreichbar'
-    : props.error?.statusCode === 404 ? 'Seite nicht gefunden' : 'Da ist etwas schiefgelaufen')
-  const text = computed(() => isJob404.value ? 'Vielleicht ist sie schon besetzt. Alle offenen Stellen finden Sie auf der Übersicht.'
-    : is503.value ? 'Bitte versuchen Sie es in ein paar Minuten noch einmal.'
-    : props.error?.statusCode === 404 ? 'Diese Seite konnten wir leider nicht finden. Probieren Sie es über unsere Startseite.'
-    : 'Bitte versuchen Sie es später noch einmal.')
-  const handleClearError = () => clearError({ redirect: isJob404.value ? '/jobs' : '/' })
+const title = computed(() => {
+  if (props.error?.statusCode === 503) return 'Gerade nicht erreichbar'
+  if (props.error?.statusCode === 404) return isJob.value ? 'Diese Stelle ist nicht mehr verfügbar' : 'Seite nicht gefunden'
+  return 'Da ist etwas schiefgelaufen'
+})
+const text = computed(() => {
+  if (props.error?.statusCode === 503) return 'Bitte versuchen Sie es in ein paar Minuten noch einmal.'
+  if (props.error?.statusCode === 404) return isJob.value ? 'Vielleicht ist sie schon besetzt. Alle offenen Stellen finden Sie in der Übersicht.' : 'Die Adresse gibt es nicht oder nicht mehr.'
+  return 'Bitte versuchen Sie es gleich noch einmal.'
+})
+const target = computed(() => (isPortal.value ? '/portal' : '/jobs'))
+const label = computed(() => (isPortal.value ? 'Zum Portal' : 'Offene Stellen'))
+useSeoMeta({ title: () => title.value, robots: 'noindex' })
 </script>
