@@ -24,16 +24,19 @@
           <input id="p-logo" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" @change="upload">
           <p v-if="uploadError" class="text-sm font-medium text-destructive" role="alert">{{ uploadError }}</p>
         </div>
-        <div class="grid gap-5 sm:grid-cols-2">
+        <div class="grid gap-6">
           <div class="grid gap-1">
-            <label for="p-c1" class="font-medium">Hauptfarbe <span class="font-normal opacity-75">(#rrggbb)</span></label>
-            <input id="p-c1" v-model="form.color_primary" type="text" placeholder="#1d6b57" class="portal-input">
+            <PortalColorField v-model="form.color_primary" label="Hauptfarbe" hint="Für Knöpfe und Gehaltsbalken auf der Stellenseite" />
+            <p v-if="lowContrast" class="text-sm opacity-75">Weiße Schrift ist auf dieser Farbe schwer lesbar. Wählen Sie einen dunkleren Ton.</p>
             <p v-if="errors.color_primary" class="text-sm font-medium text-destructive">{{ errors.color_primary }}</p>
           </div>
           <div class="grid gap-1">
-            <label for="p-c2" class="font-medium">Zweitfarbe <span class="font-normal opacity-75">(#rrggbb)</span></label>
-            <input id="p-c2" v-model="form.color_secondary" type="text" placeholder="#f4efe6" class="portal-input">
+            <PortalColorField v-model="form.color_secondary" label="Zweitfarbe" hint="Helle Fläche für Chips und Hervorhebungen" />
             <p v-if="errors.color_secondary" class="text-sm font-medium text-destructive">{{ errors.color_secondary }}</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-3" aria-label="Vorschau">
+            <span class="inline-flex min-h-11 items-center rounded-lg px-5 text-sm font-medium text-white" :style="{ background: isHex(form.color_primary) ? form.color_primary : '#1d6b57' }">So sieht Ihr Bewerben-Knopf aus</span>
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium" :style="{ background: isHex(form.color_secondary) ? form.color_secondary : '#f4efe6' }">Vollzeit</span>
           </div>
         </div>
       </fieldset>
@@ -160,6 +163,7 @@
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next'
 import { Checkbox } from '~/components/ui/checkbox'
+import { contrastRatio, isHex } from '#shared/utils/color'
 import { DEFAULT_TEMPLATE_INVITE, DEFAULT_TEMPLATE_REJECT } from '#shared/utils/templates'
 
 definePageMeta({ layout: 'portal', middleware: 'portal' })
@@ -181,6 +185,7 @@ function init(e: any) {
   logoId.value = typeof e.logo === 'object' && e.logo ? e.logo.id : (e.logo ?? null)
 }
 init(data.value)
+const lowContrast = computed(() => !!form.value && isHex(form.value.color_primary) && contrastRatio('#ffffff', form.value.color_primary) < 4.5)
 
 const errors = ref<Record<string, string>>({})
 const formError = ref('')
