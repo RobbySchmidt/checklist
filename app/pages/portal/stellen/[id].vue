@@ -1,17 +1,18 @@
 <template>
   <div class="grid gap-6">
-    <div class="flex flex-wrap items-center gap-3">
-      <NuxtLink :to="withEmployer('/portal/stellen')" class="text-sm underline">Zurück zu den Stellen</NuxtLink>
-      <h1 class="text-2xl font-bold">Stelle bearbeiten</h1>
-      <a v-if="job?.status === 'published'" :href="`/jobs/${job.slug}`" target="_blank" class="text-sm underline">Auf der Website ansehen</a>
+    <div class="grid gap-2">
+      <NuxtLink :to="withEmployer('/portal/stellen')" class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline"><ArrowLeft class="size-4" aria-hidden="true" />Zurück zu den Stellen</NuxtLink>
+      <PortalPageHeader title="Stelle bearbeiten">
+        <a v-if="job?.status === 'published'" :href="`/jobs/${job.slug}`" target="_blank" class="portal-btn">Auf der Website ansehen</a>
+      </PortalPageHeader>
     </div>
-    <p v-if="error" class="rounded-xl border border-border p-4 text-muted-foreground">Diese Stelle wurde nicht gefunden.</p>
-    <p v-if="saved" class="rounded-lg bg-secondary p-3" role="status">Gespeichert</p>
-    <PortalJobForm v-if="job && me?.employer" :model-value="job" :employer="me.employer" :busy="busy" :errors="errors" @submit="save" />
+    <PortalEmptyState v-if="error" text="Diese Stelle wurde nicht gefunden. Gehen Sie zurück zu den Stellen und wählen Sie eine andere." />
+    <PortalJobForm v-if="job && me?.employer" :model-value="job" :employer="me.employer" :busy="busy" :errors="errors" :saved="saved" @submit="save" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ArrowLeft } from 'lucide-vue-next'
 import type { JobInput } from '#shared/utils/jobSchema'
 
 definePageMeta({ layout: 'portal', middleware: 'portal' })

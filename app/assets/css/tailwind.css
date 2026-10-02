@@ -160,3 +160,136 @@
   }
 }
 .prose-job ul { list-style: disc; padding-left: 1.25rem; }
+
+/* Portal (docs/design-konzept.md, Abschnitt Portal) */
+.portal {
+  --portal-ink: #13392d;
+  --portal-mint: #4ac297;
+  --portal-paper: #f6f8f7;
+  --portal-line: #dfe6e2;
+  --portal-ink-soft: #5a6b64;
+  --portal-neu-fg: #b45309;
+  --portal-neu-bg: #fef3c7;
+  --portal-kontaktiert-fg: #1d4ed8;
+  --portal-kontaktiert-bg: #dbeafe;
+  --portal-gespraech-fg: #6d28d9;
+  --portal-gespraech-bg: #ede9fe;
+  --portal-zusage-fg: #166534;
+  --portal-zusage-bg: #dcfce7;
+  --portal-absage-fg: #374151;
+  --portal-absage-bg: #e5e7eb;
+  --portal-white: #ffffff;
+  --portal-danger: #b91c1c;
+  --ring: var(--portal-mint);
+  --foreground: var(--portal-ink);
+  --background: var(--portal-paper);
+  --muted-foreground: var(--portal-ink-soft);
+  --destructive: var(--portal-danger);
+  --primary: var(--portal-ink);
+  --primary-foreground: var(--portal-white);
+  --border: var(--portal-line);
+  --input: var(--portal-line);
+  color-scheme: light;
+  background: var(--portal-paper);
+  color: var(--portal-ink);
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+@utility portal-eyebrow {
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--portal-ink-soft);
+}
+
+@utility portal-display {
+  font-family: Archivo, Inter, sans-serif;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--portal-ink);
+}
+
+@utility portal-card {
+  background: var(--portal-white);
+  border: 1px solid var(--portal-line);
+  border-radius: 0.75rem;
+}
+
+@utility portal-input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  border: 1px solid var(--portal-line);
+  border-radius: 0.5rem;
+  background: var(--portal-white);
+  color: var(--portal-ink);
+  padding: 0 1rem;
+  font-size: 1rem;
+  &:focus-visible { outline: none; border-color: var(--portal-mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 45%, transparent); }
+}
+
+@utility portal-textarea {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--portal-line);
+  border-radius: 0.5rem;
+  background: var(--portal-white);
+  color: var(--portal-ink);
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  &:focus-visible { outline: none; border-color: var(--portal-mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 45%, transparent); }
+}
+
+@utility portal-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid var(--portal-line);
+  background: var(--portal-white);
+  color: var(--portal-ink);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  &:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }
+  &:disabled { opacity: 0.6; }
+  @media (hover: hover) { &:hover { border-color: var(--portal-ink); } }
+}
+
+@utility portal-btn-primary {
+  background: var(--portal-mint);
+  border-color: var(--portal-mint);
+  color: var(--portal-ink);
+  @media (hover: hover) { &:hover { background: var(--portal-ink); border-color: var(--portal-ink); color: var(--portal-white); } }
+}
+
+@utility portal-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 0.5rem;
+  color: var(--portal-ink);
+  cursor: pointer;
+  &:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }
+  @media (hover: hover) { &:hover { background: var(--portal-paper); } }
+}
+
+.portal [data-slot='table-head'] {
+  font-family: 'Space Mono', ui-monospace, monospace;
+  font-weight: 400;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--portal-ink-soft);
+}
+
+.portal .portal-seg { background: var(--portal-white); border-color: var(--portal-line); color: var(--portal-ink-soft); }
+.portal .portal-seg:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }

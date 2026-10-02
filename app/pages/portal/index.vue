@@ -1,19 +1,33 @@
 <template>
   <div class="grid gap-8">
-    <h1 class="text-2xl font-bold">Übersicht {{ monthLabel }}</h1>
-    <div v-if="error" class="rounded-xl border border-border p-4 text-muted-foreground">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
+    <PortalPageHeader :title="`Übersicht ${monthLabel}`" />
+    <div v-if="error" class="portal-card p-4" style="color: var(--portal-ink-soft)">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
     <template v-else-if="data">
-      <ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <li v-for="t in tiles" :key="t.label" class="rounded-xl border border-border p-4"><p class="text-3xl font-extrabold tabular-nums">{{ t.value }}</p><p class="text-sm text-muted-foreground">{{ t.label }}</p></li>
+      <ul class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <li v-for="t in tiles" :key="t.label" class="portal-card p-4">
+          <p class="portal-display text-4xl" style="font-size: 2.25rem">{{ t.value }}</p>
+          <p class="portal-eyebrow mt-1">{{ t.label }}</p>
+        </li>
       </ul>
       <section class="grid gap-3">
-        <h2 class="text-xl font-bold">Wartet auf Rückruf</h2>
-        <p v-if="!data.waiting.length" class="text-muted-foreground">Alles erledigt. Keine offenen Bewerbungen.</p>
-        <ul v-else class="grid gap-2">
-          <li v-for="a in data.waiting" :key="a.id" class="flex flex-wrap items-center gap-3 rounded-xl border border-border p-4">
-            <div class="min-w-0 flex-1"><p class="font-semibold">{{ a.name }} <span class="font-normal text-muted-foreground">· {{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span></p><p class="text-sm text-muted-foreground">{{ a.job?.title }} · seit {{ since(a.date_created) }}</p></div>
-            <a :href="`tel:${a.phone}`" class="h-10 inline-flex items-center rounded-full border border-border px-4 font-semibold">{{ a.phone }}</a>
-            <button type="button" class="h-10 rounded-full bg-primary px-4 font-semibold text-primary-foreground" @click="contacted(a.id)">Kontaktiert</button>
+        <h2 class="portal-display text-xl">Wen muss ich heute anrufen?</h2>
+        <PortalEmptyState v-if="!data.waiting.length" text="Alles erledigt. Es wartet niemand auf einen Rückruf." />
+        <ul v-else class="grid gap-3">
+          <li v-for="a in data.waiting" :key="a.id" class="portal-card grid gap-4 p-4">
+            <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+              <div class="min-w-0">
+                <p class="flex flex-wrap items-center gap-2 font-semibold">
+                  {{ a.name }}
+                  <span class="rounded-full px-2.5 py-0.5 text-[0.85rem] font-semibold" style="background: var(--portal-paper); color: var(--portal-ink)">{{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span>
+                </p>
+                <p class="mt-1 text-sm" style="color: var(--portal-ink-soft)">{{ a.job?.title }}</p>
+              </div>
+              <p class="portal-eyebrow" :style="hours(a.date_created) >= 24 ? { color: 'var(--portal-neu-fg)', fontWeight: 700 } : {}">wartet seit {{ since(a.date_created) }}</p>
+            </div>
+            <div class="grid grid-cols-2 gap-2 sm:flex">
+              <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />Anrufen</a>
+              <button type="button" class="portal-btn" @click="contacted(a.id)">Kontaktiert</button>
+            </div>
           </li>
         </ul>
       </section>
@@ -21,6 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
+import { Phone } from 'lucide-vue-next'
 import { QUALIFICATION_LABELS } from '#shared/utils/jobs'
 definePageMeta({ layout: 'portal', middleware: 'portal' })
 const route = useRoute()
@@ -30,7 +45,8 @@ const tiles = computed(() => data.value ? [
   { label: 'Aufrufe', value: data.value.stats.views }, { label: 'Bewerbungen', value: data.value.stats.applications },
   { label: 'ohne Rückruf', value: data.value.stats.waiting }, { label: 'offene Stellen', value: data.value.stats.openJobs },
 ] : [])
-const since = (iso: string) => { const h = Math.round((Date.now() - new Date(iso).getTime()) / 3600000); return h < 48 ? `${h} Std.` : `${Math.round(h / 24)} Tagen` }
+const hours = (iso: string) => Math.round((Date.now() - new Date(iso).getTime()) / 3600000)
+const since = (iso: string) => { const h = hours(iso); return h < 48 ? `${h} Std.` : `${Math.round(h / 24)} Tagen` }
 async function contacted(id: string) {
   try {
     await $fetch(`/api/portal/applications/${id}`, { method: 'PATCH', body: { status: 'kontaktiert' }, query: { employer: route.query.employer } })

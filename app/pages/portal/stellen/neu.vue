@@ -1,14 +1,15 @@
 <template>
   <div class="grid gap-6">
-    <div class="flex flex-wrap items-center gap-3">
-      <NuxtLink :to="withEmployer('/portal/stellen')" class="text-sm underline">Zurück zu den Stellen</NuxtLink>
-      <h1 class="text-2xl font-bold">Neue Stelle</h1>
+    <div class="grid gap-2">
+      <NuxtLink :to="withEmployer('/portal/stellen')" class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline"><ArrowLeft class="size-4" aria-hidden="true" />Zurück zu den Stellen</NuxtLink>
+      <PortalPageHeader title="Neue Stelle" />
     </div>
     <PortalJobForm v-if="me?.employer" :model-value="defaults" :employer="me.employer" :busy="busy" :errors="errors" @submit="save" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ArrowLeft } from 'lucide-vue-next'
 import type { JobInput } from '#shared/utils/jobSchema'
 import { toIsoDate } from '#shared/utils/jobs'
 
