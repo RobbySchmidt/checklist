@@ -2,9 +2,12 @@
   <div class="bg-[#f8f9fa] text-[#202124]">
     <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
       <section aria-labelledby="jobs-heading" class="overflow-hidden rounded-lg border border-[#dadce0] bg-white">
-        <header class="grid gap-1 border-b border-[#dadce0] px-5 py-4">
-          <h1 id="jobs-heading" class="text-xl font-medium">{{ employer?.name }}</h1>
-          <p v-if="employer?.service_area" class="text-sm text-[#5f6368]">{{ employer.service_area }}</p>
+        <header class="flex items-center justify-between gap-4 border-b border-[#dadce0] px-5 py-4">
+          <div class="grid min-w-0 gap-1">
+            <h1 id="jobs-heading" class="text-xl font-medium">{{ employer?.name }}</h1>
+            <p v-if="employer?.service_area" class="text-sm text-[#5f6368]">{{ employer.service_area }}</p>
+          </div>
+          <img v-if="logoSrc" :src="logoSrc" alt="" width="40" height="40" class="h-10 w-10 shrink-0 rounded-lg border border-[#dadce0] bg-white object-contain">
         </header>
         <ul v-if="jobs?.length" class="divide-y divide-[#dadce0]">
           <li v-for="job in jobs" :key="job.id"><JobsJobCard :job="job" :employer="employer!" /></li>
@@ -18,6 +21,8 @@
 useHead({ htmlAttrs: { class: 'font-roboto' } })
 const { employer } = await useEmployer()
 if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst nicht konfiguriert', fatal: true })
+const pub = useRuntimeConfig().public
+const logoSrc = computed(() => { const l = employer.value?.logo; const id = typeof l === 'string' ? l : l?.id; return id ? `${pub.directusUrl}/assets/${id}?width=112&height=112&fit=contain&format=auto` : '' })
 const { data: jobs } = await useJobs()
 useGenericPageSchema({ title: 'Offene Stellen' })
 useSeoMeta({

@@ -7,10 +7,10 @@
         <ChevronsUpDown class="size-4 shrink-0 opacity-70" aria-hidden="true" />
       </button>
     </DropdownMenuTrigger>
-    <DropdownMenuContent align="start" class="portal w-(--reka-dropdown-menu-trigger-width) min-w-60 p-1" style="background: var(--portal-white); border-color: var(--portal-line); color: var(--portal-ink)">
+    <DropdownMenuContent align="start" class="portal w-(--reka-dropdown-menu-trigger-width) min-w-60 p-1" style="background: var(--portal-white); border-color: var(--portal-line); color: var(--portal-text)">
       <p class="portal-eyebrow px-2 py-2" style="background: transparent">Dienst wechseln</p>
       <DropdownMenuRadioGroup :model-value="current?.id" @update:model-value="(v) => emit('switch', String(v))">
-        <DropdownMenuRadioItem v-for="e in employers" :key="e.id" :value="e.id" class="portal-switch-item !h-10 !pl-8 !pr-2" :style="e.id === current?.id ? { color: 'var(--portal-ink)', fontWeight: 500 } : {}">
+        <DropdownMenuRadioItem v-for="e in employers" :key="e.id" :value="e.id" class="portal-switch-item !h-10 !pl-8 !pr-2" :style="e.id === current?.id ? { color: 'var(--portal-text)', fontWeight: 500 } : {}">
           <template #indicator-icon><Check class="size-4" /></template>
           <span class="truncate">{{ e.name }}</span>
         </DropdownMenuRadioItem>

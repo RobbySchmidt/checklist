@@ -170,6 +170,7 @@
 /* Portal (docs/design-konzept.md, Abschnitt Portal) */
 .portal {
   --portal-ink: #13392d;
+  --portal-text: #15221d;
   --portal-mint: #4ac297;
   --portal-mint-fg: #13392d;
   --portal-paper: #f6f8f7;
@@ -188,7 +189,7 @@
   --portal-white: #ffffff;
   --portal-danger: #b91c1c;
   --ring: var(--portal-mint);
-  --foreground: var(--portal-ink);
+  --foreground: var(--portal-text);
   --background: var(--portal-paper);
   --muted-foreground: var(--portal-ink-soft);
   --destructive: var(--portal-danger);
@@ -198,7 +199,7 @@
   --input: var(--portal-line);
   color-scheme: light;
   background: var(--portal-paper);
-  color: var(--portal-ink);
+  color: var(--portal-text);
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -216,7 +217,7 @@
   font-family: Archivo, Inter, sans-serif;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
-  color: var(--portal-ink);
+  color: var(--portal-text);
 }
 
 @utility portal-card {
@@ -232,7 +233,7 @@
   border: 1px solid var(--portal-line);
   border-radius: 0.5rem;
   background: var(--portal-white);
-  color: var(--portal-ink);
+  color: var(--portal-text);
   padding: 0 1rem;
   font-size: 1rem;
   &:focus-visible { outline: none; border-color: var(--portal-mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 45%, transparent); }
@@ -244,7 +245,7 @@
   border: 1px solid var(--portal-line);
   border-radius: 0.5rem;
   background: var(--portal-white);
-  color: var(--portal-ink);
+  color: var(--portal-text);
   padding: 0.75rem 1rem;
   font-size: 1rem;
   &:focus-visible { outline: none; border-color: var(--portal-mint); box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 45%, transparent); }
@@ -260,7 +261,7 @@
   border-radius: 9999px;
   border: 1px solid var(--portal-line);
   background: var(--portal-white);
-  color: var(--portal-ink);
+  color: var(--portal-text);
   font-weight: 600;
   font-size: 0.9375rem;
   cursor: pointer;
@@ -283,7 +284,7 @@
   width: 44px;
   height: 44px;
   border-radius: 0.5rem;
-  color: var(--portal-ink);
+  color: var(--portal-text);
   cursor: pointer;
   &:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }
   @media (hover: hover) { &:hover { background: var(--portal-paper); } }

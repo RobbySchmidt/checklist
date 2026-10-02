@@ -47,7 +47,7 @@
             <PortalStatusChip :status="j.status" class="shrink-0" />
           </div>
           <p class="portal-eyebrow">Gültig bis {{ j.valid_through ? new Date(j.valid_through).toLocaleDateString('de-DE') : '–' }}</p>
-          <p class="text-sm tabular-nums opacity-75"><span class="font-medium" style="color: var(--portal-ink)">{{ j.applications }}</span> Bewerbungen · <span class="font-medium" style="color: var(--portal-ink)">{{ j.views30 }}</span> Aufrufe in 30 Tagen</p>
+          <p class="text-sm tabular-nums opacity-75"><span class="font-medium" style="color: var(--portal-text)">{{ j.applications }}</span> Bewerbungen · <span class="font-medium" style="color: var(--portal-text)">{{ j.views30 }}</span> Aufrufe in 30 Tagen</p>
           <div class="-mx-2 flex">
             <NuxtLink :to="withEmployer(`/portal/stellen/${j.id}`)" class="portal-icon-btn" title="Bearbeiten" aria-label="Bearbeiten"><Pencil class="size-5" aria-hidden="true" /></NuxtLink>
             <a :href="`/jobs/${j.slug}`" target="_blank" class="portal-icon-btn" title="Vorschau" aria-label="Vorschau"><Eye class="size-5" aria-hidden="true" /></a>

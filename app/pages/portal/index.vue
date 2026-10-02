@@ -18,7 +18,7 @@
               <div class="min-w-0">
                 <p class="flex flex-wrap items-center gap-2 font-medium">
                   {{ a.name }}
-                  <span class="rounded-full px-2.5 py-0.5 text-sm font-medium" style="background: var(--portal-paper); color: var(--portal-ink)">{{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span>
+                  <span class="rounded-full px-2.5 py-0.5 text-sm font-medium" style="background: var(--portal-paper); color: var(--portal-text)">{{ (QUALIFICATION_LABELS as Record<string, string>)[a.qualification] ?? a.qualification }}</span>
                 </p>
                 <p v-if="a.job?.title" class="mt-1 text-sm opacity-75">{{ splitJobTitle(a.job.title).main }}<span v-if="splitJobTitle(a.job.title).suffix" class="ml-2">{{ splitJobTitle(a.job.title).suffix }}</span></p>
               </div>
