@@ -24,3 +24,18 @@ test('readableText: weiß auf dunkel, dunkel auf hell', async () => {
   assert.equal(readableText('#4ac297'), '#13392d')
   assert.equal(readableText('kaputt'), '#13392d')
 })
+
+test('portalTheme: Fallbacks, Bordeaux, Mint, ungültig', async () => {
+  const { portalTheme } = await import('../../shared/utils/color.ts')
+  const def = { '--portal-ink': '#13392d', '--portal-white': '#ffffff', '--portal-mint': '#4ac297', '--portal-mint-fg': '#13392d' }
+  assert.deepEqual(portalTheme(), def)
+  assert.deepEqual(portalTheme(null, null), def)
+  assert.deepEqual(portalTheme('kaputt', '12'), def)
+  const bx = portalTheme('#9f1239', '#4ac297')
+  assert.equal(bx['--portal-ink'], '#9f1239')
+  assert.equal(bx['--portal-white'], '#ffffff')
+  assert.equal(bx['--portal-mint-fg'], '#13392d')
+  assert.equal(portalTheme('#13392d', '#dcefe7')['--portal-mint-fg'], '#13392d')
+  assert.equal(portalTheme('#dcefe7', '#9f1239')['--portal-white'], '#13392d')
+  assert.equal(portalTheme('#dcefe7', '#9f1239')['--portal-mint-fg'], '#ffffff')
+})

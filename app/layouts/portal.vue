@@ -1,5 +1,5 @@
 <template>
-  <div class="portal min-h-screen md:grid md:grid-cols-[248px_1fr]">
+  <div class="portal min-h-screen md:grid md:grid-cols-[248px_1fr]" :style="theme">
     <!-- Desktop: Seitenleiste -->
     <aside class="hidden md:sticky md:top-0 md:flex md:h-screen md:flex-col p-5" style="background: var(--portal-ink); color: var(--portal-white)">
       <p class="portal-display text-xl font-bold" style="color: var(--portal-white)">pflege-jobs</p>
@@ -58,11 +58,14 @@
 </template>
 <script setup lang="ts">
 import { LayoutDashboard, Briefcase, Users, Building2, LogOut, ExternalLink } from 'lucide-vue-next'
+import { portalTheme } from '#shared/utils/color'
 import { employerSiteUrl } from '#shared/utils/host'
 
 const route = useRoute()
 // /api/portal/me entsteht in Task 7; bis dahin Fehler abfangen und „…“ anzeigen.
 const { data: me } = await useFetch<any>('/api/portal/me', { query: computed(() => ({ employer: route.query.employer })), onResponseError: () => {} })
+const theme = useState<Record<string, string>>('portalTheme', () => ({}))
+watch(me, (m) => { theme.value = portalTheme(m?.employer?.color_primary, m?.employer?.color_secondary) }, { immediate: true })
 const runtimeConfig = useRuntimeConfig()
 const siteLink = computed(() => `${employerSiteUrl(me.value?.employer, runtimeConfig.public.siteUrl as string)}/jobs`)
 const canSwitch = computed(() => me.value?.user.role === 'rhowerk' && !!me.value.employers?.length)
@@ -78,7 +81,7 @@ async function logout() { await $fetch('/api/auth/logout', { method: 'POST' }); 
 <style scoped>
 .portal-nav:focus-visible { outline: 2px solid var(--portal-mint); outline-offset: -2px; }
 .portal-nav-idle { color: color-mix(in srgb, var(--portal-white) 70%, transparent); }
-.portal-nav-active { background: var(--portal-mint); color: var(--portal-ink); }
+.portal-nav-active { background: var(--portal-mint); color: var(--portal-mint-fg); }
 .portal-tab-active { color: var(--portal-mint); }
 @media (hover: hover) { .portal-nav-idle:hover { color: var(--portal-white); } }
 </style>

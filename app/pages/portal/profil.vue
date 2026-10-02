@@ -19,7 +19,9 @@
         <div class="grid gap-2">
           <span class="font-medium">Logo</span>
           <img v-if="logoId" :src="`${directusUrl}/assets/${logoId}?width=160`" alt="Aktuelles Logo" class="max-h-24 w-auto max-w-40 rounded border border-border bg-white p-2">
+          <div v-if="logoId"><button type="button" class="inline-flex min-h-11 items-center text-sm font-medium underline" :disabled="removing" @click="removeLogo">Logo entfernen</button></div>
           <p v-else class="text-sm opacity-75">Noch kein Logo.</p>
+          <p v-if="logoRemoved" class="text-sm font-medium" style="color: var(--portal-zusage-fg)" role="status">Logo entfernt</p>
           <label for="p-logo" class="text-sm opacity-75">PNG, JPG, SVG oder WebP, höchstens 2 MB. Wird sofort gespeichert.</label>
           <input id="p-logo" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" @change="upload">
           <p v-if="uploadError" class="text-sm font-medium text-destructive" role="alert">{{ uploadError }}</p>
@@ -163,7 +165,7 @@
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next'
 import { Checkbox } from '~/components/ui/checkbox'
-import { contrastRatio, isHex, readableText } from '#shared/utils/color'
+import { contrastRatio, isHex, portalTheme, readableText } from '#shared/utils/color'
 import { DEFAULT_TEMPLATE_INVITE, DEFAULT_TEMPLATE_REJECT } from '#shared/utils/templates'
 
 definePageMeta({ layout: 'portal', middleware: 'portal' })
@@ -189,6 +191,11 @@ const primaryPreview = computed(() => (form.value && isHex(form.value.color_prim
 const secondaryPreview = computed(() => (form.value && isHex(form.value.color_secondary) ? form.value.color_secondary : '#dcefe7'))
 const lowContrast = computed(() => !!form.value && isHex(form.value.color_primary) && contrastRatio('#ffffff', form.value.color_primary) < 4.5)
 
+const theme = useState<Record<string, string>>('portalTheme', () => ({}))
+const savedColors = { primary: data.value?.color_primary ?? '', secondary: data.value?.color_secondary ?? '' }
+watch(() => [form.value?.color_primary, form.value?.color_secondary], ([p, s]) => { if (form.value) theme.value = portalTheme(p, s) })
+onBeforeUnmount(() => { theme.value = portalTheme(savedColors.primary, savedColors.secondary) })
+
 const errors = ref<Record<string, string>>({})
 const formError = ref('')
 const saved = ref(false)
@@ -198,6 +205,7 @@ async function save() {
   try {
     await $fetch('/api/portal/employer', { method: 'PATCH', body: form.value, query: empQuery.value })
     saved.value = true
+    savedColors.primary = form.value.color_primary; savedColors.secondary = form.value.color_secondary
   } catch (e: any) {
     const fe = e?.data?.data
     if (e?.statusCode === 422 && fe) {
@@ -207,7 +215,18 @@ async function save() {
   } finally { saving.value = false }
 }
 
+const removing = ref(false)
+const logoRemoved = ref(false)
 const uploadError = ref('')
+async function removeLogo() {
+  removing.value = true; uploadError.value = ''; logoRemoved.value = false
+  try {
+    await $fetch('/api/portal/employer', { method: 'PATCH', body: { logo: null }, query: empQuery.value })
+    logoId.value = null; logoRemoved.value = true
+  } catch (e: any) {
+    uploadError.value = e?.data?.statusMessage || 'Das Logo ließ sich nicht entfernen.'
+  } finally { removing.value = false }
+}
 async function upload(ev: Event) {
   const input = ev.target as HTMLInputElement
   const file = input.files?.[0]
@@ -217,7 +236,7 @@ async function upload(ev: Event) {
   fd.append('file', file)
   try {
     const res = await $fetch<{ id: string }>('/api/portal/upload', { method: 'POST', body: fd, query: empQuery.value })
-    logoId.value = res.id
+    logoId.value = res.id; logoRemoved.value = false; logoRemoved.value = false
   } catch (e: any) {
     uploadError.value = e?.data?.statusMessage || 'Der Upload hat nicht geklappt.'
   } finally { input.value = '' }

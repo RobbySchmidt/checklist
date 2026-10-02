@@ -171,6 +171,7 @@
 .portal {
   --portal-ink: #13392d;
   --portal-mint: #4ac297;
+  --portal-mint-fg: #13392d;
   --portal-paper: #f6f8f7;
   --portal-line: #dfe6e2;
   --portal-ink-soft: #5a6b64;
@@ -271,7 +272,7 @@
 @utility portal-btn-primary {
   background: var(--portal-mint);
   border-color: var(--portal-mint);
-  color: var(--portal-ink);
+  color: var(--portal-mint-fg);
   @media (hover: hover) { &:hover { background: var(--portal-ink); border-color: var(--portal-ink); color: var(--portal-white); } }
 }
 

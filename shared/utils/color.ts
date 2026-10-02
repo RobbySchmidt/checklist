@@ -31,3 +31,15 @@ export function readableText(bgHex: string, light = '#ffffff', dark = '#13392d')
   if (!isHex(bgHex)) return dark
   return contrastRatio(light, bgHex) >= contrastRatio(dark, bgHex) ? light : dark
 }
+
+/** CSS-Variablen für das Portal in den Farben eines Dienstes; ungültige oder fehlende Werte fallen auf die Standardfarben zurück. */
+export function portalTheme(primary?: string | null, secondary?: string | null): Record<string, string> {
+  const ink = primary && isHex(primary) ? primary : '#13392d'
+  const mint = secondary && isHex(secondary) ? secondary : '#4ac297'
+  return {
+    '--portal-ink': ink,
+    '--portal-white': readableText(ink),
+    '--portal-mint': mint,
+    '--portal-mint-fg': readableText(mint),
+  }
+}
