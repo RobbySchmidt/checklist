@@ -41,7 +41,7 @@
     </header>
 
     <main class="min-w-0 p-4 pb-24 md:p-8 md:pb-8">
-      <div class="mx-auto max-w-[1100px]"><slot /></div>
+      <div class="mx-auto max-w-[1400px]"><slot /></div>
     </main>
 
     <!-- Handy: Tab-Leiste -->

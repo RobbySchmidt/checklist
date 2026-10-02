@@ -1,6 +1,6 @@
 <template>
   <div v-if="job && employer" class="jobs-paper text-foreground">
-    <div class="mx-auto grid w-full max-w-6xl items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <div class="grid w-full items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <JobsJobList :jobs="jobs ?? []" :employer="employer" :active-slug="job.slug" heading-tag="h2" class="hidden lg:sticky lg:top-6 lg:block" />
       <JobsJobDetail :job="job" :employer="employer" :heading-id="headingId" show-mobile-apply />
     </div>
@@ -11,6 +11,7 @@
 import { buildJobPosting } from '#shared/utils/buildJobPosting'
 import { employerSiteUrl } from '#shared/utils/host'
 
+definePageMeta({ pageTransition: false })
 useHead({ htmlAttrs: { class: 'font-jobs' } })
 const route = useRoute()
 const { public: pub } = useRuntimeConfig()
@@ -37,7 +38,8 @@ const posting = computed(() => job.value && employer.value
 // Für den Prüfbericht in der DevToolbar
 const current = useState<Record<string, any> | null>('jobposting:current', () => null)
 watchEffect(() => { current.value = posting.value })
-onUnmounted(() => { current.value = null })
+// Beim Wechsel zwischen zwei Stellen darf die alte Seite den Stand der neuen nicht löschen.
+onUnmounted(() => { if (current.value === posting.value) current.value = null })
 
 // Seitenaufruf zählen (nur im Browser, ohne Cookies)
 onMounted(() => {

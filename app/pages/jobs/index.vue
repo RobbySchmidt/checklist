@@ -1,12 +1,13 @@
 <template>
   <div class="jobs-paper text-foreground">
-    <div class="mx-auto grid w-full max-w-6xl items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+    <div class="grid w-full items-start gap-6 px-4 py-6 md:px-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
       <JobsJobList :jobs="jobs ?? []" :employer="employer!" :active-slug="first?.slug" class="lg:sticky lg:top-6" />
       <JobsJobDetail v-if="first" :job="first" :employer="employer!" heading-tag="h2" class="hidden lg:block" />
     </div>
   </div>
 </template>
 <script setup lang="ts">
+definePageMeta({ pageTransition: false })
 useHead({ htmlAttrs: { class: 'font-jobs' } })
 const { employer } = await useEmployer()
 if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst nicht konfiguriert', fatal: true })
