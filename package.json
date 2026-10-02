@@ -16,6 +16,7 @@
     "directus:schema:jobs": "node scripts/setup-schema-jobs.mjs",
     "directus:schema:portal": "node scripts/setup-schema-portal.mjs",
     "directus:seed:jobs": "node scripts/seed-jobs.mjs",
+    "directus:seed:portal": "node scripts/seed-portal.mjs",
     "google:index": "node --env-file=.env scripts/google-index.mjs"
   },
   "dependencies": {

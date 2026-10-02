@@ -48,7 +48,18 @@ ${i.message ? `<tr><td style="padding:6px 12px 6px 0;font-weight:600;vertical-al
   return { subject, text, html }
 }
 
+export function renderLoginMail(i: { name: string; link: string; minutes: number }) {
+  const subject = 'Ihr Anmeldelink für das Portal'
+  const text = `Hallo ${i.name},\n\nhier ist Ihr Anmeldelink. Er gilt ${i.minutes} Minuten und nur einmal:\n${i.link}\n\nFalls Sie das nicht angefordert haben, ignorieren Sie diese Mail.`
+  const html = `<!doctype html><html lang="de"><body style="font-family:system-ui,sans-serif;line-height:1.5;color:#15221d;padding:24px"><p>Hallo ${esc(i.name)},</p><p>hier ist Ihr Anmeldelink. Er gilt ${i.minutes} Minuten und nur einmal.</p><p><a href="${esc(i.link)}" style="display:inline-block;background:#1d6b57;color:#fff;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700">Jetzt anmelden</a></p><p style="color:#5a6b64;font-size:14px">Falls Sie das nicht angefordert haben, ignorieren Sie diese Mail.</p></body></html>`
+  return { subject, text, html }
+}
+
 export async function notifyApplication(to: string, bcc: string, mail: ReturnType<typeof renderApplicationMail>): Promise<{ sent: boolean; previewId?: string }> {
+  return sendMail(to, bcc, mail)
+}
+
+export async function sendMail(to: string, bcc: string, mail: { subject: string; text: string; html: string }): Promise<{ sent: boolean; previewId?: string }> {
   const { mail: cfg } = useRuntimeConfig()
   if (cfg.host) {
     const transport = nodemailer.createTransport({
