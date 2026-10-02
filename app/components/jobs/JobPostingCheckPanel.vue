@@ -1,6 +1,6 @@
 <!-- app/components/jobs/JobPostingCheckPanel.vue -->
 <template>
-  <div v-if="posting" class="fixed bottom-20 right-4 z-50 md:bottom-4">
+  <div v-if="posting && hidden === false" class="fixed bottom-20 right-4 z-50 md:bottom-4">
     <button v-if="!open" type="button" class="h-11 rounded-full border border-border bg-background px-4 text-sm font-medium shadow-lg" @click="open = true">Markup prüfen</button>
     <div v-else class="w-80 max-h-[70vh] overflow-auto rounded-lg border border-border bg-background p-4 text-sm shadow-lg">
     <div class="flex items-start justify-between gap-3">
@@ -26,7 +26,9 @@
 <script setup lang="ts">
 import { X } from 'lucide-vue-next'
 import { checkJobPosting } from '#shared/utils/jobPostingCheck'
-const open = ref(useRoute().query.markup === '1')
+const query = useRoute().query
+const hidden = query.markup === '0' // ?markup=0 blendet das Panel aus (Screenshots)
+const open = ref(query.markup === '1')
 const posting = useState<Record<string, any> | null>('jobposting:current', () => null)
 const check = computed(() => checkJobPosting(posting.value ?? {}))
 </script>
