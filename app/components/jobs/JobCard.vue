@@ -1,16 +1,12 @@
 <template>
-  <NuxtLink :to="jobPath(job.slug)" class="block rounded-lg border border-border bg-background p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-    <h2 class="text-xl leading-tight font-medium text-balance">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm font-normal opacity-75">{{ splitJobTitle(job.title).suffix }}</span></h2>
-    <ul class="mt-3 flex flex-wrap gap-2 text-sm font-medium">
-      <li v-for="t in job.employment_types ?? []" :key="t" class="rounded-full bg-secondary text-secondary-foreground px-3 py-1">{{ EMPLOYMENT_TYPE_LABELS[t] }}</li>
-      <li v-if="job.hours_min || job.hours_max" class="rounded-full bg-secondary text-secondary-foreground px-3 py-1">{{ hoursLabel }}</li>
-      <li v-if="job.start_note" class="rounded-full bg-secondary text-secondary-foreground px-3 py-1">{{ job.start_note }}</li>
-    </ul>
-    <p v-if="salary" class="mt-3 text-base font-medium">{{ salary }}</p>
-    <p class="mt-1 text-sm opacity-75">{{ location.zip }} {{ location.city }}</p>
+  <NuxtLink :to="jobPath(job.slug)" class="grid gap-1 px-5 py-4 hover:bg-[#f8f9fa] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+    <h2 class="text-base font-medium">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm font-normal text-[#5f6368]">{{ splitJobTitle(job.title).suffix }}</span></h2>
+    <p class="text-sm text-[#5f6368]">{{ location.zip }} {{ location.city }}</p>
+    <JobsJobboxChips :chips="chips" class="mt-2" />
   </NuxtLink>
 </template>
 <script setup lang="ts">
+import { Briefcase, Clock, Banknote } from 'lucide-vue-next'
 import type { Job, Employer } from '#shared/utils/jobs'
 import { EMPLOYMENT_TYPE_LABELS, jobLocation, jobPath, salaryText, splitJobTitle } from '#shared/utils/jobs'
 const props = defineProps<{ job: Job; employer: Employer }>()
@@ -19,4 +15,10 @@ const location = computed(() => jobLocation(props.job, props.employer))
 const hoursLabel = computed(() => props.job.hours_min && props.job.hours_max && props.job.hours_min !== props.job.hours_max
   ? `${props.job.hours_min}–${props.job.hours_max} Std./Woche`
   : `${props.job.hours_max || props.job.hours_min} Std./Woche`)
+const chips = computed(() => [
+  ...(props.job.employment_types ?? []).map((t) => ({ icon: Briefcase, label: EMPLOYMENT_TYPE_LABELS[t] })),
+  ...(props.job.hours_min || props.job.hours_max ? [{ icon: Clock, label: hoursLabel.value }] : []),
+  ...(props.job.start_note ? [{ icon: Clock, label: props.job.start_note }] : []),
+  ...(salary.value ? [{ icon: Banknote, label: salary.value }] : []),
+])
 </script>
