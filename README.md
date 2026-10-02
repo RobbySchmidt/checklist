@@ -47,7 +47,7 @@ Zusätzlich zu den Basis-Variablen (`DIRECTUS_URL`, `DIRECTUS_ADMIN_TOKEN`, `SIT
 | `TASK_SECRET` | Geheimnis für `POST /api/tasks/<name>` (Header `x-task-secret`) |
 | `PORTAL_BASE_URL` | Basis-URL für Links in Mails; leer = erste Domain des Dienstes des Nutzers (Rolle `dienst`), sonst `SITE_URL`; der Host-Header der Anfrage wird nie verwendet |
 | `NOTIFY_BCC` | Blindkopie aller Mails an Dienste |
-| `NUXT_MAIL_HOST`, `NUXT_MAIL_PORT`, `NUXT_MAIL_SECURE`, `NUXT_MAIL_USER`, `NUXT_MAIL_PASS`, `NUXT_MAIL_FROM` | SMTP; leer = Mailvorschau |
+| `NUXT_MAIL_HOST`, `NUXT_MAIL_PORT`, `NUXT_MAIL_SECURE`, `NUXT_MAIL_USER`, `NUXT_MAIL_PASS`, `NUXT_MAIL_FROM` | SMTP; leer = Mailvorschau. `NUXT_MAIL_FROM` mit Absendername: `Pflege-Jobs Portal <adresse>`. Port 587 mit `NUXT_MAIL_SECURE=false` (STARTTLS); Absender-Domain braucht SPF, DKIM und DMARC, sonst landen Mails bei Google und Microsoft im Spam oder kommen verzögert |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Pfad zum Schlüssel für die Indexing API |
 
 ## Tests
