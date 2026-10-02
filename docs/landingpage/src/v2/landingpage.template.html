@@ -34,7 +34,7 @@
   .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
   .grid > *, .step > *, .pair > *, .proofbox > *, .offer > *, .three > *, figure, .shot, .stack > * { min-width: 0; max-width: 100%; }
   h1, h2, h3 { margin: 0; line-height: 1.05; text-wrap: balance; }
-  h1 { font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 700; letter-spacing: -0.03em; }
+  h1 { font-size: clamp(2.4rem, 5.6vw, 4.4rem); font-weight: 700; letter-spacing: -0.03em; }
   h2 { font-size: clamp(2rem, 4.2vw, 3rem); font-weight: 700; letter-spacing: -0.02em; }
   h3 { font-size: 1.25rem; font-weight: 500; line-height: 1.2; }
   p { margin: 0; }
@@ -61,12 +61,13 @@
 
   /* Hero: Tiefgrün, riesige Zeile, der Google-Screenshot schiebt sich von rechts unten rein */
   .hero { background: radial-gradient(1200px 600px at 85% 110%, #1f5a48 0%, var(--ink) 55%); color: var(--white); position: relative; }
-  .hero .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: stretch; max-width: none; margin: 0; padding-left: max(20px, calc(50vw - 560px)); padding-right: 0; }
-  .hero .copy { display: grid; gap: 24px; padding-block: 96px; align-self: center; }
+  .hero .grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 40px; align-items: stretch; max-width: none; margin: 0; padding-left: max(20px, calc(50vw - 560px)); padding-right: 0; }
+  .hero .copy { display: grid; gap: 22px; padding-block: 72px; align-self: center; }
   .hero .lead { font-size: 1.2rem; max-width: 40ch; opacity: 0.92; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero .stage { position: relative; min-height: 560px; }
-  .hero .shot-a { position: absolute; inset: 0; overflow: hidden; background: #fff; }
+  .hero .stage { position: relative; min-height: 520px; }
+  .hero .shot-a { position: absolute; inset: 0; overflow: hidden; background: #f8f9fa; }
+  .hero .shot-a img { position: absolute; left: 0; top: -2.4%; width: 100%; height: 102.4%; object-fit: cover; object-position: left top; }
   @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; gap: 0; } .hero .copy { padding-block: 48px; padding-right: 20px; } .hero .stage { min-height: 320px; } }
 
   section { padding-block: 104px; }
@@ -190,7 +191,7 @@
         </div>
       </div>
       <div class="stage">
-        <div class="shot-a"><img style="width:100%;height:100%;object-fit:cover;object-position:left top;" src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
+        <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
       </div>
     </div>
   </div>
