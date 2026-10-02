@@ -1,19 +1,8 @@
-// Löst den Dienst dieser Anfrage am Hostnamen auf und legt ihn in event.context.employer ab (Cache 5 Minuten).
+// Löst den Dienst dieser Anfrage am Hostnamen auf und legt ihn in event.context.employer ab (Cache in server/utils/employerCache.ts).
 import type { Employer } from '#shared/utils/jobs'
 import { normalizeHost, resolveEmployerByHost } from '#shared/utils/host'
-import { appItems } from '../utils/directus'
+import { loadEmployers } from '../utils/employerCache'
 
-const CACHE_MS = 5 * 60 * 1000
-const FIELDS = '*,logo.id,logo.title'
-let cache: { at: number; employers: Employer[] } | null = null
-
-// Mit App-Token: domains und weitere interne Felder sind für Public nicht lesbar
-async function loadEmployers(): Promise<Employer[]> {
-  if (cache && Date.now() - cache.at < CACHE_MS) return cache.employers
-  const employers = await appItems<Employer>('employers', { fields: FIELDS, filter: { status: { _eq: 'published' } } })
-  cache = { at: Date.now(), employers }
-  return cache.employers
-}
 
 export default defineEventHandler(async (event) => {
   const path = event.path || ''

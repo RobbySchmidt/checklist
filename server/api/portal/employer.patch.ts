@@ -1,6 +1,7 @@
 import { employerSchema } from '#shared/utils/employerSchema'
 import { requirePortalUser } from '../../utils/session'
 import { appFetch } from '../../utils/directus'
+import { invalidateEmployerCache } from '../../utils/employerCache'
 export default defineEventHandler(async (event) => {
   const { employer } = await requirePortalUser(event)
   const body = await readBody(event)
@@ -14,5 +15,6 @@ export default defineEventHandler(async (event) => {
   const data: any = { ...parsed.data }
   if (data.logo === undefined) delete data.logo
   await appFetch(`/items/employers/${employer.id}`, { method: 'PATCH', body: data })
+  invalidateEmployerCache()
   return { ok: true }
 })
