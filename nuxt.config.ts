@@ -65,6 +65,11 @@ export default defineNuxtConfig({
     exclude: ['/kein-dienst'],
   },
 
+  nitro: {
+    experimental: { tasks: true },
+    scheduledTasks: { '0 * * * *': ['reminders'], '0 6 * * *': ['report'] },
+  },
+
   runtimeConfig: {
     public: {
       siteName,

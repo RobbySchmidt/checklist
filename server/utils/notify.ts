@@ -75,3 +75,65 @@ export async function sendMail(to: string, bcc: string, mail: { subject: string;
   console.log(`[notify] Kein SMTP konfiguriert. Mail an ${to}:\n${mail.text}\nVorschau: /__mail/${previewId}`)
   return { sent: false, previewId }
 }
+
+const SHELL_OPEN = '<!doctype html><html lang="de"><body style="font-family:system-ui,sans-serif;line-height:1.5;color:#15221d;padding:24px">'
+const BUTTON = 'display:inline-block;background:#1d6b57;color:#fff;padding:12px 20px;border-radius:999px;text-decoration:none;font-weight:700'
+
+export function renderReminderMail(i: { employerName: string; items: Array<{ name: string; phone: string; jobTitle: string; hours: number }>; portalUrl: string }) {
+  const n = i.items.length
+  const noun = n === 1 ? 'Bewerbung wartet' : 'Bewerbungen warten'
+  const subject = `Erinnerung: ${n} ${noun} auf Rückruf`
+  const text = [
+    `${i.employerName}: ${n} ${noun} seit über 24 Stunden auf Rückruf.`, '',
+    ...i.items.map((a) => `- ${a.name}, ${a.phone}${a.jobTitle ? ` (${a.jobTitle})` : ''}, seit ${a.hours} Stunden`), '',
+    `Im Portal ansehen: ${i.portalUrl}`,
+  ].join('\n')
+  const html = `${SHELL_OPEN}
+<h1 style="font-size:20px">${n} ${noun} auf Rückruf</h1>
+<p style="color:#5a6b64">${esc(i.employerName)} · seit über 24 Stunden ohne Rückruf</p>
+<ul>${i.items.map((a) => `<li><strong>${esc(a.name)}</strong> · <a href="tel:${esc(a.phone)}">${esc(a.phone)}</a>${a.jobTitle ? ` · ${esc(a.jobTitle)}` : ''} · seit ${a.hours} Std.</li>`).join('')}</ul>
+<p style="margin-top:24px"><a href="${esc(i.portalUrl)}" style="${BUTTON}">Im Portal ansehen</a></p>
+</body></html>`
+  return { subject, text, html }
+}
+
+export interface ReportMailData {
+  viewsBySource: Record<string, number>
+  applicationsByJob: Array<{ title: string; count: number }>
+  medianHoursToContact: number | null
+  jobsActive: number; jobsExpired: number
+  total: { views: number; applications: number }
+}
+
+export function renderReportMail(i: { employerName: string; label: string; report: ReportMailData; portalUrl: string }) {
+  const r = i.report
+  const subject = `Ihr Bewerbungsreport ${i.label}`
+  const median = r.medianHoursToContact === null ? 'noch keine Rückrufe erfasst' : `${String(r.medianHoursToContact).replace('.', ',')} Stunden`
+  const sources = Object.entries(r.viewsBySource)
+  const text = [
+    `Bewerbungsreport ${i.label} – ${i.employerName}`, '',
+    `Aufrufe gesamt: ${r.total.views}`,
+    ...sources.map(([s, c]) => `  ${SOURCE_LABELS[s] ?? s}: ${c}`), '',
+    `Bewerbungen gesamt: ${r.total.applications}`,
+    ...r.applicationsByJob.map((j) => `  ${j.title}: ${j.count}`), '',
+    `Median bis zum Rückruf: ${median}`,
+    `Stellen: ${r.jobsActive} aktiv, ${r.jobsExpired} abgelaufen`, '',
+    `Zum Portal: ${i.portalUrl}`,
+  ].join('\n')
+  const td = 'padding:4px 16px 4px 0'
+  const rows = (list: Array<[string, number]>, empty: string) => list.length ? list.map(([k, v]) => `<tr><td style="${td}">${esc(k)}</td><td>${v}</td></tr>`).join('') : `<tr><td style="${td}">${empty}</td><td></td></tr>`
+  const html = `${SHELL_OPEN}
+<h1 style="font-size:20px">Ihr Bewerbungsreport ${esc(i.label)}</h1>
+<p style="color:#5a6b64">${esc(i.employerName)}</p>
+<h2 style="font-size:16px">Aufrufe nach Quelle (${r.total.views})</h2>
+<table style="border-collapse:collapse"><tbody>${rows(sources.map(([s, c]) => [SOURCE_LABELS[s] ?? s, c]), 'keine Aufrufe')}</tbody></table>
+<h2 style="font-size:16px">Bewerbungen nach Stelle (${r.total.applications})</h2>
+<table style="border-collapse:collapse"><tbody>${rows(r.applicationsByJob.map((j) => [j.title, j.count]), 'keine Bewerbungen')}</tbody></table>
+<h2 style="font-size:16px">Zeit bis zum Rückruf</h2>
+<p>Median: ${esc(median)}</p>
+<h2 style="font-size:16px">Stellen</h2>
+<p>${r.jobsActive} aktiv, ${r.jobsExpired} abgelaufen</p>
+<p style="margin-top:24px"><a href="${esc(i.portalUrl)}" style="${BUTTON}">Zum Portal</a></p>
+</body></html>`
+  return { subject, text, html }
+}
