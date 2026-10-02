@@ -68,8 +68,7 @@
   .hero .facts span::before { content: "•"; color: var(--mint); margin-right: 8px; }
   .hero .stage { position: relative; min-height: 420px; }
   .hero .shot-a { position: absolute; right: -8%; bottom: 0; width: 112%; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.14); border-bottom: 0; }
-  .hero .shot-b { position: absolute; left: -6%; bottom: 48px; width: 62%; border-radius: 12px; overflow: hidden; background: #fff; box-shadow: 0 24px 60px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); transform: rotate(-3deg); }
-  .hero .badge { position: absolute; left: 4%; top: 6%; background: var(--mint); color: var(--mint-ink); font-weight: 700; padding: 10px 14px; border-radius: 10px; transform: rotate(-4deg); box-shadow: 0 10px 30px rgba(0,0,0,0.35); font-size: 0.95rem; }
+  .hero .badge { position: absolute; left: 4%; top: 6%; background: var(--mint); color: var(--mint-ink); font-weight: 700; padding: 10px 14px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); font-size: 0.95rem; }
   @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; } .hero .copy { padding-bottom: 36px; } .hero .stage { min-height: 300px; } .hero .shot-b { width: 58%; bottom: 20px; } }
 
   /* Lauftext mit Chips: die Welt der Bewerberin */
@@ -106,8 +105,7 @@
   .step .copy h3 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; }
   .step .copy p { color: var(--muted); max-width: 44ch; font-size: 1.05rem; }
   .shot { border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: #fff; box-shadow: 0 20px 50px rgba(19,57,45,0.12); }
-  .shot.tilt-l { transform: rotate(-1.5deg); } .shot.tilt-r { transform: rotate(1.5deg); }
-  @media (max-width: 900px) { .step { grid-template-columns: 1fr; } .step.flip .copy { order: 0; } .shot.tilt-l, .shot.tilt-r { transform: none; } }
+  @media (max-width: 900px) { .step { grid-template-columns: 1fr; } .step.flip .copy { order: 0; } }
 
   /* Dunkle Bühne: die Rückruf-Liste */
   .stack { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
@@ -189,8 +187,7 @@
   <div class="hero dark">
     <div class="wrap grid">
       <div class="copy">
-        <span class="eyebrow">Für ambulante Pflegedienste und Tagespflegen</span>
-        <h1>Ihre Stelle bei <span class="mark">Google.</span><br>Die Bewerbung in einer Minute.</h1>
+        <h1>Ihre Stelle bei Google.<br>Die Bewerbung in einer Minute.</h1>
         <p class="lead">Keine Vermittlerprovision, kein Portal. Eine Stellenseite, die Google versteht, eine Bewerbung vom Handy ohne Lebenslauf, und jeden Morgen die Liste, wen Sie anrufen müssen.</p>
         <div class="actions">
           <a class="btn" href="#pilot">Vier Wochen kostenlos testen <span class="arrow">→</span></a>
@@ -201,7 +198,6 @@
       <div class="stage">
         <span class="badge">So sieht es bei Google aus</span>
         <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
-        <div class="shot-b"><img src="img/stelle.png" alt="Stellenseite mit Gehaltsband und Bewerben-Knopf in der Farbe des Dienstes" width="1440" height="1200"></div>
       </div>
     </div>
   </div>
@@ -216,18 +212,13 @@
   <section id="problem">
     <div class="wrap">
       <div class="head">
-        <span class="eyebrow">Das Problem</span>
         <h2>Ihre Stelle steht auf Ihrer Website. Bei Google steht sie nicht.</h2>
         <p>Google füllt die Stellenansicht nicht aus Portalen, sondern aus Webseiten mit einem bestimmten Markup. Die meisten Pflegedienst-Websites haben es nicht. Also stehen dort Stepstone, Indeed und Zeitarbeit, und Sie zahlen am Ende die Provision.</p>
       </div>
-      <div class="bignum">
-        <span class="n">8.000 €</span>
-        <p>und mehr kostet eine einzige Pflegefachkraft über die Personalvermittlung. Für denselben Betrag läuft pflege-jobs vier Jahre, mit allen Stellen, die Sie je ausschreiben.</p>
-      </div>
       <div class="three">
-        <div><span class="k">0 von 10</span><h3>Pflegediensten stehen in der Google-Stellenansicht</h3><p>Wer „Pflegefachkraft Leipzig“ sucht, findet Portale und Personaldienstleister. Den Dienst selbst findet er nicht, obwohl die Stelle auf dessen Website steht.</p></div>
-        <div><span class="k">4 Felder</span><h3>statt Lebenslauf, Anschreiben und Konto</h3><p>Pflegekräfte bewerben sich in der Pause vom Handy. Dort scheitert fast jedes Formular. Bei uns: Name, Telefon, Qualifikation, Stunden. Fertig.</p></div>
-        <div><span class="k">24 Std.</span><h3>bis die Bewerberin woanders zusagt</h3><p>Die Bewerbung liegt im Postfach, die Leitung ist auf Tour. Deshalb erinnert das System nach 24 Stunden, und die Rückruf-Liste steht ganz oben.</p></div>
+        <div><h3>Nur Portale und Zeitarbeit</h3><p>Wer „Pflegefachkraft Leipzig“ sucht, findet Stepstone, Indeed und Personaldienstleister. Den Pflegedienst selbst findet er nicht, obwohl die Stelle auf dessen Website steht.</p></div>
+        <div><h3>Das Formular schreckt ab</h3><p>Lebenslauf hochladen, Anschreiben, Konto anlegen. Pflegekräfte bewerben sich in der Pause vom Handy. Dort scheitert fast jedes Formular.</p></div>
+        <div><h3>Niemand ruft zurück</h3><p>Die Bewerbung liegt im Postfach, die Leitung ist auf Tour. Nach drei Tagen hat die Bewerberin woanders unterschrieben.</p></div>
       </div>
     </div>
   </section>
@@ -235,7 +226,6 @@
   <section class="white" id="so-gehts">
     <div class="wrap">
       <div class="head">
-        <span class="eyebrow">So funktioniert es</span>
         <h2>Drei Schritte. Keine Agentur, kein Portal dazwischen.</h2>
       </div>
 
@@ -245,7 +235,7 @@
           <h3>Stelle anlegen, mit allem, was Google braucht</h3>
           <p>Titel, Gehaltsrahmen, Dienstplan-Modell, Benefits. Das Portal prüft beim Ausfüllen, ob die Stelle alle Pflichtangaben für die Google-Stellenansicht hat. Fünf Minuten, am Tablet oder am Rechner.</p>
         </div>
-        <div class="shot tilt-r"><img src="img/stelle-neu.png" alt="Formular Neue Stelle im Portal mit Prüfung der Google-Pflichtfelder" width="1440" height="980" loading="lazy"></div>
+        <div class="shot"><img src="img/stelle-neu.png" alt="Formular Neue Stelle im Portal mit Prüfung der Google-Pflichtfelder" width="1440" height="980" loading="lazy"></div>
       </div>
 
       <div class="step flip">
@@ -254,7 +244,7 @@
           <h3>Sichtbar werden, bei Google und im Team</h3>
           <p>Ihre Stellenseite trägt das Google-Markup, wir melden sie an und wieder ab, wenn sie besetzt ist. Dazu ein Link für die Team-WhatsApp und ein Aushang mit QR-Code für den Pausenraum. Empfehlungen aus dem Team sind in der Pflege der beste Kanal.</p>
         </div>
-        <div class="shot tilt-l"><img src="img/liste.png" alt="Stellenliste eines Pflegedienstes mit Chips für Beschäftigungsart, Stunden und Gehalt" width="1440" height="640" loading="lazy"></div>
+        <div class="shot"><img src="img/liste.png" alt="Stellenliste eines Pflegedienstes mit Chips für Beschäftigungsart, Stunden und Gehalt" width="1440" height="640" loading="lazy"></div>
       </div>
 
       <div class="step">
@@ -263,7 +253,7 @@
           <h3>Bewerbung in einer Minute, vom Handy</h3>
           <p>Gehalt und Dienstplan stehen vor dem Formular. Vier Angaben, kein Lebenslauf, kein Anschreiben. Die Bewerberin bekommt sofort die Zusage, dass Sie zurückrufen.</p>
         </div>
-        <div class="shot tilt-r"><img src="img/stelle.png" alt="Stellenseite Pflegefachkraft mit Gehaltsband, Aufgaben, Voraussetzungen und Benefits" width="1440" height="1200" loading="lazy"></div>
+        <div class="shot"><img src="img/stelle.png" alt="Stellenseite Pflegefachkraft mit Gehaltsband, Aufgaben, Voraussetzungen und Benefits" width="1440" height="1200" loading="lazy"></div>
       </div>
     </div>
   </section>
@@ -271,8 +261,7 @@
   <section class="dark">
     <div class="wrap stack">
       <div class="copy">
-        <span class="eyebrow">Das Portal</span>
-        <h2>Jeden Morgen eine Frage: <span class="mark">Wen muss ich heute anrufen?</span></h2>
+        <h2>Jeden Morgen eine Frage: Wen muss ich heute anrufen?</h2>
         <p>Jede Bewerbung kommt sofort per Mail. Im Portal steht die Rückruf-Liste ganz oben, mit Telefon-Taste. Nach 24 Stunden ohne Rückruf erinnert das System. Einladung und Absage gehen mit einer Vorlage per WhatsApp oder E-Mail raus, Sie versenden selbst.</p>
         <p>Dazu die Zahlen des Monats: Aufrufe, Bewerbungen, offene Stellen. Und einmal im Monat der Report per Mail.</p>
       </div>
@@ -299,7 +288,6 @@
   <section class="white" id="angebot">
     <div class="wrap">
       <div class="head">
-        <span class="eyebrow">Angebot</span>
         <h2>Ein Festpreis. Ein fester Betrag. Keine Provision.</h2>
         <p>Sie zahlen für den Aufbau und den Betrieb. Nicht pro Anzeige, nicht pro Einstellung.</p>
       </div>
@@ -332,8 +320,7 @@
   <section class="pilot dark" id="pilot">
     <div class="wrap grid">
       <div class="copy">
-        <span class="eyebrow">Pilot</span>
-        <h2>Eine Stelle. Vier Wochen. <span class="mark">Kostenlos.</span></h2>
+        <h2>Eine Stelle. Vier Wochen. Kostenlos.</h2>
         <p>Sie haben eine Stelle, die seit Wochen offen ist? Wir bringen sie in die Google-Stellenansicht, mit Bewerbung vom Handy. Alle Bewerbungen gehen direkt an Sie. Danach entscheiden Sie, ob es weitergeht.</p>
         <ol>
           <li>Sie nennen uns Stelle, Gehaltsrahmen und Dienstplan-Modell. Dreißig Minuten.</li>
