@@ -2,7 +2,7 @@
 // Collections für Stellenseiten: employers (Pflegedienste), jobs (Stellen), applications (Bewerbungen).
 // Idempotent, läuft nach scripts/setup-schema.mjs. Aufruf: yarn directus:schema:jobs
 import { updateRelation, readRelation, deleteRelation, createRelation } from '@directus/sdk';
-import { directus, ensureCollection, ensureRelation, ensurePublicRead, ensurePublicCreate } from './lib/directus-admin.mjs';
+import { directus, ensureCollection, ensureRelation, ensurePublicRead } from './lib/directus-admin.mjs';
 import { pkUuid, statusField, auditFields, input, slugField, textarea, richText, fileField, boolField, intField, dateField, select } from './lib/fields.mjs';
 
 const uuidM2o = (field, template, note, extra = {}) => ({
@@ -152,14 +152,5 @@ for (const { field, related_collection, meta } of restrictRelations) {
 console.log('\n[4/4] Rechte');
 await ensurePublicRead('employers', { permissions: { status: { _eq: 'published' } } });
 await ensurePublicRead('jobs', { permissions: { _and: [{ status: { _eq: 'published' } }, { valid_through: { _gte: '$NOW' } }] } });
-await ensurePublicCreate('applications', { fields: ['job', 'employer', 'name', 'phone', 'qualification', 'hours_wish', 'earliest_start', 'message', 'source', 'consent', 'user_agent', 'referrer'],
-  // _submitted: Directus-Validierung lässt fehlende Felder sonst durch (nur gesendete Werte werden geprüft)
-  validation: {
-    _and: [
-      ...['consent', 'name', 'phone', 'job', 'employer'].map((f) => ({ [f]: { _submitted: true } })),
-      { consent: { _eq: true } }, { name: { _nnull: true } }, { phone: { _nnull: true } }, { job: { _nnull: true } }, { employer: { _nnull: true } },
-    ],
-  },
-});
 
 console.log('\nFertig.\n');

@@ -14,6 +14,7 @@
     "directus:copy": "node --env-file=.env scripts/copy-directus.mjs",
     "test": "node --test \"tests/**/*.test.ts\"",
     "directus:schema:jobs": "node scripts/setup-schema-jobs.mjs",
+    "directus:schema:portal": "node scripts/setup-schema-portal.mjs",
     "directus:seed:jobs": "node scripts/seed-jobs.mjs",
     "google:index": "node --env-file=.env scripts/google-index.mjs"
   },

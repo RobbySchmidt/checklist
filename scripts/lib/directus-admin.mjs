@@ -5,7 +5,8 @@ import {
   createDirectus, rest, staticToken,
   readItems, readItem, createItem, updateItem, deleteItem, deleteItems, updateSingleton, readSingleton,
   createCollection, deleteCollection, createField, readField, updateField, createRelation, updateRelation, readRelation,
-  readPolicies, readPermissions, createPermission, updatePermission,
+  readPolicies, readPermissions, createPermission, updatePermission, deletePermission,
+  readRoles, createRole, createPolicy, readUsers, createUser, updateUser,
   uploadFiles, readFiles, readFolders, createFolder,
 } from '@directus/sdk';
 import { readFile } from 'node:fs/promises';
@@ -240,6 +241,63 @@ export async function upsertItem(collection, uniqueFilter, data, label = JSON.st
   const item = await directus.request(createItem(collection, data));
   console.log(`  + ${collection} ${label} angelegt (${item.id})`);
   return item.id;
+}
+
+// --- Rollen, Policies, Rechte (Directus 11) ---
+export async function ensureRole(name) {
+  const found = await directus.request(readRoles({ filter: { name: { _eq: name } }, fields: ['id'], limit: 1 }));
+  if (found.length) { console.log(`  = Rolle ${name} existiert`); return found[0].id; }
+  const role = await directus.request(createRole({ name, icon: 'smart_toy', description: 'Server-Zugriff der Nuxt-App' }));
+  console.log(`  + Rolle ${name} angelegt`);
+  return role.id;
+}
+
+export async function ensurePolicy(name, { app_access = false } = {}) {
+  const found = await directus.request(readPolicies({ filter: { name: { _eq: name } }, fields: ['id'], limit: 1 }));
+  if (found.length) { console.log(`  = Policy ${name} existiert`); return found[0].id; }
+  const policy = await directus.request(createPolicy({ name, icon: 'badge', admin_access: false, app_access, enforce_tfa: false }));
+  console.log(`  + Policy ${name} angelegt`);
+  return policy.id;
+}
+
+// Verknüpfung Rolle ↔ Policy über directus_access (Directus 11). Kein SDK-Helfer, daher roh.
+export async function ensureRoleHasPolicy(roleId, policyId) {
+  const res = await fetch(`${DIRECTUS_URL}/access?filter[role][_eq]=${roleId}&filter[policy][_eq]=${policyId}&fields=id`, { headers: authHeaders });
+  const { data } = await res.json();
+  if (data?.length) { console.log('  = Policy bereits an Rolle'); return; }
+  const r = await fetch(`${DIRECTUS_URL}/access`, { method: 'POST', headers: { ...authHeaders, 'Content-Type': 'application/json' }, body: JSON.stringify({ role: roleId, policy: policyId }) });
+  if (!r.ok) throw new Error(`Policy konnte nicht an Rolle gehängt werden: ${r.status}`);
+  console.log('  + Policy an Rolle gehängt');
+}
+
+export async function ensurePermission(policy, collection, action, { fields = ['*'], permissions = {}, validation = {} } = {}) {
+  const existing = await directus.request(readPermissions({ filter: { policy: { _eq: policy }, collection: { _eq: collection }, action: { _eq: action } }, fields: ['id'] }));
+  if (existing.length) {
+    await directus.request(updatePermission(existing[0].id, { fields, permissions, validation }));
+    console.log(`  ~ ${action} auf ${collection} aktualisiert`);
+    return;
+  }
+  await directus.request(createPermission({ policy, collection, action, fields, permissions, validation, presets: null }));
+  console.log(`  + ${action} auf ${collection} angelegt`);
+}
+
+export async function removePublicPermission(collection, action) {
+  const policy = await getPublicPolicyId();
+  const existing = await directus.request(readPermissions({ filter: { policy: { _eq: policy }, collection: { _eq: collection }, action: { _eq: action } }, fields: ['id'] }));
+  for (const p of existing) await directus.request(deletePermission(p.id));
+  console.log(existing.length ? `  - Public-${action} auf ${collection} entfernt` : `  = kein Public-${action} auf ${collection}`);
+}
+
+export async function ensureAppUser(roleId, email, token) {
+  const found = await directus.request(readUsers({ filter: { email: { _eq: email } }, fields: ['id'], limit: 1 }));
+  if (found.length) {
+    await directus.request(updateUser(found[0].id, { role: roleId, token, status: 'active' }));
+    console.log(`  ~ App-User ${email} aktualisiert`);
+    return found[0].id;
+  }
+  const user = await directus.request(createUser({ email, role: roleId, token, status: 'active', first_name: 'App', last_name: 'Server' }));
+  console.log(`  + App-User ${email} angelegt`);
+  return user.id;
 }
 
 export { readItems, readItem, createItem, updateItem, deleteItem, deleteItems, updateSingleton, readSingleton };

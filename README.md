@@ -7,7 +7,7 @@ Stellenseiten für Pflegedienste: Nuxt 4 + Directus 11, Bewerbung vom Handy in e
 1. `yarn`
 2. `yarn setup --name pflege-jobs --email admin@example.com`, dann `cd docker && docker compose up -d`
 3. Static Token im Directus-Admin-User erzeugen und als `DIRECTUS_ADMIN_TOKEN` in `.env` eintragen
-4. `yarn directus:schema && yarn directus:schema:jobs`
+4. `yarn directus:schema && yarn directus:schema:jobs && yarn directus:schema:portal` (das Portal-Skript legt Rolle „App“ an und erzeugt `DIRECTUS_APP_TOKEN` in `.env`, falls leer)
 5. `yarn directus:seed && yarn directus:seed:jobs`
 6. `yarn dev`
 
