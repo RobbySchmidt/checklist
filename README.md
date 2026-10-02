@@ -93,3 +93,17 @@ JSON-LD aus dem Quelltext von `/jobs/pflegefachkraft` kopieren und unter https:/
 ## Startseite
 
 Die Startseite `/` leitet per 302 auf `/jobs` um; Page-Builder und CMS-Seiten bleiben im Code, werden aber nicht mehr als Startseite genutzt.
+
+## Schnellstart für Dritte (Prototyp ansehen)
+
+Voraussetzungen: Node 24, Yarn, Docker Desktop. Dann im Projektordner:
+
+1. `yarn`
+2. `yarn setup --name pflege-jobs --email admin@example.com`, danach `cd docker && docker compose up -d && cd ..`
+3. Directus unter `http://localhost:8055` öffnen (Zugang in `docker/.env`), beim Admin-User einen Static Token erzeugen, als `DIRECTUS_ADMIN_TOKEN` in `.env` eintragen; dort auch `EMPLOYER_SLUG=sonnenhof-leipzig` und `DEMO_EMAIL=<eigene Adresse>` setzen
+4. `yarn directus:schema && yarn directus:schema:jobs && yarn directus:schema:portal`
+5. `yarn directus:seed && yarn directus:seed:jobs && yarn directus:seed:portal`
+6. `yarn portal:password <eigene Adresse> <Passwort>` für den Portal-Login
+7. `yarn dev`, dann `http://localhost:3000/jobs` (öffentliche Seite) und `http://localhost:3000/portal` (Portal)
+
+Ohne SMTP-Zugang landen Mails als Vorschau unter `/__mail/<id>`; der Link steht nach jeder Bewerbung und jedem Anmeldelink auf der Seite. Der Ablauf für eine Vorführung steht in `docs/demo-drehbuch.md`.
