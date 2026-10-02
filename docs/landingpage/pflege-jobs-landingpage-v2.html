@@ -45,7 +45,7 @@
   .dark .mark { background: linear-gradient(transparent 55%, rgba(74,194,151,0.55) 55%); }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 24px; border-radius: 999px; background: var(--mint); color: var(--mint-ink); font-weight: 500; font-size: 1.02rem; text-decoration: none; border: 0; cursor: pointer; }
   .btn.ghost { background: transparent; color: inherit; border: 1.5px solid currentColor; }
-  .btn .arrow { transition: transform 0.2s; }
+  .btn .arrow { flex: none; transition: transform 0.2s; }
   @media (hover: hover) { .btn:hover .arrow { transform: translateX(4px); } .btn:hover { filter: brightness(0.97); } }
   .btn:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
 
@@ -186,7 +186,7 @@
         <h1>Ihre Stelle bei Google.<br>Die Bewerbung in einer Minute.</h1>
         <p class="lead">Keine Vermittlerprovision, kein Portal. Eine Stellenseite, die Google versteht, eine Bewerbung vom Handy ohne Lebenslauf, und jeden Morgen die Liste, wen Sie anrufen müssen.</p>
         <div class="actions">
-          <a class="btn" href="#pilot">Vier Wochen kostenlos testen <span class="arrow">→</span></a>
+          <a class="btn" href="#pilot">Vier Wochen kostenlos testen <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
           <a class="btn ghost" href="#so-gehts">So funktioniert es</a>
         </div>
         <div class="facts"><span>Stelle in 5 Minuten angelegt</span><span>Bewerbung in 60 Sekunden</span><span>Rückruf nach 24 Stunden erinnert</span></div>
@@ -321,7 +321,7 @@
           <label for="f-name">Ihr Name<input id="f-name" name="name" required autocomplete="name"></label>
           <label for="f-kontakt">Telefon oder E-Mail<input id="f-kontakt" name="kontakt" required autocomplete="tel"></label>
           <label for="f-stelle">Welche Stelle ist offen? <span class="muted" style="font-weight:400;">(optional)</span><textarea id="f-stelle" name="stelle" placeholder="z. B. Pflegefachkraft, Teilzeit, ab sofort"></textarea></label>
-          <button class="btn" type="submit">Pilot anfragen <span class="arrow">→</span></button>
+          <button class="btn" type="submit">Pilot anfragen <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
           <p class="hint">Wir melden uns innerhalb eines Werktags. Keine Weitergabe Ihrer Daten.</p>
         </div>
         <div class="ok">Danke. Wir melden uns innerhalb eines Werktags. Wenn es schneller gehen soll: schmidt@rhowerk.de</div>
