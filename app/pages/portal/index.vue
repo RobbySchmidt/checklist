@@ -22,7 +22,7 @@
                 </p>
                 <p class="mt-1 text-sm" style="color: var(--portal-ink-soft)">{{ a.job?.title }}</p>
               </div>
-              <p class="portal-eyebrow" :style="hours(a.date_created) >= 24 ? { color: 'var(--portal-neu-fg)', fontWeight: 700 } : {}">wartet seit {{ since(a.date_created) }}</p>
+              <p class="portal-eyebrow" :style="isOverdue(a.date_created) ? { color: 'var(--portal-neu-fg)', fontWeight: 700 } : { color: 'var(--portal-ink-soft)' }">wartet {{ waitingLabel(a.date_created) }}</p>
             </div>
             <div class="grid grid-cols-2 gap-2 sm:flex">
               <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />Anrufen</a>
@@ -36,7 +36,7 @@
 </template>
 <script setup lang="ts">
 import { Phone } from 'lucide-vue-next'
-import { QUALIFICATION_LABELS } from '#shared/utils/jobs'
+import { QUALIFICATION_LABELS, waitingLabel, isOverdue } from '#shared/utils/jobs'
 definePageMeta({ layout: 'portal', middleware: 'portal' })
 const route = useRoute()
 const { data, error, refresh } = await useFetch<any>('/api/portal/overview', { query: computed(() => ({ employer: route.query.employer })) })
@@ -45,8 +45,6 @@ const tiles = computed(() => data.value ? [
   { label: 'Aufrufe', value: data.value.stats.views }, { label: 'Bewerbungen', value: data.value.stats.applications },
   { label: 'ohne Rückruf', value: data.value.stats.waiting }, { label: 'offene Stellen', value: data.value.stats.openJobs },
 ] : [])
-const hours = (iso: string) => Math.round((Date.now() - new Date(iso).getTime()) / 3600000)
-const since = (iso: string) => { const h = hours(iso); return h < 48 ? `${h} Std.` : `${Math.round(h / 24)} Tagen` }
 async function contacted(id: string) {
   try {
     await $fetch(`/api/portal/applications/${id}`, { method: 'PATCH', body: { status: 'kontaktiert' }, query: { employer: route.query.employer } })

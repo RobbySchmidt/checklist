@@ -1,7 +1,7 @@
 // tests/unit/jobs.test.ts
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { isJobVisible, jobLocation, salaryText, jobBenefits, toIsoDate, jobPath } from '../../shared/utils/jobs.ts'
+import { isJobVisible, jobLocation, salaryText, jobBenefits, toIsoDate, jobPath, waitingLabel, isOverdue } from '../../shared/utils/jobs.ts'
 
 const employer = {
   id: 'e1', status: 'published', name: 'Sonnenhof', slug: 'sonnenhof', address_street: 'Bornaische Straße 12', address_zip: '04277', address_city: 'Leipzig',
@@ -42,4 +42,19 @@ test('jobBenefits bevorzugt Override, sonst Dienst, nie leer-undefined', () => {
 
 test('jobPath', () => {
   assert.equal(jobPath('pflegefachkraft'), '/jobs/pflegefachkraft')
+})
+
+test('waitingLabel: Minuten, Stunden, Tage', () => {
+  const now = Date.parse('2026-10-05T12:00:00Z')
+  const ago = (ms: number) => new Date(now - ms).toISOString()
+  assert.equal(waitingLabel(ago(12 * 60000), now), 'seit 12 Min.')
+  assert.equal(waitingLabel(ago(26 * 3600000), now), 'seit 26 Std.')
+  assert.equal(waitingLabel(ago(72 * 3600000), now), 'seit 3 Tagen')
+  assert.equal(waitingLabel(ago(48 * 3600000), now), 'seit 2 Tagen')
+})
+
+test('isOverdue ab 24 Stunden', () => {
+  const now = Date.parse('2026-10-05T12:00:00Z')
+  assert.equal(isOverdue(new Date(now - 23 * 3600000).toISOString(), now), false)
+  assert.equal(isOverdue(new Date(now - 24 * 3600000).toISOString(), now), true)
 })

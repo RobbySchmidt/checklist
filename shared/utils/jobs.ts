@@ -109,3 +109,16 @@ export function jobBenefits(job: Pick<Job, 'benefits_override'>, employer: Pick<
 export function jobPath(slug: string): string {
   return `/jobs/${slug}`
 }
+
+export function isOverdue(iso: string, now: number = Date.now()): boolean {
+  return now - new Date(iso).getTime() >= 24 * 3600000
+}
+
+export function waitingLabel(iso: string, now: number = Date.now()): string {
+  const min = Math.max(0, Math.floor((now - new Date(iso).getTime()) / 60000))
+  if (min < 60) return `seit ${min} Min.`
+  const h = Math.floor(min / 60)
+  if (h < 48) return `seit ${h} Std.`
+  const d = Math.floor(h / 24)
+  return d === 1 ? 'seit 1 Tag' : `seit ${d} Tagen`
+}
