@@ -67,7 +67,7 @@
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
   .hero .stage { position: relative; min-height: 520px; }
   .hero .shot-a { position: absolute; inset: 0; overflow: hidden; background: #f8f9fa; }
-  .hero .shot-a img { position: absolute; left: 0; top: -3%; width: 100%; height: 103%; object-fit: contain; object-position: left top; }
+  .hero .shot-a img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center center; }
   @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; gap: 0; } .hero .copy { padding-block: 48px; padding-right: 20px; } .hero .stage { min-height: 320px; } }
 
   section { padding-block: 104px; }
@@ -92,6 +92,7 @@
   .step + .step { border-top: 1px solid var(--line); }
   .step.flip .copy { order: 2; }
   .step .copy { display: grid; gap: 14px; }
+  .step .shot.narrow { max-width: 420px; margin: 0 auto; }
   .step .copy .num { font-size: 4rem; font-weight: 700; line-height: 0.9; letter-spacing: -0.04em; color: var(--mint); }
   .step .copy h3 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.01em; }
   .step .copy p { color: var(--muted); max-width: 44ch; font-size: 1.05rem; }
@@ -191,7 +192,7 @@
         </div>
       </div>
       <div class="stage">
-        <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
+        <div class="shot-a"><img src="img/google-hero.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="2880" height="1480"></div>
       </div>
     </div>
   </div>
@@ -222,7 +223,7 @@
           <h3>Stelle anlegen, mit allem, was Google braucht</h3>
           <p>Titel, Gehaltsrahmen, Dienstplan-Modell, Benefits. Das Portal prüft beim Ausfüllen, ob die Stelle alle Pflichtangaben für die Google-Stellenansicht hat. Fünf Minuten, am Tablet oder am Rechner.</p>
         </div>
-        <div class="shot"><img src="img/stelle-neu.png" alt="Formular Neue Stelle im Portal mit Prüfung der Google-Pflichtfelder" width="1440" height="980" loading="lazy"></div>
+        <div class="shot narrow"><img src="img/step1-markup.png" alt="Prüfung der Google-Pflichtfelder beim Anlegen einer Stelle: 6 von 8 Pflichtfeldern" width="760" height="1120" loading="lazy"></div>
       </div>
 
       <div class="step flip">
@@ -231,7 +232,7 @@
           <h3>Sichtbar werden, bei Google und im Team</h3>
           <p>Ihre Stellenseite trägt das Google-Markup, wir melden sie an und wieder ab, wenn sie besetzt ist. Dazu ein Link für die Team-WhatsApp und ein Aushang mit QR-Code für den Pausenraum. Empfehlungen aus dem Team sind in der Pflege der beste Kanal.</p>
         </div>
-        <div class="shot"><img src="img/liste.png" alt="Stellenliste eines Pflegedienstes mit Chips für Beschäftigungsart, Stunden und Gehalt" width="1440" height="640" loading="lazy"></div>
+        <div class="shot"><img src="img/step2-liste.png" alt="Stelle Pflegefachkraft in der Stellenliste mit Chips für Vollzeit, Teilzeit, Stunden, Start und Gehalt" width="1440" height="384" loading="lazy"></div>
       </div>
 
       <div class="step">
@@ -240,7 +241,7 @@
           <h3>Bewerbung in einer Minute, vom Handy</h3>
           <p>Gehalt und Dienstplan stehen vor dem Formular. Vier Angaben, kein Lebenslauf, kein Anschreiben. Die Bewerberin bekommt sofort die Zusage, dass Sie zurückrufen.</p>
         </div>
-        <div class="shot"><img src="img/stelle.png" alt="Stellenseite Pflegefachkraft mit Gehaltsband, Aufgaben, Voraussetzungen und Benefits" width="1440" height="1200" loading="lazy"></div>
+        <div class="shot"><img src="img/step3-stelle.png" alt="Kopf der Stellenseite mit Gehaltsband 3.400 bis 3.900 Euro pro Monat" width="1408" height="560" loading="lazy"></div>
       </div>
     </div>
   </section>
