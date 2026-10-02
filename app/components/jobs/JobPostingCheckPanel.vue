@@ -3,10 +3,12 @@
   <div v-if="posting" class="fixed bottom-20 right-4 z-50 md:bottom-4">
     <button v-if="!open" type="button" class="h-11 rounded-full border border-border bg-background px-4 text-sm font-medium shadow-lg" @click="open = true">Markup prüfen</button>
     <div v-else class="w-80 max-h-[70vh] overflow-auto rounded-lg border border-border bg-background p-4 text-sm shadow-lg">
-    <div class="flex items-center justify-between">
-      <p class="font-medium">JobPosting prüfen</p>
-      <button type="button" class="text-sm opacity-75 underline" @click="open = false">Schließen</button>
-      <span class="rounded-full px-2 py-0.5 text-sm font-medium" :class="check.ok ? 'bg-green-600 text-white' : 'bg-red-600 text-white'">{{ check.ok ? 'Pflichtfelder ok' : 'Pflichtfeld fehlt' }}</span>
+    <div class="flex items-start justify-between gap-3">
+      <div class="grid gap-2">
+        <p class="font-medium">JobPosting prüfen</p>
+        <span class="w-fit whitespace-nowrap rounded-full px-2.5 py-0.5 text-xs font-medium" :class="check.ok ? 'bg-green-600 text-white' : 'bg-red-600 text-white'">{{ check.ok ? 'Pflichtfelder ok' : 'Pflichtfeld fehlt' }}</span>
+      </div>
+      <button type="button" class="-mr-1 -mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full opacity-75 hover:bg-muted hover:opacity-100" aria-label="Schließen" @click="open = false"><X class="h-4 w-4" /></button>
     </div>
     <p class="mt-3 text-sm font-medium uppercase tracking-wide opacity-75">Pflicht</p>
     <ul class="mt-1 grid gap-1">
@@ -22,8 +24,9 @@
   </div>
 </template>
 <script setup lang="ts">
+import { X } from 'lucide-vue-next'
 import { checkJobPosting } from '#shared/utils/jobPostingCheck'
-const open = ref(false)
+const open = ref(useRoute().query.markup === '1')
 const posting = useState<Record<string, any> | null>('jobposting:current', () => null)
 const check = computed(() => checkJobPosting(posting.value ?? {}))
 </script>
