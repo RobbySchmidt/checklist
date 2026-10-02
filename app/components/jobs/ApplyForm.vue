@@ -48,7 +48,7 @@
       <input v-model="form.website" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
       <label class="flex items-start gap-3 text-sm">
         <input id="apply-consent" v-model="form.consent" type="checkbox" class="mt-1 h-5 w-5">
-        <span>{{ employer.name }} darf mich zu dieser Bewerbung anrufen oder anschreiben. Mehr dazu in der <NuxtLink to="/datenschutz" class="underline">Datenschutzerklärung</NuxtLink>.</span>
+        <span>{{ employer.name }} darf mich zu dieser Bewerbung anrufen oder anschreiben. <template v-if="employer.privacy_url">Mehr dazu in der <a :href="employer.privacy_url" target="_blank" rel="noopener" class="underline">Datenschutzerklärung</a>.</template></span>
       </label>
       <p v-if="errors.consent" class="text-sm text-destructive -mt-3">{{ errors.consent }}</p>
       <p v-if="errors._form" class="rounded-lg bg-destructive/10 p-3 text-sm text-destructive" role="alert">{{ errors._form }}</p>
