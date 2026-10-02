@@ -122,3 +122,10 @@ export function waitingLabel(iso: string, now: number = Date.now()): string {
   const d = Math.floor(h / 24)
   return d === 1 ? 'seit 1 Tag' : `seit ${d} Tagen`
 }
+
+/** Trennt „(m/w/d)“ vom Stellentitel, damit es als Nebeninfo kleiner erscheinen kann. */
+export function splitJobTitle(title: string): { main: string; suffix: string } {
+  const m = /\s*\((m\/w\/d|w\/m\/d|d\/m\/w)\)/.exec(title)
+  if (!m) return { main: title, suffix: '' }
+  return { main: (title.slice(0, m.index) + title.slice(m.index + m[0].length)).trim(), suffix: `(${m[1]})` }
+}

@@ -7,13 +7,13 @@
       </DialogHeader>
       <div class="grid gap-4">
         <div class="grid gap-1">
-          <label for="share-url" class="font-semibold">Link</label>
+          <label for="share-url" class="font-medium">Link</label>
           <div class="flex gap-2">
             <input id="share-url" :value="links.url" readonly class="h-12 min-w-0 flex-1 rounded-lg border border-border px-4 text-base">
-            <button type="button" class="h-12 rounded-full border border-border px-5 font-semibold" @click="copy">{{ copied ? 'Kopiert' : 'Kopieren' }}</button>
+            <button type="button" class="h-12 rounded-full border border-border px-5 font-medium" @click="copy">{{ copied ? 'Kopiert' : 'Kopieren' }}</button>
           </div>
         </div>
-        <a :href="links.whatsappHref" target="_blank" rel="noopener" class="inline-flex h-12 items-center justify-center rounded-full bg-primary font-semibold text-primary-foreground">Per WhatsApp teilen</a>
+        <a :href="links.whatsappHref" target="_blank" rel="noopener" class="inline-flex h-12 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground">Per WhatsApp teilen</a>
         <div class="grid justify-items-center gap-2">
           <img :src="links.qrImagePath" alt="QR-Code zur Stelle" width="160" height="160" class="h-40 w-40">
           <a :href="`/jobs/${job.slug}/aushang`" target="_blank" class="text-sm underline">Aushang mit QR-Code öffnen</a>

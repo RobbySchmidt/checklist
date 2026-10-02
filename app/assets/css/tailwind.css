@@ -83,7 +83,7 @@
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0.75rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -207,7 +207,7 @@
 
 @utility portal-display {
   font-family: Archivo, Inter, sans-serif;
-  font-weight: 700;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: var(--portal-ink);
 }

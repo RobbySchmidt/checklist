@@ -23,7 +23,7 @@
         </Select>
       </div>
     </div>
-    <div v-if="error" class="portal-card p-4" style="color: var(--portal-ink-soft)">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
+    <div v-if="error" class="portal-card p-4 opacity-75">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
     <PortalEmptyState v-else-if="data && !data.length" text="Keine Bewerbungen in dieser Ansicht. Wählen Sie einen anderen Stand oder eine andere Stelle." />
     <ul v-else-if="data" class="grid gap-3">
       <li v-for="a in data" :key="a.id" class="portal-card p-4">
@@ -31,11 +31,11 @@
           <div class="grid gap-4">
             <div class="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
               <div class="min-w-0">
-                <p class="flex flex-wrap items-center gap-2 font-semibold">
+                <p class="flex flex-wrap items-center gap-2 font-medium">
                   {{ a.name }}
-                  <span class="rounded-full px-2.5 py-0.5 text-[0.85rem] font-semibold" style="background: var(--portal-paper); color: var(--portal-ink)">{{ QUALIFICATION_LABELS[a.qualification as keyof typeof QUALIFICATION_LABELS] ?? a.qualification }}</span>
+                  <span class="rounded-full px-2.5 py-0.5 text-sm font-medium" style="background: var(--portal-paper); color: var(--portal-ink)">{{ QUALIFICATION_LABELS[a.qualification as keyof typeof QUALIFICATION_LABELS] ?? a.qualification }}</span>
                 </p>
-                <p class="mt-1 text-sm" style="color: var(--portal-ink-soft)">{{ a.job?.title }}</p>
+                <p v-if="a.job?.title" class="mt-1 text-sm opacity-75">{{ splitJobTitle(a.job.title).main }}<span v-if="splitJobTitle(a.job.title).suffix" class="ml-2">{{ splitJobTitle(a.job.title).suffix }}</span></p>
               </div>
               <p class="portal-eyebrow">{{ HOURS_WISH_LABELS[a.hours_wish as keyof typeof HOURS_WISH_LABELS] ?? a.hours_wish }} · Eingang {{ new Date(a.date_created).toLocaleDateString('de-DE') }}</p>
             </div>
@@ -47,7 +47,7 @@
             <div class="flex flex-wrap gap-2" role="group" :aria-label="`Stand von ${a.name}`">
               <button
                 v-for="(label, key) in STATUS_LABELS" :key="key" type="button" :aria-pressed="a.status === key"
-                class="portal-seg min-h-11 rounded-full border px-4 text-sm font-semibold"
+                class="portal-seg min-h-11 rounded-full border px-4 text-sm font-medium"
                 :style="a.status === key ? { color: `var(--portal-${key}-fg)`, background: `var(--portal-${key}-bg)`, borderColor: `var(--portal-${key}-fg)` } : {}"
                 @click="a.status !== key && setStatus(a, String(key))"
               >{{ label }}</button>
@@ -61,7 +61,7 @@
               <textarea :id="`note-${a.id}`" v-model="notes[a.id]" rows="3" maxlength="2000" class="portal-textarea" />
               <div class="flex items-center gap-3">
                 <button type="button" class="portal-btn" @click="saveNote(a)">Notiz speichern</button>
-                <span v-if="noteSaved === a.id" class="text-sm" style="color: var(--portal-ink-soft)">Gespeichert</span>
+                <span v-if="noteSaved === a.id" class="text-sm opacity-75">Gespeichert</span>
               </div>
             </div>
             <div class="flex flex-wrap gap-2">
@@ -78,7 +78,7 @@
 </template>
 
 <script setup lang="ts">
-import { QUALIFICATION_LABELS, HOURS_WISH_LABELS } from '#shared/utils/jobs'
+import { QUALIFICATION_LABELS, HOURS_WISH_LABELS, splitJobTitle } from '#shared/utils/jobs'
 import { Phone, Mail } from 'lucide-vue-next'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/components/ui/collapsible'

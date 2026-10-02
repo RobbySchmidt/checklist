@@ -1,6 +1,6 @@
 <template>
   <span
-    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-[0.85rem] font-semibold leading-5"
+    class="inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium leading-5"
     :style="{ color: `var(--portal-${tone}-fg)`, background: `var(--portal-${tone}-bg)` }"
   >{{ LABELS[status] ?? status }}</span>
 </template>

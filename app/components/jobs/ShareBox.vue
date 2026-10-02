@@ -1,15 +1,15 @@
 <template>
-  <section aria-labelledby="share-heading" class="grid gap-4 rounded-xl border border-border p-5">
-    <h2 id="share-heading" class="text-xl font-bold">Kennst du jemanden, der passt?</h2>
-    <p class="text-muted-foreground">Leite die Stelle weiter. Die meisten Kolleginnen kommen über Empfehlungen.</p>
-    <div class="flex flex-wrap gap-3">
-      <a :href="links.whatsappHref" target="_blank" rel="noopener" class="h-12 inline-flex items-center rounded-full bg-primary px-5 font-bold text-primary-foreground">Per WhatsApp teilen</a>
-      <button type="button" class="h-12 inline-flex items-center rounded-full border border-border px-5 font-semibold" @click="copy">{{ copied ? 'Link kopiert' : 'Link kopieren' }}</button>
-      <NuxtLink :to="`/jobs/${job.slug}/aushang`" class="h-12 inline-flex items-center rounded-full border border-border px-5 font-semibold">Aushang drucken</NuxtLink>
+  <section aria-labelledby="share-heading" class="grid gap-4 rounded-lg border border-border p-5">
+    <h2 id="share-heading" class="text-xl font-medium">Kennst du jemanden, der passt?</h2>
+    <p class="opacity-75">Leite die Stelle weiter. Die meisten Kolleginnen kommen über Empfehlungen.</p>
+    <div class="mt-2 flex flex-wrap gap-3">
+      <a :href="links.whatsappHref" target="_blank" rel="noopener" class="h-12 inline-flex items-center rounded-full bg-primary px-5 font-medium text-primary-foreground">Per WhatsApp teilen</a>
+      <button type="button" class="h-12 inline-flex items-center rounded-full border border-border px-5 font-medium" @click="copy">{{ copied ? 'Link kopiert' : 'Link kopieren' }}</button>
+      <NuxtLink :to="`/jobs/${job.slug}/aushang`" class="h-12 inline-flex items-center rounded-full border border-border px-5 font-medium">Aushang drucken</NuxtLink>
     </div>
     <div class="flex items-center gap-4">
       <img :src="links.qrImagePath" alt="QR-Code zu dieser Stelle" width="96" height="96" class="h-24 w-24 rounded bg-white">
-      <p class="text-sm text-muted-foreground break-all">{{ links.url }}</p>
+      <p class="text-sm opacity-75 break-all">{{ links.url }}</p>
     </div>
   </section>
 </template>

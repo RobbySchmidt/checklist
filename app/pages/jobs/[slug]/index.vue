@@ -4,20 +4,20 @@
       <div class="mx-auto w-full max-w-3xl px-4 md:px-8 grid gap-10">
         <JobsJobHeader :job="job" :employer="employer" :heading-id="headingId" />
 
-        <a href="#bewerben" class="fixed inset-x-4 bottom-4 z-40 rounded-full bg-primary py-4 text-center text-lg font-bold text-primary-foreground shadow-lg md:hidden">Jetzt bewerben</a>
+        <a href="#bewerben" class="fixed inset-x-4 bottom-4 z-40 rounded-full bg-primary py-4 text-center text-base font-medium text-primary-foreground shadow-lg md:hidden">Jetzt bewerben</a>
 
         <section class="grid gap-6 prose-job">
-          <p v-if="job.intro" class="text-lg">{{ job.intro }}</p>
-          <div v-if="job.tasks"><h2 class="text-2xl font-bold mb-3">Aufgaben</h2><div class="space-y-2" v-html="sanitizeHtml(job.tasks)" /></div>
-          <div v-if="job.requirements"><h2 class="text-2xl font-bold mb-3">Voraussetzungen</h2><div class="space-y-2" v-html="sanitizeHtml(job.requirements)" /></div>
-          <p v-if="employer.about" class="text-muted-foreground">{{ employer.about }}</p>
+          <p v-if="job.intro" class="text-base">{{ job.intro }}</p>
+          <div v-if="job.tasks"><h2 class="text-xl leading-tight font-medium mb-3">Aufgaben</h2><div class="space-y-2" v-html="sanitizeHtml(job.tasks)" /></div>
+          <div v-if="job.requirements"><h2 class="text-xl leading-tight font-medium mb-3">Voraussetzungen</h2><div class="space-y-2" v-html="sanitizeHtml(job.requirements)" /></div>
+          <p v-if="employer.about" class="opacity-75">{{ employer.about }}</p>
         </section>
 
         <JobsJobBenefits :job="job" :employer="employer" />
 
         <section id="bewerben" aria-labelledby="apply-heading" class="scroll-mt-24 grid gap-4">
-          <h2 id="apply-heading" class="text-2xl font-bold">In einer Minute bewerben</h2>
-          <p class="text-muted-foreground">Kein Lebenslauf, kein Anschreiben. {{ employer.name }} ruft dich innerhalb von 24 Stunden zurück.</p>
+          <h2 id="apply-heading" class="text-xl leading-tight font-medium">In einer Minute bewerben</h2>
+          <p class="opacity-75">Kein Lebenslauf, kein Anschreiben. {{ employer.name }} ruft dich innerhalb von 24 Stunden zurück.</p>
           <JobsApplyForm :job="job" :employer="employer" />
         </section>
 

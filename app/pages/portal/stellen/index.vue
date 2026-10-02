@@ -3,7 +3,7 @@
     <PortalPageHeader title="Stellen">
       <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary"><Plus class="size-4" aria-hidden="true" />Neue Stelle</NuxtLink>
     </PortalPageHeader>
-    <div v-if="error" class="portal-card p-4" style="color: var(--portal-ink-soft)">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
+    <div v-if="error" class="portal-card p-4 opacity-75">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
     <PortalEmptyState v-else-if="data && !data.length" text="Noch keine Stelle angelegt.">
       <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary">Erste Stelle anlegen</NuxtLink>
     </PortalEmptyState>
@@ -22,7 +22,7 @@
           </TableHeader>
           <TableBody>
             <TableRow v-for="j in data" :key="j.id">
-              <TableCell class="font-bold">{{ j.title }}</TableCell>
+              <TableCell class="font-medium">{{ splitJobTitle(j.title).main }}<span v-if="splitJobTitle(j.title).suffix" class="ml-2 text-sm font-normal opacity-75">{{ splitJobTitle(j.title).suffix }}</span></TableCell>
               <TableCell><PortalStatusChip :status="j.status" /></TableCell>
               <TableCell class="tabular-nums">{{ j.valid_through ? new Date(j.valid_through).toLocaleDateString('de-DE') : '–' }}</TableCell>
               <TableCell class="text-right tabular-nums">{{ j.applications }}</TableCell>
@@ -43,11 +43,11 @@
       <ul class="grid gap-3 md:hidden">
         <li v-for="j in data" :key="j.id" class="portal-card grid gap-3 p-4">
           <div class="flex items-start justify-between gap-3">
-            <p class="min-w-0 font-bold">{{ j.title }}</p>
+            <p class="min-w-0 font-medium">{{ splitJobTitle(j.title).main }}<span v-if="splitJobTitle(j.title).suffix" class="ml-2 text-sm font-normal opacity-75">{{ splitJobTitle(j.title).suffix }}</span></p>
             <PortalStatusChip :status="j.status" class="shrink-0" />
           </div>
           <p class="portal-eyebrow">Gültig bis {{ j.valid_through ? new Date(j.valid_through).toLocaleDateString('de-DE') : '–' }}</p>
-          <p class="text-sm tabular-nums" style="color: var(--portal-ink-soft)"><span class="font-bold" style="color: var(--portal-ink)">{{ j.applications }}</span> Bewerbungen · <span class="font-bold" style="color: var(--portal-ink)">{{ j.views30 }}</span> Aufrufe in 30 Tagen</p>
+          <p class="text-sm tabular-nums opacity-75"><span class="font-medium" style="color: var(--portal-ink)">{{ j.applications }}</span> Bewerbungen · <span class="font-medium" style="color: var(--portal-ink)">{{ j.views30 }}</span> Aufrufe in 30 Tagen</p>
           <div class="-mx-2 flex">
             <NuxtLink :to="withEmployer(`/portal/stellen/${j.id}`)" class="portal-icon-btn" title="Bearbeiten" aria-label="Bearbeiten"><Pencil class="size-5" aria-hidden="true" /></NuxtLink>
             <a :href="`/jobs/${j.slug}`" target="_blank" class="portal-icon-btn" title="Vorschau" aria-label="Vorschau"><Eye class="size-5" aria-hidden="true" /></a>
@@ -66,6 +66,7 @@
 <script setup lang="ts">
 import { Plus, Pencil, Eye, Share2, Archive, ArchiveRestore } from 'lucide-vue-next'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
+import { splitJobTitle } from '#shared/utils/jobs'
 
 definePageMeta({ layout: 'portal', middleware: 'portal' })
 const route = useRoute()

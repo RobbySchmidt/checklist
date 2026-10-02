@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-6">
     <div class="grid gap-2">
-      <NuxtLink :to="withEmployer('/portal/stellen')" class="inline-flex min-h-11 items-center gap-1 text-sm font-semibold underline"><ArrowLeft class="size-4" aria-hidden="true" />Zurück zu den Stellen</NuxtLink>
+      <NuxtLink :to="withEmployer('/portal/stellen')" class="inline-flex min-h-11 items-center gap-1 text-sm font-medium underline"><ArrowLeft class="size-4" aria-hidden="true" />Zurück zu den Stellen</NuxtLink>
       <PortalPageHeader title="Neue Stelle" />
     </div>
     <PortalJobForm v-if="me?.employer" :model-value="defaults" :employer="me.employer" :busy="busy" :errors="errors" @submit="save" />
