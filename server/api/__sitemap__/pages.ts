@@ -10,7 +10,7 @@ const FETCH_TIMEOUT_MS = 5000
 export default defineSitemapEventHandler(async (event) => {
   const directusUrl = useRuntimeConfig(event).public.directusUrl as string | undefined
   if (!directusUrl) return []
-  const employerSlug = useRuntimeConfig(event).public.employerSlug as string
+  const employer = event.context.employer
 
   try {
     const [pagesRes, generalRes, jobsRes] = await Promise.all([
@@ -22,10 +22,10 @@ export default defineSitemapEventHandler(async (event) => {
         query: { fields: 'homepage' },
         timeout: FETCH_TIMEOUT_MS,
       }),
-      $fetch<{ data: Array<{ slug: string; date_updated: string | null }> }>(`${directusUrl}/items/jobs`, {
-        query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' }, valid_through: { _gte: toIsoDate(new Date()) }, employer: { slug: { _eq: employerSlug } } }, limit: -1 },
+      employer ? $fetch<{ data: Array<{ slug: string; date_updated: string | null }> }>(`${directusUrl}/items/jobs`, {
+        query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' }, valid_through: { _gte: toIsoDate(new Date()) }, employer: { id: { _eq: employer.id } } }, limit: -1 },
         timeout: FETCH_TIMEOUT_MS,
-      }).catch(() => ({ data: [] })),
+      }).catch(() => ({ data: [] })) : Promise.resolve({ data: [] as Array<{ slug: string; date_updated: string | null }> }),
     ])
     const homepageId = generalRes?.data?.homepage ?? null
     const pages = (pagesRes?.data ?? [])
@@ -35,7 +35,7 @@ export default defineSitemapEventHandler(async (event) => {
         ...(p.date_updated ? { lastmod: p.date_updated } : {}),
       }))
     const jobs = (jobsRes?.data ?? []).map((j): SitemapUrlInput => ({ loc: `/jobs/${j.slug}`, ...(j.date_updated ? { lastmod: j.date_updated } : {}) }))
-    return [...pages, { loc: '/jobs' }, ...jobs]
+    return employer ? [...pages, { loc: '/jobs' }, ...jobs] : pages
   } catch (err: unknown) {
     console.warn('Sitemap: Seiten konnten nicht aus Directus geladen werden:', err instanceof Error ? err.message : err)
     return []

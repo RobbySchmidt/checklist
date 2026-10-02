@@ -1,11 +1,7 @@
-// Der Dienst dieser Instanz (EMPLOYER_SLUG). Einmal laden, überall nutzen; setzt Farb-Tokens als Inline-Style auf <html>.
+// Der Dienst dieser Domain (Server-Middleware löst den Host auf). Einmal laden, überall nutzen; setzt Farb-Tokens auf <html>.
 import type { Employer } from '#shared/utils/jobs'
 
-export const EMPLOYER_FIELDS = ['*', 'logo.id', 'logo.title']
-
 export async function useEmployer() {
-  const { public: pub } = useRuntimeConfig()
-  const { getItems } = useDirectusItems()
   const employer = useState<Employer | null>('employer', () => null)
   // useHead vor dem await: danach ist der Nuxt-Kontext weg; der Getter bleibt reaktiv
   useHead(() => ({
@@ -16,13 +12,14 @@ export async function useEmployer() {
     },
   }))
   if (!employer.value) {
+    const headers = import.meta.server ? useRequestHeaders(['host', 'x-forwarded-host']) : undefined
     try {
-      const rows = await getItems<Employer>({
-        collection: 'employers',
-        params: { filter: { status: { _eq: 'published' }, slug: { _eq: pub.employerSlug } }, fields: EMPLOYER_FIELDS, limit: 1 },
-      }) as unknown as Employer[]
-      employer.value = rows?.[0] ?? null
-    } catch {
+      employer.value = await $fetch<Employer>('/api/employer', { headers })
+    } catch (err: any) {
+      if (err?.statusCode === 404) {
+        await navigateTo('/kein-dienst')
+        return { employer }
+      }
       throw createError({ statusCode: 503, statusMessage: 'Dienst gerade nicht erreichbar', fatal: true })
     }
   }
