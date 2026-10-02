@@ -55,6 +55,13 @@ const current = useState<Record<string, any> | null>('jobposting:current', () =>
 watchEffect(() => { current.value = posting.value })
 onUnmounted(() => { current.value = null })
 
+// Seitenaufruf zählen (nur im Browser, ohne Cookies)
+onMounted(() => {
+  if (!job.value) return
+  const src = String(route.query.src ?? '')
+  $fetch('/api/track', { method: 'POST', body: { job: job.value.id, source: src || (document.referrer.includes('google.') ? 'google' : 'direct') } }).catch(() => {})
+})
+
 const registry = useSchemaRegistry()
 watchEffect(() => { if (posting.value) registry.add(posting.value) })
 useGenericPageSchema(computed(() => ({ title: job.value?.title })))
