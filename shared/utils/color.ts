@@ -25,3 +25,9 @@ export function contrastRatio(hexA: string, hexB: string): number {
   const b = luminance(hexB)
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05)
 }
+
+/** Schriftfarbe mit ausreichendem Kontrast auf einer Fläche: weiß auf dunklen, Tiefgrün auf hellen Farben. */
+export function readableText(bgHex: string, light = '#ffffff', dark = '#13392d'): string {
+  if (!isHex(bgHex)) return dark
+  return contrastRatio(light, bgHex) >= contrastRatio(dark, bgHex) ? light : dark
+}

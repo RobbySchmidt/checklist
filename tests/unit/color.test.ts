@@ -15,3 +15,12 @@ test('normalizeHex trimmt und ergänzt #', () => {
   assert.equal(normalizeHex('  1D6B57 '), '#1d6b57')
   assert.equal(normalizeHex(''), '')
 })
+
+test('readableText: weiß auf dunkel, dunkel auf hell', async () => {
+  const { readableText } = await import('../../shared/utils/color.ts')
+  assert.equal(readableText('#9f1239'), '#ffffff')
+  assert.equal(readableText('#1d6b57'), '#ffffff')
+  assert.equal(readableText('#dcefe7'), '#13392d')
+  assert.equal(readableText('#4ac297'), '#13392d')
+  assert.equal(readableText('kaputt'), '#13392d')
+})

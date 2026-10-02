@@ -35,8 +35,8 @@
             <p v-if="errors.color_secondary" class="text-sm font-medium text-destructive">{{ errors.color_secondary }}</p>
           </div>
           <div class="flex flex-wrap items-center gap-3" aria-label="Vorschau">
-            <span class="inline-flex min-h-11 items-center rounded-lg px-5 text-sm font-medium text-white" :style="{ background: isHex(form.color_primary) ? form.color_primary : '#1d6b57' }">So sieht Ihr Bewerben-Knopf aus</span>
-            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium" :style="{ background: isHex(form.color_secondary) ? form.color_secondary : '#f4efe6' }">Vollzeit</span>
+            <span class="inline-flex min-h-11 items-center rounded-lg px-5 text-sm font-medium" :style="{ background: primaryPreview, color: readableText(primaryPreview) }">So sieht Ihr Bewerben-Knopf aus</span>
+            <span class="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium" :style="{ background: secondaryPreview, color: readableText(secondaryPreview) }">Vollzeit</span>
           </div>
         </div>
       </fieldset>
@@ -163,7 +163,7 @@
 <script setup lang="ts">
 import { Check } from 'lucide-vue-next'
 import { Checkbox } from '~/components/ui/checkbox'
-import { contrastRatio, isHex } from '#shared/utils/color'
+import { contrastRatio, isHex, readableText } from '#shared/utils/color'
 import { DEFAULT_TEMPLATE_INVITE, DEFAULT_TEMPLATE_REJECT } from '#shared/utils/templates'
 
 definePageMeta({ layout: 'portal', middleware: 'portal' })
@@ -185,6 +185,8 @@ function init(e: any) {
   logoId.value = typeof e.logo === 'object' && e.logo ? e.logo.id : (e.logo ?? null)
 }
 init(data.value)
+const primaryPreview = computed(() => (form.value && isHex(form.value.color_primary) ? form.value.color_primary : '#1d6b57'))
+const secondaryPreview = computed(() => (form.value && isHex(form.value.color_secondary) ? form.value.color_secondary : '#dcefe7'))
 const lowContrast = computed(() => !!form.value && isHex(form.value.color_primary) && contrastRatio('#ffffff', form.value.color_primary) < 4.5)
 
 const errors = ref<Record<string, string>>({})

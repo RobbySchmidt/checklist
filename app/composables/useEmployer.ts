@@ -1,14 +1,13 @@
 // Der Dienst dieser Domain (Server-Middleware löst den Host auf). Einmal laden, überall nutzen; setzt Farb-Tokens auf <html>.
 import type { Employer } from '#shared/utils/jobs'
+import { readableText, isHex } from '#shared/utils/color'
 
 export async function useEmployer() {
   const employer = useState<Employer | null>('employer', () => null)
   // useHead vor dem await: danach ist der Nuxt-Kontext weg; der Getter bleibt reaktiv
   useHead(() => ({
     htmlAttrs: {
-      style: employer.value?.color_primary
-        ? `--primary:${employer.value.color_primary};--secondary:${employer.value.color_secondary || ''}`
-        : undefined,
+      style: employerStyle(employer.value),
     },
   }))
   if (!employer.value) {
@@ -24,4 +23,14 @@ export async function useEmployer() {
     }
   }
   return { employer }
+}
+
+// Farb-Tokens des Dienstes inklusive passender Schriftfarben, damit Knöpfe und Chips auch bei dunkler Zweitfarbe lesbar bleiben.
+function employerStyle(e: Employer | null): string | undefined {
+  if (!e?.color_primary || !isHex(e.color_primary)) return undefined
+  const parts = [`--primary:${e.color_primary}`, `--primary-foreground:${readableText(e.color_primary)}`]
+  if (e.color_secondary && isHex(e.color_secondary)) {
+    parts.push(`--secondary:${e.color_secondary}`, `--secondary-foreground:${readableText(e.color_secondary)}`)
+  }
+  return parts.join(';')
 }

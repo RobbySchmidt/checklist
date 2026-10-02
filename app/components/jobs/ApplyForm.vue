@@ -1,6 +1,6 @@
 <template>
   <form class="grid gap-5" novalidate @submit.prevent="submit">
-    <p v-if="done" class="rounded-lg bg-secondary p-5 text-base" role="status">
+    <p v-if="done" class="rounded-lg bg-secondary text-secondary-foreground p-5 text-base" role="status">
       Danke, {{ form.name }}! {{ employer.name }} meldet sich innerhalb von 24 Stunden bei dir.
       <a v-if="previewId" :href="`/__mail/${previewId}`" target="_blank" class="block mt-2 text-sm underline">Mailvorschau öffnen (nur Entwicklung)</a>
     </p>
