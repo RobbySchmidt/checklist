@@ -150,7 +150,7 @@
 
       <p v-if="errors._form" class="rounded-lg p-3 text-sm" style="background: #fee2e2; color: var(--portal-danger)" role="alert">{{ errors._form }}</p>
       <div class="sticky bottom-[calc(60px+env(safe-area-inset-bottom))] z-30 -mx-4 flex flex-wrap items-center gap-3 border-t bg-white px-4 py-3 md:bottom-0 md:mx-0 md:rounded-b-xl" style="border-color: var(--portal-line)">
-        <button type="submit" :disabled="busy" class="portal-btn portal-btn-primary !min-h-12 !px-6">{{ busy ? 'Wird gespeichert …' : 'Stelle speichern' }}</button>
+        <button type="submit" :disabled="busy" class="portal-btn portal-btn-primary">{{ busy ? 'Wird gespeichert …' : 'Stelle speichern' }}<ArrowRight class="arrow" :size="19" aria-hidden="true" /></button>
         <span v-if="saved && !busy" class="inline-flex items-center gap-1 text-sm font-medium" style="color: var(--portal-zusage-fg)" role="status"><Check class="size-4" aria-hidden="true" />Gespeichert</span>
       </div>
     </form>
@@ -181,7 +181,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check } from 'lucide-vue-next'
+import { Check, ArrowRight } from 'lucide-vue-next'
 import { Checkbox } from '~/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import type { Employer, Job } from '#shared/utils/jobs'

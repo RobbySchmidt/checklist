@@ -1,10 +1,10 @@
 <template>
   <div class="jobs-paper text-foreground">
     <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <section aria-labelledby="jobs-heading" class="overflow-hidden rounded-lg border border-border bg-white">
+      <section aria-labelledby="jobs-heading" class="lp-card overflow-hidden">
         <header class="flex items-center justify-between gap-4 border-b border-border px-5 py-4">
           <div class="grid min-w-0 gap-1">
-            <h1 id="jobs-heading" class="text-xl font-medium">{{ employer?.name }}</h1>
+            <h1 id="jobs-heading" class="text-xl lp-title">{{ employer?.name }}</h1>
             <p v-if="employer?.service_area" class="text-sm text-foreground opacity-75">{{ employer.service_area }}</p>
           </div>
           <img v-if="logoSrc" :src="logoSrc" alt="" width="40" height="40" class="h-10 w-10 shrink-0 rounded-lg border border-border bg-white object-contain">
@@ -18,7 +18,7 @@
   </div>
 </template>
 <script setup lang="ts">
-useHead({ htmlAttrs: { class: 'font-roboto' } })
+useHead({ htmlAttrs: { class: 'font-jobs' } })
 const { employer } = await useEmployer()
 if (!employer.value) throw createError({ statusCode: 503, statusMessage: 'Dienst nicht konfiguriert', fatal: true })
 const pub = useRuntimeConfig().public

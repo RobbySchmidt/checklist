@@ -40,7 +40,7 @@
               <p class="portal-eyebrow">{{ HOURS_WISH_LABELS[a.hours_wish as keyof typeof HOURS_WISH_LABELS] ?? a.hours_wish }} · Eingang {{ new Date(a.date_created).toLocaleDateString('de-DE') }}</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-              <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />{{ a.phone }}</a>
+              <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />{{ a.phone }}<ArrowRight class="arrow" :size="19" aria-hidden="true" /></a>
               <a v-if="a.email" :href="`mailto:${a.email}`" class="portal-btn"><Mail class="size-4" aria-hidden="true" />E-Mail</a>
               <CollapsibleTrigger as-child><button type="button" class="portal-btn">Details</button></CollapsibleTrigger>
             </div>
@@ -69,7 +69,7 @@
               </div>
             </div>
             <div class="flex flex-wrap gap-2">
-              <button type="button" class="portal-btn portal-btn-primary" @click="openMsg(a, 'invite')">Einladung</button>
+              <button type="button" class="portal-btn portal-btn-primary" @click="openMsg(a, 'invite')">Einladung<ArrowRight class="arrow" :size="19" aria-hidden="true" /></button>
               <button type="button" class="portal-btn" @click="openMsg(a, 'reject')">Absage</button>
             </div>
           </CollapsibleContent>
@@ -84,7 +84,7 @@
 
 <script setup lang="ts">
 import { QUALIFICATION_LABELS, HOURS_WISH_LABELS, splitJobTitle } from '#shared/utils/jobs'
-import { Phone, Mail } from 'lucide-vue-next'
+import { Phone, Mail, ArrowRight } from 'lucide-vue-next'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '~/components/ui/select'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '~/components/ui/collapsible'
 

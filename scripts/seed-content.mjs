@@ -2,6 +2,7 @@
 // Grundinhalt: general, Impressum, Datenschutz (Platzhalter), Menüs. Idempotent (Seiten per Slug, Menüs per Titel).
 // Demo-Dienst und Stellen legt scripts/seed-jobs.mjs an.
 // Aufruf: yarn directus:seed   (braucht DIRECTUS_URL + DIRECTUS_ADMIN_TOKEN in .env)
+import { updateItem } from '@directus/sdk';
 import { directus, upsertItem, readItems, createItem, deleteItems, updateSingleton } from './lib/directus-admin.mjs';
 
 const SITE_NAME = process.env.SITE_NAME || 'schichtstark';
@@ -39,6 +40,7 @@ console.log('\n[2/3] Menüs');
 async function upsertMenu(title, items) {
   const found = await directus.request(readItems('navigation', { filter: { title: { _eq: title } }, fields: ['id'], limit: 1 }));
   const nav = found[0] ?? await directus.request(createItem('navigation', { title }));
+  if (title === 'Main') await directus.request(updateItem('navigation', nav.id, { isLastMenuItemHighlighted: true }));
   const old = await directus.request(readItems('navigation_items', { filter: { navigation: { _eq: nav.id } }, fields: ['id'], limit: -1 }));
   if (old.length) await directus.request(deleteItems('navigation_items', old.map((i) => i.id)));
   let sort = 1;

@@ -25,7 +25,7 @@
               <p class="portal-eyebrow" :style="isOverdue(a.date_created) ? { color: 'var(--portal-neu-fg)', fontWeight: 500 } : { color: 'var(--portal-ink-soft)' }">wartet {{ waitingLabel(a.date_created) }}</p>
             </div>
             <div class="grid grid-cols-2 gap-2 sm:flex">
-              <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />Anrufen</a>
+              <a :href="`tel:${a.phone}`" class="portal-btn portal-btn-primary"><Phone class="size-4" aria-hidden="true" />Anrufen<ArrowRight class="arrow" :size="19" aria-hidden="true" /></a>
               <button type="button" class="portal-btn" @click="contacted(a.id)">Kontaktiert</button>
             </div>
           </li>
@@ -35,7 +35,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Phone } from 'lucide-vue-next'
+import { Phone, ArrowRight } from 'lucide-vue-next'
 import { QUALIFICATION_LABELS, waitingLabel, isOverdue, splitJobTitle } from '#shared/utils/jobs'
 definePageMeta({ layout: 'portal', middleware: 'portal' })
 const route = useRoute()

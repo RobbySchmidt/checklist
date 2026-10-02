@@ -108,7 +108,7 @@
         </div>
         <div class="grid gap-3">
           <span class="font-medium">Benefits</span>
-          <div v-for="(b, i) in form.benefits" :key="i" class="portal-card grid gap-2 p-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end" style="background: var(--portal-paper)">
+          <div v-for="(b, i) in form.benefits" :key="i" class="portal-card grid gap-2 p-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end" style="background: var(--portal-paper); box-shadow: none">
             <div class="grid gap-1">
               <label :for="`b-l-${i}`" class="text-sm font-medium">Titel</label>
               <input :id="`b-l-${i}`" v-model="b.label" type="text" class="portal-input !min-h-11 !px-3">
@@ -155,7 +155,7 @@
 
       <p v-if="formError" class="rounded-lg p-3 text-sm" style="background: #fee2e2; color: var(--portal-danger)" role="alert">{{ formError }}</p>
       <div class="sticky bottom-[calc(60px+env(safe-area-inset-bottom))] z-30 -mx-4 flex flex-wrap items-center gap-3 border-t bg-white px-4 py-3 md:bottom-0 md:mx-0 md:rounded-b-xl" style="border-color: var(--portal-line)">
-        <button type="submit" :disabled="saving" class="portal-btn portal-btn-primary !min-h-12 !px-6">{{ saving ? 'Wird gespeichert …' : 'Profil speichern' }}</button>
+        <button type="submit" :disabled="saving" class="portal-btn portal-btn-primary">{{ saving ? 'Wird gespeichert …' : 'Profil speichern' }}<ArrowRight class="arrow" :size="19" aria-hidden="true" /></button>
         <span v-if="saved && !saving" class="inline-flex items-center gap-1 text-sm font-medium" style="color: var(--portal-zusage-fg)" role="status"><Check class="size-4" aria-hidden="true" />Gespeichert</span>
       </div>
     </form>
@@ -163,7 +163,7 @@
 </template>
 
 <script setup lang="ts">
-import { Check } from 'lucide-vue-next'
+import { Check, ArrowRight } from 'lucide-vue-next'
 import { Checkbox } from '~/components/ui/checkbox'
 import { contrastRatio, isHex, portalTheme, readableText } from '#shared/utils/color'
 import { DEFAULT_TEMPLATE_INVITE, DEFAULT_TEMPLATE_REJECT } from '#shared/utils/templates'

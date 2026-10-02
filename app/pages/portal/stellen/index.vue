@@ -1,11 +1,11 @@
 <template>
   <div class="grid gap-6">
     <PortalPageHeader title="Stellen">
-      <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary"><Plus class="size-4" aria-hidden="true" />Neue Stelle</NuxtLink>
+      <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary"><Plus class="size-4" aria-hidden="true" />Neue Stelle<ArrowRight class="arrow" :size="19" aria-hidden="true" /></NuxtLink>
     </PortalPageHeader>
     <div v-if="error" class="portal-card p-4 opacity-75">Gerade nicht erreichbar. Bitte in ein paar Minuten erneut laden.</div>
     <PortalEmptyState v-else-if="data && !data.length" text="Noch keine Stelle angelegt.">
-      <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary">Erste Stelle anlegen</NuxtLink>
+      <NuxtLink :to="withEmployer('/portal/stellen/neu')" class="portal-btn portal-btn-primary">Erste Stelle anlegen<ArrowRight class="arrow" :size="19" aria-hidden="true" /></NuxtLink>
     </PortalEmptyState>
     <template v-else-if="data">
       <div class="portal-card hidden overflow-hidden md:block">
@@ -64,7 +64,7 @@
 </template>
 
 <script setup lang="ts">
-import { Plus, Pencil, Eye, Share2, Archive, ArchiveRestore } from 'lucide-vue-next'
+import { Plus, Pencil, Eye, Share2, Archive, ArchiveRestore, ArrowRight } from 'lucide-vue-next'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '~/components/ui/table'
 import { splitJobTitle } from '#shared/utils/jobs'
 

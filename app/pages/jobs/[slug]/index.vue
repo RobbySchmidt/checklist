@@ -1,10 +1,10 @@
 <template>
   <div v-if="job && employer" class="jobs-paper text-foreground">
     <div class="mx-auto w-full max-w-3xl px-4 py-6 md:px-8">
-      <article :aria-labelledby="headingId" class="overflow-hidden rounded-lg border border-border bg-white">
+      <article :aria-labelledby="headingId" class="lp-card overflow-hidden">
         <JobsJobHeader :job="job" :employer="employer" :heading-id="headingId" />
 
-        <a href="#bewerben" class="fixed inset-x-4 bottom-4 z-40 rounded-full bg-primary py-4 text-center text-base font-medium text-primary-foreground shadow-lg md:hidden">Jetzt bewerben</a>
+        <a href="#bewerben" class="lp-btn fixed inset-x-4 bottom-4 z-40 shadow-lg md:!hidden">Jetzt bewerben <ArrowRight class="arrow" :size="19" aria-hidden="true" /></a>
 
         <section class="grid gap-3 border-t border-border p-5 text-sm prose-job">
           <h2 class="text-base font-medium">Stellenbeschreibung</h2>
@@ -31,10 +31,11 @@
 </template>
 
 <script setup lang="ts">
+import { ArrowRight } from 'lucide-vue-next'
 import { buildJobPosting } from '#shared/utils/buildJobPosting'
 import { employerSiteUrl } from '#shared/utils/host'
 
-useHead({ htmlAttrs: { class: 'font-roboto' } })
+useHead({ htmlAttrs: { class: 'font-jobs' } })
 const route = useRoute()
 const { public: pub } = useRuntimeConfig()
 const headingId = 'job-heading'

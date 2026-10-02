@@ -83,9 +83,9 @@
 }
 
 :root {
-  --radius: 0.75rem;
+  --radius: 0.875rem;
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: #15221d;
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -95,11 +95,11 @@
   --secondary: oklch(0.95 0.02 165);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted-foreground: #5a6b64;
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
+  --border: #dbe4df;
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.646 0.222 41.116);
@@ -164,7 +164,52 @@
 .prose-job p, .prose-job li { margin-bottom: 0.25rem; }
 
 @utility jobs-paper {
-  background-color: #f8f9fa;
+  background-color: #f4f7f5;
+}
+
+/* Karte wie .shot der Landingpage */
+@utility lp-card {
+  background: #ffffff;
+  border: 1px solid #dbe4df;
+  border-radius: 0.875rem;
+  box-shadow: 0 20px 50px rgba(19, 57, 45, 0.10);
+}
+
+/* Button wie .btn der Landingpage (Pfeil rechts, 52px, vollrund) */
+@utility lp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 9999px;
+  background: #4ac297;
+  border: 1.5px solid #4ac297;
+  color: #0e2a21;
+  font-weight: 500;
+  font-size: 1.02rem;
+  cursor: pointer;
+  &:focus-visible { outline: 2px solid #4ac297; outline-offset: 3px; }
+  &:disabled { opacity: 0.6; cursor: not-allowed; }
+  @media (hover: hover) { &:hover { filter: brightness(0.97); } }
+}
+
+@utility lp-btn-ghost {
+  background: transparent;
+  color: inherit;
+  border-color: currentColor;
+}
+
+.arrow { flex: none; transition: transform 0.2s; }
+@media (hover: hover) {
+  .lp-btn:hover .arrow, .portal-btn:hover .arrow { transform: translateX(4px); }
+}
+
+/* Seitentitel wie h2 der Landingpage */
+@utility lp-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* Zweitfarbe des Dienstes nur als zarter Ton */
@@ -179,8 +224,9 @@
   }
 }
 
-@utility font-roboto {
-  font-family: Roboto, Arial, sans-serif;
+@utility font-jobs {
+  font-family: Archivo, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-weight: 400;
 }
 
 /* Portal (docs/design-konzept.md, Abschnitt Portal) */
@@ -188,9 +234,9 @@
   --portal-ink: #13392d;
   --portal-text: #15221d;
   --portal-mint: #4ac297;
-  --portal-mint-fg: #13392d;
-  --portal-paper: #f6f8f7;
-  --portal-line: #dfe6e2;
+  --portal-mint-fg: #0e2a21;
+  --portal-paper: #f4f7f5;
+  --portal-line: #dbe4df;
   --portal-ink-soft: #5a6b64;
   --portal-neu-fg: #b45309;
   --portal-neu-bg: #fef3c7;
@@ -213,6 +259,8 @@
   --primary-foreground: var(--portal-white);
   --border: var(--portal-line);
   --input: var(--portal-line);
+  --radius: 0.875rem;
+  --portal-shadow: 0 20px 50px rgba(19, 57, 45, 0.10);
   color-scheme: light;
   background: var(--portal-paper);
   color: var(--portal-text);
@@ -239,7 +287,8 @@
 @utility portal-card {
   background: var(--portal-white);
   border: 1px solid var(--portal-line);
-  border-radius: 0.75rem;
+  border-radius: 0.875rem;
+  box-shadow: var(--portal-shadow);
 }
 
 @utility portal-input {
@@ -271,19 +320,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  min-height: 44px;
-  padding: 0 1.25rem;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 1.5rem;
   border-radius: 9999px;
-  border: 1px solid var(--portal-line);
-  background: var(--portal-white);
+  border: 1.5px solid currentColor;
+  background: transparent;
   color: var(--portal-text);
-  font-weight: 600;
-  font-size: 0.9375rem;
+  font-weight: 500;
+  font-size: 1.02rem;
   cursor: pointer;
   &:focus-visible { outline: none; box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-mint) 70%, transparent); }
   &:disabled { opacity: 0.6; }
-  @media (hover: hover) { &:hover { border-color: var(--portal-ink); } }
+  @media (hover: hover) { &:hover { color: var(--portal-ink); } }
 }
 
 @utility portal-btn-primary {

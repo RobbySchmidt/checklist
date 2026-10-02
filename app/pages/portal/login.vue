@@ -18,7 +18,7 @@
         <input id="login-password" v-model="password" type="password" autocomplete="current-password" class="portal-input">
         <p class="text-sm opacity-75">Ohne Passwort schicken wir Ihnen einen Anmeldelink.</p>
         <p v-if="formError" class="text-sm font-medium" style="color: var(--portal-danger)">{{ formError }}</p>
-        <button type="submit" :disabled="busy" class="portal-btn portal-btn-primary !min-h-12">{{ password ? 'Anmelden' : 'Link senden' }}</button>
+        <button type="submit" :disabled="busy" class="portal-btn portal-btn-primary">{{ password ? 'Anmelden' : 'Link senden' }}<ArrowRight class="arrow" :size="19" aria-hidden="true" /></button>
       </form>
     </div>
   </div>

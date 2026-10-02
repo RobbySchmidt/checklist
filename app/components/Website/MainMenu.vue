@@ -10,9 +10,7 @@
 
         <!-- mobil: CTA als voller Button am Ende der Liste -->
         <li v-if="cta" class="mt-6 xl:hidden">
-          <Button as-child size="lg" class="w-full">
-            <NuxtLink :to="menuUrl(cta)" :target="cta.open_in_new_tab ? '_blank' : undefined" @click="closeMenu">{{ cta.title }}</NuxtLink>
-          </Button>
+          <NuxtLink :to="menuUrl(cta)" :target="cta.open_in_new_tab ? '_blank' : undefined" class="lp-btn w-full" @click="closeMenu">{{ cta.title }} <ArrowRight class="arrow" :size="19" aria-hidden="true" /></NuxtLink>
         </li>
       </ul>
     </nav>
@@ -21,6 +19,7 @@
 
 <script setup lang="ts">
   import { useStore } from '~/stores/store'
+  import { ArrowRight } from 'lucide-vue-next'
   import { menuUrl } from '~/utils/menu'
 
   const store = useStore()

@@ -52,14 +52,15 @@
       </label>
       <p v-if="errors.consent" class="text-sm text-destructive -mt-3">{{ errors.consent }}</p>
       <p v-if="errors._form" class="rounded-lg bg-destructive/10 p-3 text-sm text-destructive" role="alert">{{ errors._form }}</p>
-      <button type="submit" :disabled="busy" class="h-12 rounded-full bg-primary text-base font-medium text-primary-foreground disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
-        {{ busy ? 'Wird gesendet …' : 'Rückruf anfordern' }}
+      <button type="submit" :disabled="busy" class="lp-btn">
+        {{ busy ? 'Wird gesendet …' : 'Rückruf anfordern' }} <ArrowRight class="arrow" :size="19" aria-hidden="true" />
       </button>
     </template>
   </form>
 </template>
 
 <script setup lang="ts">
+import { ArrowRight } from 'lucide-vue-next'
 import type { Job, Employer } from '#shared/utils/jobs'
 import { QUALIFICATION_LABELS, HOURS_WISH_LABELS } from '#shared/utils/jobs'
 import { applicationSchema, SOURCES } from '#shared/utils/applicationSchema'

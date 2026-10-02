@@ -3,7 +3,7 @@
     <div class="flex items-start justify-between gap-4">
     <div class="grid min-w-0 flex-1 gap-1">
       <p class="text-sm text-foreground opacity-75">{{ employer.name }} · {{ location.city }}<span v-if="employer.service_area"> · Einsatz: {{ employer.service_area }}</span></p>
-      <h1 :id="headingId" class="text-[22px] leading-snug font-normal">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm text-foreground opacity-75">{{ splitJobTitle(job.title).suffix }}</span></h1>
+      <h1 :id="headingId" class="text-[22px] leading-snug lp-title">{{ splitJobTitle(job.title).main }}<span v-if="splitJobTitle(job.title).suffix" class="ml-2 text-sm font-normal text-foreground opacity-75">{{ splitJobTitle(job.title).suffix }}</span></h1>
       <p class="text-sm text-foreground opacity-75">{{ location.street }}, {{ location.zip }} {{ location.city }}</p>
     </div>
     <img v-if="logoSrc" :src="logoSrc" alt="" width="56" height="56" class="h-14 w-14 shrink-0 rounded-lg border border-border bg-white object-contain">
@@ -13,11 +13,11 @@
       <p class="text-[22px] leading-snug font-medium">{{ salary }}</p>
       <p v-if="job.salary_note" class="text-sm">{{ job.salary_note }}</p>
     </div>
-    <a href="#bewerben" class="inline-flex h-12 w-fit items-center rounded-full bg-primary px-8 text-base font-medium text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">Jetzt bewerben</a>
+    <a href="#bewerben" class="lp-btn w-fit">Jetzt bewerben <ArrowRight class="arrow" :size="19" aria-hidden="true" /></a>
   </header>
 </template>
 <script setup lang="ts">
-import { Briefcase, Clock } from 'lucide-vue-next'
+import { Briefcase, Clock, ArrowRight } from 'lucide-vue-next'
 import type { Job, Employer } from '#shared/utils/jobs'
 import { EMPLOYMENT_TYPE_LABELS, jobLocation, salaryText, splitJobTitle } from '#shared/utils/jobs'
 const props = defineProps<{ job: Job; employer: Employer; headingId: string }>()

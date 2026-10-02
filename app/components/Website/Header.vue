@@ -1,5 +1,5 @@
 <template>
-  <header id="siteHeader" class="sticky top-0 z-40 w-full border-b border-border bg-background px-4 md:px-8">
+  <header id="siteHeader" class="sticky top-0 z-40 w-full border-b border-border px-4 backdrop-blur-[10px] md:px-8" style="background: rgba(244, 247, 245, 0.88)">
     <div class="flex h-16 items-center justify-between gap-6">
       <NuxtLink to="/" class="relative z-50 flex shrink-0 items-center" aria-label="Zur Startseite" @click="closeMenu">
         <img
@@ -9,16 +9,14 @@
           width="150"
           height="39"
           class="block h-auto w-[120px] xl:w-[150px]">
-        <span v-else class="text-lg font-semibold tracking-tight">{{ siteName || 'Homepage' }}</span>
+        <span v-else class="text-[1.2rem] font-bold tracking-[-0.01em] text-[#13392d]">{{ siteName || 'schichtstark' }}</span>
       </NuxtLink>
 
       <WebsiteMainMenu v-if="navigation" :items="menuItems" :cta="ctaItem" :phone="general?.phone" />
 
       <!-- CTA als shadcn-Button (Desktop) -->
       <div class="hidden shrink-0 items-center gap-5 xl:flex">
-        <Button v-if="ctaItem" as-child size="sm">
-          <NuxtLink :to="menuUrl(ctaItem)" :target="ctaItem.open_in_new_tab ? '_blank' : undefined">{{ ctaItem.title }}</NuxtLink>
-        </Button>
+        <NuxtLink v-if="ctaItem" :to="menuUrl(ctaItem)" :target="ctaItem.open_in_new_tab ? '_blank' : undefined" class="lp-btn !min-h-[42px] !px-4 !text-[0.92rem]">{{ ctaItem.title }} <ArrowRight class="arrow" :size="19" aria-hidden="true" /></NuxtLink>
       </div>
 
       <!-- Burger (mobil) -->
@@ -41,6 +39,7 @@
 
 <script setup lang="ts">
   import { useStore } from '~/stores/store'
+  import { ArrowRight } from 'lucide-vue-next'
   import { menuUrl } from '~/utils/menu'
 
   const { getItems } = useDirectusItems()
