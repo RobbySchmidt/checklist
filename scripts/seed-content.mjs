@@ -5,7 +5,7 @@
 import { updateItem } from '@directus/sdk';
 import { directus, upsertItem, readItems, createItem, deleteItems, updateSingleton } from './lib/directus-admin.mjs';
 
-const SITE_NAME = process.env.SITE_NAME || 'schichtstark';
+const SITE_NAME = process.env.SITE_NAME || 'stellenpflege';
 const block = (collection, data) => ({ collection, data });
 
 async function upsertPage(slug, data, blocks) {

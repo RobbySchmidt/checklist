@@ -1,6 +1,6 @@
 # Landingpage (statisch)
 
-Eine einzelne HTML-Datei mit eingebetteten Screenshots, zum Verschicken oder Öffnen im Browser: `schichtstark-landingpage-v2.html` (kräftig, große Typografie, gestapelte Screenshots). Eine ruhigere Variante V1 gab es bis zum 2. Oktober 2026, sie wurde verworfen.
+Eine einzelne HTML-Datei mit eingebetteten Screenshots, zum Verschicken oder Öffnen im Browser: `stellenpflege-landingpage-v2.html` (kräftig, große Typografie, gestapelte Screenshots). Eine ruhigere Variante V1 gab es bis zum 2. Oktober 2026, sie wurde verworfen.
 
 Quelle unter `src/v2`, Bilder unter `src/img` (2x-Screenshots aus dem Dev-Server ohne Breakpoint-Anzeige, Demo-Hinweis und Prüfpanel per `?markup=0` ausgeblendet bzw. weggeschnitten, Demo-Dienst in Tiefgrün/Mint). Neu bauen:
 

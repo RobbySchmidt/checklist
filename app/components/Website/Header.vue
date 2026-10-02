@@ -9,7 +9,7 @@
           width="150"
           height="39"
           class="block h-auto w-[120px] xl:w-[150px]">
-        <span v-else class="text-[1.2rem] font-bold tracking-[-0.01em] text-[#13392d]">{{ siteName || 'schichtstark' }}</span>
+        <span v-else class="text-[1.2rem] font-bold tracking-[-0.01em] text-[#13392d]">{{ siteName || 'stellenpflege' }}</span>
       </NuxtLink>
 
       <WebsiteMainMenu v-if="navigation" :items="menuItems" :cta="ctaItem" :phone="general?.phone" />

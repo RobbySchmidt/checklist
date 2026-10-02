@@ -1,4 +1,4 @@
-# Designkonzept schichtstark
+# Designkonzept stellenpflege
 
 Gilt für Portal **und** öffentliche Seiten (Stellenliste, Stellenseite, Aushang, Google-Vorschau). Grundlage ist `docs/DESIGN-GUIDE.md`; dieses Konzept übersetzt den Guide in konkrete Entscheidungen. Bei Widerspruch gilt der Guide.
 

@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, statSync } from 'node:fs'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 const here = dirname(fileURLToPath(import.meta.url))
-const [variant = 'v2', out = resolve(here, '..', `schichtstark-landingpage-${variant}.html`)] = process.argv.slice(2)
+const [variant = 'v2', out = resolve(here, '..', `stellenpflege-landingpage-${variant}.html`)] = process.argv.slice(2)
 let html = readFileSync(resolve(here, variant, 'landingpage.template.html'), 'utf8')
 html = html.replace(/src="img\/([a-z0-9-]+\.png)"/g, (_, f) => `src="data:image/png;base64,${readFileSync(resolve(here, 'img', f)).toString('base64')}"`)
 writeFileSync(out, html)

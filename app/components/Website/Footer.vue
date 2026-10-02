@@ -3,7 +3,7 @@
     <div class="pb-10 pt-14">
       <div class="flex flex-col justify-between gap-12 md:flex-row">
         <div class="flex max-w-[280px] flex-col gap-3.5">
-          <NuxtLink to="/" aria-label="Zur Startseite" class="text-[1.3rem] font-bold tracking-[-0.01em] text-white">{{ siteName || 'schichtstark' }}</NuxtLink>
+          <NuxtLink to="/" aria-label="Zur Startseite" class="text-[1.3rem] font-bold tracking-[-0.01em] text-white">{{ siteName || 'stellenpflege' }}</NuxtLink>
           <p class="max-w-[36ch] leading-[1.6] opacity-80">{{ general?.footer_text || 'Stellenseiten für Pflegedienste, die bei Google erscheinen. Bewerbungen in einer Minute.' }}</p>
         </div>
 

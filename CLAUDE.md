@@ -1,4 +1,4 @@
-# schichtstark – Stellenseiten für Pflegedienste
+# stellenpflege – Stellenseiten für Pflegedienste
 
 Projekt aus `nuxt-directus-base`. Spec: `docs/superpowers/specs/2026-10-02-pflege-stellenseite-design.md`, Plan: `docs/superpowers/plans/2026-10-02-pflege-stellenseite.md`.
 

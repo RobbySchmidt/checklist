@@ -2,7 +2,7 @@
   <div class="portal grid min-h-screen place-items-center px-4 py-10" style="background: var(--portal-ink)">
     <div class="portal-card grid w-full max-w-md gap-6 p-5 sm:p-6">
       <div>
-        <p class="portal-display text-xl font-bold">schichtstark</p>
+        <p class="portal-display text-xl font-bold">stellenpflege</p>
         <p class="mt-1 text-sm opacity-75">Bewerbungen für Pflegedienste</p>
         <p class="portal-eyebrow mt-2">Portal</p>
       </div>
