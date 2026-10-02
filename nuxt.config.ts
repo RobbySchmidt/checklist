@@ -31,7 +31,7 @@ export default defineNuxtConfig({
   },
 
   imports: {
-    dirs: ['composables/schema', 'utils'],
+    dirs: ['composables/schema', 'utils', 'composables'],
   },
 
   app: {
@@ -69,10 +69,14 @@ export default defineNuxtConfig({
       siteName,
       siteUrl: process.env.SITE_URL,
       directusUrl: process.env.DIRECTUS_URL,
+      employerSlug: process.env.EMPLOYER_SLUG,
     },
     // Redirects aus Directus (server/middleware/redirects.ts) – Cache-Dauer in Sekunden, per NUXT_REDIRECTS_CACHE_SECONDS überschreibbar
     redirects: {
       cacheSeconds: 300,
     },
+    notifyBcc: process.env.NOTIFY_BCC || '',
+    // mail.* wird zur Laufzeit aus NUXT_MAIL_HOST usw. befüllt; secure als String, damit die Env-Überschreibung greift
+    mail: { host: '', port: '587', secure: 'false', user: '', pass: '', from: '' },
   },
 })
