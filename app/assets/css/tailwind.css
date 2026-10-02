@@ -164,7 +164,19 @@
 .prose-job p, .prose-job li { margin-bottom: 0.25rem; }
 
 @utility jobs-paper {
-  background-color: color-mix(in srgb, var(--secondary) 12%, white);
+  background-color: #f8f9fa;
+}
+
+/* Zweitfarbe des Dienstes nur als zarter Ton */
+@utility chip-tint {
+  background-color: color-mix(in srgb, var(--secondary) 18%, white);
+  color: var(--foreground);
+}
+
+@utility row-tint-hover {
+  @media (hover: hover) {
+    &:hover { background-color: color-mix(in srgb, var(--secondary) 8%, white); }
+  }
 }
 
 @utility font-roboto {

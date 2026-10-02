@@ -16,7 +16,7 @@
     <ul class="mt-1 grid gap-1">
       <li v-for="i in check.recommended" :key="i.key" class="flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full" :class="i.ok ? 'bg-green-600' : 'bg-yellow-500'" />{{ i.label }}</li>
     </ul>
-    <details class="mt-3"><summary class="cursor-pointer font-medium">JSON-LD anzeigen</summary><pre class="mt-2 max-h-60 overflow-auto rounded bg-secondary p-2 text-sm">{{ JSON.stringify(posting, null, 2) }}</pre></details>
+    <details class="mt-3"><summary class="cursor-pointer font-medium">JSON-LD anzeigen</summary><pre class="mt-2 max-h-60 overflow-auto rounded border border-border bg-white p-2 text-sm">{{ JSON.stringify(posting, null, 2) }}</pre></details>
     <p class="mt-3 text-sm opacity-75">Echter Test nur mit öffentlicher URL: <a class="underline" href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Rich-Results-Test</a></p>
     </div>
   </div>
