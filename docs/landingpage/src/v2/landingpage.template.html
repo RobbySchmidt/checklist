@@ -68,16 +68,7 @@
   .hero .facts span::before { content: "•"; color: var(--mint); margin-right: 8px; }
   .hero .stage { position: relative; min-height: 420px; }
   .hero .shot-a { position: absolute; right: -8%; bottom: 0; width: 112%; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.14); border-bottom: 0; }
-  .hero .badge { position: absolute; left: 4%; top: 6%; background: var(--mint); color: var(--mint-ink); font-weight: 700; padding: 10px 14px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); font-size: 0.95rem; }
   @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; } .hero .copy { padding-bottom: 36px; } .hero .stage { min-height: 300px; } .hero .shot-b { width: 58%; bottom: 20px; } }
-
-  /* Lauftext mit Chips: die Welt der Bewerberin */
-  .ticker { background: var(--ink-2); color: var(--white); padding-block: 14px; overflow: hidden; border-top: 1px solid rgba(255,255,255,0.08); }
-  .ticker .row { display: flex; gap: 12px; white-space: nowrap; animation: slide 40s linear infinite; width: max-content; }
-  .ticker .chip { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.22); font-size: 0.9rem; }
-  .ticker .chip b { color: var(--mint); font-weight: 500; }
-  @keyframes slide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) { .ticker .row { animation: none; } }
 
   section { padding-block: 104px; }
   section.white { background: var(--white); }
@@ -114,7 +105,6 @@
   .stack .shots { position: relative; min-height: 420px; }
   .stack .s1 { position: absolute; left: 0; top: 0; width: 86%; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.14); }
   .stack .s2 { position: absolute; right: 0; bottom: 0; width: 70%; border-radius: var(--radius); overflow: hidden; box-shadow: 0 30px 70px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
-  .stack .quote { position: absolute; left: 6%; bottom: 8%; background: var(--mint); color: var(--mint-ink); padding: 12px 16px; border-radius: 12px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.35); transform: rotate(-3deg); }
   @media (max-width: 900px) { .stack { grid-template-columns: 1fr; } .stack .shots { min-height: 300px; } }
 
   /* Beleg */
@@ -161,11 +151,17 @@
   .pilot form.sent .ok { display: block; }
   .pilot form.sent .fields { display: none; }
   @media (max-width: 900px) { .pilot .grid { grid-template-columns: 1fr; } }
-
-  footer { padding-block: 36px; font-size: 0.9rem; color: var(--muted); }
-  footer .wrap { display: grid; gap: 8px; }
-  footer .line { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; }
-  footer a { color: inherit; }
+  footer.foot { background: var(--ink-2); color: rgba(255,255,255,0.82); padding-block: 64px 28px; font-size: 0.95rem; }
+  footer.foot .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; padding-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  footer.foot .col { display: grid; gap: 8px; align-content: start; }
+  footer.foot .col a { color: inherit; text-decoration: none; }
+  @media (hover: hover) { footer.foot .col a:hover { color: var(--mint); } }
+  footer.foot .brand { color: var(--white); font-size: 1.3rem; }
+  footer.foot .brandcol p { max-width: 36ch; opacity: 0.8; }
+  footer.foot .h { color: var(--white); font-weight: 500; margin-bottom: 4px; }
+  footer.foot .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 20px; font-size: 0.85rem; opacity: 0.65; }
+  @media (max-width: 900px) { footer.foot .cols { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { footer.foot .cols { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -196,16 +192,8 @@
         <div class="facts"><span>Stelle in 5 Minuten angelegt</span><span>Bewerbung in 60 Sekunden</span><span>Rückruf nach 24 Stunden erinnert</span></div>
       </div>
       <div class="stage">
-        <span class="badge">So sieht es bei Google aus</span>
         <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
       </div>
-    </div>
-  </div>
-
-  <div class="ticker" aria-hidden="true">
-    <div class="row">
-      <span class="chip">Pflegefachkraft <b>3.400 – 3.900 €</b></span><span class="chip">Vollzeit · Teilzeit</span><span class="chip">Wunschdienstplan <b>4 Wochen im Voraus</b></span><span class="chip">Bewerbung <b>ohne Lebenslauf</b></span><span class="chip">Dienstwagen auch privat</span><span class="chip">Rückruf <b>innerhalb 24 h</b></span><span class="chip">Pflegehilfskraft <b>2.600 – 2.900 €</b></span><span class="chip">Jedes zweite Wochenende frei</span>
-      <span class="chip">Pflegefachkraft <b>3.400 – 3.900 €</b></span><span class="chip">Vollzeit · Teilzeit</span><span class="chip">Wunschdienstplan <b>4 Wochen im Voraus</b></span><span class="chip">Bewerbung <b>ohne Lebenslauf</b></span><span class="chip">Dienstwagen auch privat</span><span class="chip">Rückruf <b>innerhalb 24 h</b></span><span class="chip">Pflegehilfskraft <b>2.600 – 2.900 €</b></span><span class="chip">Jedes zweite Wochenende frei</span>
     </div>
   </div>
 
@@ -268,7 +256,6 @@
       <div class="shots">
         <div class="s1"><img src="img/portal.png" alt="Portal-Übersicht mit Kennzahlen und der Rückruf-Liste" width="1440" height="760" loading="lazy"></div>
         <div class="s2"><img src="img/bewerbungen.png" alt="Bewerbungen im Portal mit Telefon-Taste und Statuswechsel" width="1440" height="760" loading="lazy"></div>
-        <span class="quote">Anrufen. Kontaktiert. Fertig.</span>
       </div>
     </div>
   </section>
@@ -344,10 +331,35 @@
   </section>
 </main>
 
-<footer>
+<footer class="foot">
   <div class="wrap">
-    <div class="line"><span>pflege-jobs ist ein Produkt der Rhowerk GmbH.</span><span><a href="#">Impressum</a> · <a href="#">Datenschutz</a></span></div>
-    <span class="small">Die gezeigten Oberflächen stammen aus dem Produkt mit einem fiktiven Demo-Dienst. Die Google-Stellenansicht ist nachgebaut.</span>
+    <div class="cols">
+      <div class="col brandcol">
+        <span class="brand">pflege-jobs</span>
+        <p>Stellen von Pflegediensten in der Google-Stellenansicht. Bewerbung in einer Minute. Rückruf statt Papierstapel.</p>
+      </div>
+      <div class="col">
+        <span class="h">Kontakt</span>
+        <p>Rhowerk GmbH</p>
+        <p>schmidt@rhowerk.de</p>
+      </div>
+      <div class="col">
+        <span class="h">Seite</span>
+        <a href="#problem">Das Problem</a>
+        <a href="#so-gehts">So funktioniert es</a>
+        <a href="#angebot">Angebot</a>
+        <a href="#pilot">Pilot anfragen</a>
+      </div>
+      <div class="col">
+        <span class="h">Rechtliches</span>
+        <a href="#">Impressum</a>
+        <a href="#">Datenschutz</a>
+      </div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 Rhowerk GmbH</span>
+      <span>Die gezeigten Oberflächen stammen aus dem Produkt mit einem fiktiven Demo-Dienst. Die Google-Stellenansicht ist nachgebaut.</span>
+    </div>
   </div>
 </footer>
 
