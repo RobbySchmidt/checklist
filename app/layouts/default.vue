@@ -5,11 +5,11 @@
       class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-black focus:text-white focus:px-4 focus:py-2 focus:rounded">
       Zum Hauptinhalt springen
     </a>
-    <WebsiteHeader />
+    <JobsSiteHeader />
     <JobsDemoNotice />
     <main id="main-content" tabindex="-1"><slot /></main>
     <ScrollToTop><ArrowUp class="text-white" /></ScrollToTop>
-    <WebsiteFooter />
+    <JobsSiteFooter />
     <!-- Toasts (vue-sonner), z. B. Rückmeldung des Anfrageformulars -->
     <ClientOnly><Toaster /></ClientOnly>
     <DevOnly>
@@ -20,7 +20,5 @@
 
 <script setup>
   import { ArrowUp } from 'lucide-vue-next'
-
-  // Organization/WebSite als JSON-LD auf jeder Seite (Layout-Scope der Schema-Registry)
-  await useBrandSchema()
+  // Organisation steht pro Stelle im JobPosting (hiringOrganization); kein Brand-Schema aus der general-Collection.
 </script>

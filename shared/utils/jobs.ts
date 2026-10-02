@@ -20,6 +20,8 @@ export interface Employer {
   address_city: string
   phone?: string | null
   website?: string | null
+  imprint_url?: string | null
+  privacy_url?: string | null
   apply_email: string
   apply_whatsapp?: string | null
   service_area?: string | null

@@ -75,6 +75,16 @@
             <p v-if="errors.website" class="text-sm font-medium text-destructive">{{ errors.website }}</p>
           </div>
           <div class="grid gap-1">
+            <label for="p-imprint" class="font-medium">Impressum-Link <span class="font-normal opacity-75">(optional)</span></label>
+            <input id="p-imprint" v-model="form.imprint_url" type="url" placeholder="https://" class="portal-input">
+            <p v-if="errors.imprint_url" class="text-sm font-medium text-destructive">{{ errors.imprint_url }}</p>
+          </div>
+          <div class="grid gap-1">
+            <label for="p-privacy" class="font-medium">Datenschutz-Link <span class="font-normal opacity-75">(optional)</span></label>
+            <input id="p-privacy" v-model="form.privacy_url" type="url" placeholder="https://" class="portal-input">
+            <p v-if="errors.privacy_url" class="text-sm font-medium text-destructive">{{ errors.privacy_url }}</p>
+          </div>
+          <div class="grid gap-1">
             <label for="p-mail" class="font-medium">E-Mail für Bewerbungen</label>
             <input id="p-mail" v-model="form.apply_email" type="email" class="portal-input">
             <p v-if="errors.apply_email" class="text-sm font-medium text-destructive">{{ errors.apply_email }}</p>
@@ -174,7 +184,7 @@ const directusUrl = useRuntimeConfig().public.directusUrl as string
 const empQuery = computed(() => ({ employer: route.query.employer }))
 const { data, error } = await useFetch<any>('/api/portal/employer', { query: empQuery })
 
-const FIELDS = ['name', 'legal_name', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'apply_email', 'apply_whatsapp', 'service_area', 'about', 'schedule_model', 'template_invite', 'template_reject', 'report_email'] as const
+const FIELDS = ['name', 'legal_name', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'imprint_url', 'privacy_url', 'apply_email', 'apply_whatsapp', 'service_area', 'about', 'schedule_model', 'template_invite', 'template_reject', 'report_email'] as const
 const form = ref<any>(null)
 const logoId = ref<string | null>(null)
 function init(e: any) {

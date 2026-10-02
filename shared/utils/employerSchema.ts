@@ -11,6 +11,8 @@ export const employerSchema = z.object({
   address_city: z.string().trim().min(2).max(80),
   phone: optStr(40),
   website: emptyOr(z.string().url('Bitte mit https:// angeben')),
+  imprint_url: emptyOr(z.string().url('Bitte mit https:// angeben')),
+  privacy_url: emptyOr(z.string().url('Bitte mit https:// angeben')),
   apply_email: z.string().trim().email(),
   apply_whatsapp: emptyOr(z.string().regex(/^\d{8,16}$/, 'Nur Ziffern, international ohne Plus')),
   service_area: optStr(200),

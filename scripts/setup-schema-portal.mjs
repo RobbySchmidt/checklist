@@ -12,6 +12,8 @@ const jsonTags = (field, note) => ({ field, type: 'json', meta: { interface: 'ta
 
 console.log('\n[1/5] Zusatzfelder');
 await ensureField(C.employers, 'domains', jsonTags('domains', 'Hostnamen dieses Dienstes, kleingeschrieben, ohne Port (z. B. sonnenhof.pflege-jobs.de)'));
+await ensureField(C.employers, 'imprint_url', input('imprint_url', 'Link zum Impressum des Dienstes (steht im Fuß der Stellenseiten)'));
+await ensureField(C.employers, 'privacy_url', input('privacy_url', 'Link zur Datenschutzerklärung des Dienstes'));
 await ensureField(C.employers, 'notify_reminders', boolField('notify_reminders', 'Erinnerung nach 24 Stunden ohne Rückruf', true));
 await ensureField(C.employers, 'report_email', input('report_email', 'Empfänger Monatsreport (sonst Bewerbungs-E-Mail)'));
 await ensureField(C.employers, 'template_invite', textarea('template_invite', 'Vorlage Einladung. Platzhalter: {name} {stelle} {dienst} {ansprechperson} {telefon}'));
@@ -72,7 +74,7 @@ await removePublicPermission(C.applications, 'create');
 const roleId = await ensureRole('App');
 const policyId = await ensurePolicy('App', { app_access: false });
 await ensureRoleHasPolicy(roleId, policyId);
-const EMPLOYER_PORTAL_FIELDS = ['name', 'legal_name', 'logo', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'apply_email', 'apply_whatsapp', 'service_area', 'about', 'schedule_model', 'benefits', 'notify_reminders', 'report_email', 'template_invite', 'template_reject'];
+const EMPLOYER_PORTAL_FIELDS = ['name', 'legal_name', 'logo', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'imprint_url', 'privacy_url', 'apply_email', 'apply_whatsapp', 'service_area', 'about', 'schedule_model', 'benefits', 'notify_reminders', 'report_email', 'template_invite', 'template_reject'];
 await ensurePermission(policyId, C.employers, 'read');
 await ensurePermission(policyId, C.employers, 'update', { fields: EMPLOYER_PORTAL_FIELDS });
 await ensurePermission(policyId, C.jobs, 'read');

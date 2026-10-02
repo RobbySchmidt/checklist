@@ -62,7 +62,7 @@ export default defineNuxtConfig({
   // /sitemap.xml – Seiten aus Directus (server/api/__sitemap__/pages.ts)
   sitemap: {
     sources: ['/api/__sitemap__/pages'],
-    exclude: ['/kein-dienst'],
+    exclude: ['/kein-dienst', '/portal/**', '/jobs/*/google-vorschau', '/jobs/*/aushang'],
   },
 
   nitro: {
