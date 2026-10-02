@@ -61,15 +61,13 @@
 
   /* Hero: Tiefgrün, riesige Zeile, der Google-Screenshot schiebt sich von rechts unten rein */
   .hero { background: radial-gradient(1200px 600px at 85% 110%, #1f5a48 0%, var(--ink) 55%); color: var(--white); padding-block: 84px 0; position: relative; }
-  .hero .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 48px; align-items: end; }
-  .hero .copy { display: grid; gap: 26px; padding-bottom: 84px; }
-  .hero .lead { font-size: 1.25rem; max-width: 44ch; opacity: 0.92; }
+  .hero .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: end; }
+  .hero .copy { display: grid; gap: 24px; padding-bottom: 84px; align-self: center; }
+  .hero .lead { font-size: 1.2rem; max-width: 40ch; opacity: 0.92; }
   .hero .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-  .hero .facts { display: flex; flex-wrap: wrap; gap: 10px 28px; font-size: 0.95rem; opacity: 0.8; }
-  .hero .facts span::before { content: "•"; color: var(--mint); margin-right: 8px; }
-  .hero .stage { position: relative; min-height: 420px; }
-  .hero .shot-a { position: absolute; right: -8%; bottom: 0; width: 112%; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; background: #fff; box-shadow: 0 30px 80px rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.14); border-bottom: 0; }
-  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; } .hero .copy { padding-bottom: 36px; } .hero .stage { min-height: 300px; } .hero .shot-b { width: 58%; bottom: 20px; } }
+  .hero .stage { position: relative; align-self: end; margin-right: calc(50% - 50vw); min-height: 0; }
+  .hero .shot-a { position: relative; width: 100%; border-radius: var(--radius) 0 0 0; overflow: hidden; background: #fff; border: 1px solid rgba(255,255,255,0.14); border-right: 0; border-bottom: 0; }
+  @media (max-width: 900px) { .hero .grid { grid-template-columns: 1fr; } .hero .copy { padding-bottom: 36px; } .hero .stage { margin-right: -20px; } } }
 
   section { padding-block: 104px; }
   section.white { background: var(--white); }
@@ -185,12 +183,11 @@
     <div class="wrap grid">
       <div class="copy">
         <h1>Ihre Stelle bei Google.<br>Die Bewerbung in einer Minute.</h1>
-        <p class="lead">Keine Vermittlerprovision, kein Portal. Eine Stellenseite, die Google versteht, eine Bewerbung vom Handy ohne Lebenslauf, und jeden Morgen die Liste, wen Sie anrufen müssen.</p>
+        <p class="lead">Eine Stellenseite, die Google versteht. Eine Bewerbung vom Handy, ohne Lebenslauf. Jeden Morgen die Liste, wen Sie anrufen.</p>
         <div class="actions">
           <a class="btn" href="#pilot">Vier Wochen kostenlos testen <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
           <a class="btn ghost" href="#so-gehts">So funktioniert es</a>
         </div>
-        <div class="facts"><span>Stelle in 5 Minuten angelegt</span><span>Bewerbung in 60 Sekunden</span><span>Rückruf nach 24 Stunden erinnert</span></div>
       </div>
       <div class="stage">
         <div class="shot-a"><img src="img/google.png" alt="Stelle Pflegefachkraft eines Pflegedienstes in der Google-Stellenansicht, nachgebaut" width="1440" height="1050"></div>
