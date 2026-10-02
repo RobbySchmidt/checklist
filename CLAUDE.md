@@ -7,6 +7,10 @@ Projekt aus `nuxt-directus-base`. Spec: `docs/superpowers/specs/2026-10-02-pfleg
 - `applications` ist für Public nur anlegbar, nie lesbar.
 - Sichtbare Stelle: `status = published` und `valid_through >= heute` (`isJobVisible` in `shared/utils/jobs.ts`).
 - Demo-Kennzeichnung nur über `employers.is_demo`.
+- Schema nur per Skripte: `setup-schema.mjs`, `setup-schema-jobs.mjs`, `setup-schema-portal.mjs`.
+- `DIRECTUS_APP_TOKEN` nur im Server (`server/utils/directus.ts`), nie in Client-Code oder `runtimeConfig.public`.
+- Portal-Routen (`server/api/portal/*`) filtern immer nach dem Dienst der Sitzung; die Rhowerk-Rolle wechselt per Dienst-Umschalter.
+- Kein Versand an Bewerber: Vorlagen für Einladung/Absage werden nur angezeigt und kopiert, Mails gehen nur an Dienste.
 - Keine Werte aus `.env` ausgeben. Commits auf Deutsch, letzte Zeile `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`.
 
 ---
@@ -22,7 +26,11 @@ Tech-Stack: Nuxt 4, Tailwind v4 (`@tailwindcss/vite`) + shadcn-nuxt (reka-ui, `a
 - `shared/utils/`: `jobs.ts` (Domäne), `buildJobPosting.ts`, `jobPostingCheck.ts`, `applicationSchema.ts`, `share.ts`
 - `app/composables/`: `useEmployer.ts`, `useJobs.ts`; `app/pages/jobs/*`
 - `server/`: `api/apply.post.ts`, `api/qr/[slug].get.ts`, `utils/notify.ts`, `utils/rateLimit.ts`
-- `scripts/`: `setup-schema-jobs.mjs`, `seed-jobs.mjs`, `google-index.mjs` (noch nicht gebaut, siehe README)
+- Portal: `app/pages/portal/*` (login, index, bewerbungen, profil, stellen), `app/components/portal/` (Präfix `Portal`: JobForm, MessageDialog, ShareDialog), `app/middleware/portal.ts`
+- Portal-Server: `server/api/auth/*` (request-link, consume, logout), `server/api/portal/*` (me, overview, employer, jobs, applications, upload), `server/utils/session.ts`, `server/utils/directus.ts` (App-Token)
+- Hintergrund-Jobs: `server/tasks/reminders.ts`, `server/tasks/report.ts`, Endpoint-Fallback `server/api/tasks/[name].post.ts` (`x-task-secret`)
+- Portal-Domäne in `shared/utils/`: `auth.ts`, `host.ts`, `overview.ts`, `reminders.ts`, `report.ts`, `templates.ts`, `employerSchema.ts`, `jobSchema.ts`, `inquirySchema.ts`, `track.ts`
+- `scripts/`: `setup-schema-jobs.mjs`, `setup-schema-portal.mjs`, `seed-jobs.mjs`, `seed-portal.mjs`, `google-index.mjs` (noch nicht gebaut, siehe README)
 
 ## Projekt starten (Kurzfassung, Details in README.md)
 

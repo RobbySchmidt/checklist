@@ -187,7 +187,7 @@ async function save() {
   } catch (e: any) {
     const fe = e?.data?.data
     if (e?.statusCode === 422 && fe) {
-      for (const [k, v] of Object.entries(fe)) errors.value[k] = (v as string[])[0]
+      for (const [k, v] of Object.entries(fe)) errors.value[k] = (v as string[])[0] ?? ''
       formError.value = 'Bitte die markierten Felder prüfen.'
     } else formError.value = e?.data?.statusMessage || 'Das hat nicht geklappt. Bitte erneut versuchen.'
   } finally { saving.value = false }

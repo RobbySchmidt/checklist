@@ -15,5 +15,5 @@ Herzliche Grüße
 {dienst}`
 
 export function fillTemplate(template: string, vars: Record<string, string>): string {
-  return template.replace(/\{(\w+)\}/g, (m, key) => (key in vars ? vars[key] : m))
+  return template.replace(/\{(\w+)\}/g, (m, key) => (key in vars ? vars[key]! : m))
 }
