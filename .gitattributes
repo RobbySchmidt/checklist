@@ -1,0 +1,13 @@
+# Einheitliche Zeilenenden im Repo (LF) – unabhängig von core.autocrlf auf der Maschine
+* text=auto eol=lf
+
+# Binärdateien nie normalisieren
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary

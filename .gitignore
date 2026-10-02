@@ -1,0 +1,43 @@
+# Nuxt dev/build outputs
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Netlify (Functions werden beim Build erzeugt)
+.netlify
+
+# Node dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Misc
+.DS_Store
+.fleet
+.idea
+
+# Local env files
+.env
+.env.*
+!.env.example
+
+# Docker/Directus
+docker/.env
+docker/uploads
+docker/extensions
+
+# MCP-Config mit lokalem Token
+.mcp.json
+!.mcp.json.example
+
+# Projekt-spezifische Design-Referenzen (z. B. HTML-Exporte) – nicht Teil des Starters
+design/
+.superpowers/
+
+# Pracio-Doku (nur lokal)
+documentation/
