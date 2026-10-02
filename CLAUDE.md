@@ -3,10 +3,11 @@
 Projekt aus `nuxt-directus-base`. Spec: `docs/superpowers/specs/2026-10-02-pflege-stellenseite-design.md`, Plan: `docs/superpowers/plans/2026-10-02-pflege-stellenseite.md`.
 
 ## Harte Regeln
-- Schema nur über `scripts/setup-schema.mjs` + `scripts/setup-schema-jobs.mjs`. Nichts von Hand in Directus anlegen (Umzug per `yarn directus:copy`).
-- `applications` ist für Public nur anlegbar, nie lesbar.
+- Schema nur über `scripts/setup-schema.mjs` + `scripts/setup-schema-jobs.mjs`. Nichts von Hand in Directus anlegen (Umzug per `yarn directus:copy -- --prefix sp_`).
+- Collection-Namen des Produkts nur aus `shared/utils/collections.ts` (`C.jobs` = `sp_jobs` usw., Ordner `stellenpflege`). Präfix `sp_`, weil die Ziel-Instanz geteilt ist und dort schon eine fremde `jobs`-Collection liegt. Nie Klartext-Namen in Code oder Skripte schreiben.
+- `sp_applications` ist für Public nur anlegbar, nie lesbar.
 - Sichtbare Stelle: `status = published` und `valid_through >= heute` (`isJobVisible` in `shared/utils/jobs.ts`).
-- Demo-Kennzeichnung nur über `employers.is_demo`.
+- Demo-Kennzeichnung nur über `sp_employers.is_demo`.
 - Schema nur per Skripte: `setup-schema.mjs`, `setup-schema-jobs.mjs`, `setup-schema-portal.mjs`.
 - `DIRECTUS_APP_TOKEN` nur im Server (`server/utils/directus.ts`), nie in Client-Code oder `runtimeConfig.public`.
 - Portal-Routen (`server/api/portal/*`) filtern immer nach dem Dienst der Sitzung; die Rhowerk-Rolle wechselt per Dienst-Umschalter.

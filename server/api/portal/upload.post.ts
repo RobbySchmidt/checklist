@@ -1,6 +1,7 @@
 import { requirePortalUser } from '../../utils/session'
 import { appFetch } from '../../utils/directus'
 import { invalidateEmployerCache } from '../../utils/employerCache'
+import { C } from '#shared/utils/collections'
 
 const MAX_BYTES = 2 * 1024 * 1024
 const TYPES = ['image/png', 'image/jpeg', 'image/svg+xml', 'image/webp']
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 503, statusMessage: 'Upload gerade nicht möglich' })
   }
   if (!id) throw createError({ statusCode: 503, statusMessage: 'Upload gerade nicht möglich' })
-  await appFetch(`/items/employers/${employer.id}`, { method: 'PATCH', body: { logo: id } })
+  await appFetch(`/items/${C.employers}/${employer.id}`, { method: 'PATCH', body: { logo: id } })
   invalidateEmployerCache()
   return { id }
 })

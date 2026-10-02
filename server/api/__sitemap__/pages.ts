@@ -1,3 +1,4 @@
+import { C } from '#shared/utils/collections'
 // Sitemap-Quelle für @nuxtjs/sitemap: alle veröffentlichten CMS-Seiten aus Directus (anonym gelesen, wie redirects.ts).
 // Die Startseite (general.homepage) wird unter / ausgeliefert, nicht unter ihrem Slug. Seiten mit seo.no_index bleiben draußen.
 import type { SitemapUrlInput } from '#sitemap/types'
@@ -22,7 +23,7 @@ export default defineSitemapEventHandler(async (event) => {
         query: { fields: 'homepage' },
         timeout: FETCH_TIMEOUT_MS,
       }),
-      employer ? $fetch<{ data: Array<{ slug: string; date_updated: string | null }> }>(`${directusUrl}/items/jobs`, {
+      employer ? $fetch<{ data: Array<{ slug: string; date_updated: string | null }> }>(`${directusUrl}/items/${C.jobs}`, {
         query: { fields: 'slug,date_updated', filter: { status: { _eq: 'published' }, valid_through: { _gte: toIsoDate(new Date()) }, employer: { id: { _eq: employer.id } } }, limit: -1 },
         timeout: FETCH_TIMEOUT_MS,
       }).catch(() => ({ data: [] })) : Promise.resolve({ data: [] as Array<{ slug: string; date_updated: string | null }> }),

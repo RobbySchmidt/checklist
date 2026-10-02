@@ -2,6 +2,7 @@ import { employerSchema } from '#shared/utils/employerSchema'
 import { requirePortalUser } from '../../utils/session'
 import { appFetch } from '../../utils/directus'
 import { invalidateEmployerCache } from '../../utils/employerCache'
+import { C } from '#shared/utils/collections'
 export default defineEventHandler(async (event) => {
   const { employer } = await requirePortalUser(event)
   const body = await readBody(event)
@@ -14,7 +15,7 @@ export default defineEventHandler(async (event) => {
   // domains, slug, status, is_demo sind nicht im Schema und werden nie übernommen.
   const data: any = { ...parsed.data }
   if (data.logo === undefined) delete data.logo
-  await appFetch(`/items/employers/${employer.id}`, { method: 'PATCH', body: data })
+  await appFetch(`/items/${C.employers}/${employer.id}`, { method: 'PATCH', body: data })
   invalidateEmployerCache()
   return { ok: true }
 })

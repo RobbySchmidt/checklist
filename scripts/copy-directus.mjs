@@ -4,7 +4,9 @@
 //
 // Quelle:  DIRECTUS_URL       + DIRECTUS_ADMIN_TOKEN        (z. B. lokales Docker-Directus)
 // Ziel:    REAL_DIRECTUS_URL  + REAL_DIRECTUS_ADMIN_TOKEN   (aus .env)
-// Aufruf:  node --env-file=.env scripts/copy-directus.mjs [--only-schema] [--skip-schema]
+// Aufruf:  node --env-file=.env scripts/copy-directus.mjs [--only-schema] [--skip-schema] [--prefix sp_]
+//          --prefix sp_ kopiert nur die Produkt-Collections (shared/utils/collections.ts) samt Ordner „stellenpflege“ –
+//          für den Umzug in eine geteilte Directus-Instanz, in der schon fremde Collections liegen.
 //
 // Laufende Integer-IDs (pages, navigation_items, …) vergibt das Ziel neu – alle Verweise (M2O, M2A, Junctions, Singleton) werden umgerechnet.
 // UUID-IDs (Blöcke, seo) bleiben erhalten. Dateien werden anhand von filename_download wiedererkannt (idempotent),
@@ -19,6 +21,9 @@ if (SRC.url.replace(/\/$/, '') === DST.url.replace(/\/$/, '')) throw new Error('
 const args = new Set(process.argv.slice(2));
 const ONLY_SCHEMA = args.has('--only-schema');
 const SKIP_SCHEMA = args.has('--skip-schema');
+const prefixArg = process.argv.indexOf('--prefix');
+const PREFIX = prefixArg > -1 ? process.argv[prefixArg + 1] : null;
+const FOLDER = 'stellenpflege';
 
 const SYSTEM_FIELDS = new Set(['user_created', 'user_updated']);
 const SKIP_FIELD_META = new Set(['id', 'searchable']); // Ziel-Version kennt evtl. nicht alle Meta-Keys
@@ -46,9 +51,11 @@ const srcInfo = await src('GET', '/server/info');
 const dstInfo = await dst('GET', '/server/info');
 log(`Versionen: Quelle ${srcInfo.version} → Ziel ${dstInfo.version}`);
 
-const srcCollections = (await src('GET', '/collections')).filter((c) => !isSystem(c.collection));
-const srcFields = (await src('GET', '/fields')).filter((f) => !isSystem(f.collection));
-const srcRelations = (await src('GET', '/relations')).filter((r) => !isSystem(r.collection));
+const inScope = (name) => !isSystem(name) && (!PREFIX || name.startsWith(PREFIX) || name === FOLDER);
+const srcCollections = (await src('GET', '/collections')).filter((c) => inScope(c.collection));
+const srcFields = (await src('GET', '/fields')).filter((f) => inScope(f.collection));
+const srcRelations = (await src('GET', '/relations')).filter((r) => inScope(r.collection));
+if (PREFIX) log(`Nur Collections mit Präfix „${PREFIX}“ (+ Ordner „${FOLDER}“)`);
 const collectionNames = srcCollections.map((c) => c.collection);
 const tables = srcCollections.filter((c) => c.schema); // echte Tabellen (keine Ordner)
 log(`Collections in der Quelle: ${collectionNames.length} (${tables.length} Tabellen, ${collectionNames.length - tables.length} Ordner)`);
@@ -175,7 +182,7 @@ const mapRef = (target, value) => {
 
 // Reihenfolge: möglichst Abhängigkeiten zuerst, Junctions und Singletons zuletzt; Rest alphabetisch
 // Pro Projekt ergänzen: Collections, auf die andere per M2O zeigen, nach vorn; Junction-Tabellen (M2M) nach hinten.
-const PRIORITY = ['seo', 'pages', 'navigation', 'navigation_items'];
+const PRIORITY = ['seo', 'pages', 'navigation', 'navigation_items', 'sp_employers', 'sp_jobs', 'sp_portal_users'];
 const LAST = ['pages_blocks', 'general'];
 const ordered = [
   ...PRIORITY.filter((n) => tables.some((t) => t.collection === n)),

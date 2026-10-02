@@ -1,3 +1,4 @@
+import { C } from '../shared/utils/collections.ts';
 // scripts/setup-schema-jobs.mjs
 // Collections für Stellenseiten: employers (Pflegedienste), jobs (Stellen), applications (Bewerbungen).
 // Idempotent, läuft nach scripts/setup-schema.mjs. Aufruf: yarn directus:schema:jobs
@@ -33,11 +34,11 @@ const jobStatus = {
 };
 
 console.log('\n[1/4] Ordner');
-await ensureCollection('Recruiting', { meta: { icon: 'work', note: 'Pflegedienste, Stellen, Bewerbungen', sort: 0, collapse: 'open' }, schema: null });
+await ensureCollection(C.folder, { meta: { icon: 'work', note: 'Pflegedienste, Stellen, Bewerbungen', sort: 0, collapse: 'open' }, schema: null });
 
 console.log('\n[2/4] Collections');
-await ensureCollection('employers', {
-  meta: { group: 'Recruiting', icon: 'local_hospital', note: 'Pflegedienste (ein Dienst = ein Mandant)', display_template: '{{name}}', sort: 1 },
+await ensureCollection(C.employers, {
+  meta: { group: C.folder, icon: 'local_hospital', note: 'Pflegedienste (ein Dienst = ein Mandant)', display_template: '{{name}}', sort: 1 },
   schema: {},
   fields: [
     pkUuid, statusField, ...auditFields,
@@ -65,8 +66,8 @@ await ensureCollection('employers', {
   ],
 });
 
-await ensureCollection('jobs', {
-  meta: { group: 'Recruiting', icon: 'badge', note: 'Offene Stellen', display_template: '{{title}} – {{employer.name}}', sort: 2 },
+await ensureCollection(C.jobs, {
+  meta: { group: C.folder, icon: 'badge', note: 'Offene Stellen', display_template: '{{title}} – {{employer.name}}', sort: 2 },
   schema: {},
   fields: [
     pkUuid, jobStatus, ...auditFields,
@@ -100,8 +101,8 @@ await ensureCollection('jobs', {
   ],
 });
 
-await ensureCollection('applications', {
-  meta: { group: 'Recruiting', icon: 'inbox', note: 'Bewerbungen (Public darf nur anlegen)', display_template: '{{name}} – {{job.title}}', sort: 3 },
+await ensureCollection(C.applications, {
+  meta: { group: C.folder, icon: 'inbox', note: 'Bewerbungen (Public darf nur anlegen)', display_template: '{{name}} – {{job.title}}', sort: 3 },
   schema: {},
   fields: [
     pkUuid,
@@ -123,28 +124,28 @@ await ensureCollection('applications', {
 });
 
 console.log('\n[3/4] Relationen');
-await ensureRelation({ collection: 'employers', field: 'logo', related_collection: 'directus_files', schema: { on_delete: 'SET NULL' } });
-await ensureRelation({ collection: 'jobs', field: 'employer', related_collection: 'employers', meta: { one_field: 'jobs' }, schema: { on_delete: 'CASCADE' } });
-await ensureRelation({ collection: 'applications', field: 'job', related_collection: 'jobs', meta: { one_field: 'applications' }, schema: { on_delete: 'RESTRICT' } });
-await ensureRelation({ collection: 'applications', field: 'employer', related_collection: 'employers', schema: { on_delete: 'RESTRICT' } });
+await ensureRelation({ collection: C.employers, field: 'logo', related_collection: 'directus_files', schema: { on_delete: 'SET NULL' } });
+await ensureRelation({ collection: C.jobs, field: 'employer', related_collection: C.employers, meta: { one_field: 'jobs' }, schema: { on_delete: 'CASCADE' } });
+await ensureRelation({ collection: C.applications, field: 'job', related_collection: C.jobs, meta: { one_field: 'applications' }, schema: { on_delete: 'RESTRICT' } });
+await ensureRelation({ collection: C.applications, field: 'employer', related_collection: C.employers, schema: { on_delete: 'RESTRICT' } });
 // ensureRelation überspringt bestehende Relationen, und ensureCollection legt für m2o-Felder nur die Relation-Meta ohne
 // Fremdschlüssel an (schema: null). Bewerbungen sollen beim Löschen von Stelle/Dienst nicht still verschwinden:
 // Fehlt der Fremdschlüssel, Relation neu anlegen (nur Meta + FK, Daten bleiben); sonst on_delete patchen.
 const restrictRelations = [
-  { field: 'job', related_collection: 'jobs', meta: { one_field: 'applications' } },
-  { field: 'employer', related_collection: 'employers' },
+  { field: 'job', related_collection: C.jobs, meta: { one_field: 'applications' } },
+  { field: 'employer', related_collection: C.employers },
 ];
 for (const { field, related_collection, meta } of restrictRelations) {
-  const current = await directus.request(readRelation('applications', field));
+  const current = await directus.request(readRelation(C.applications, field));
   if (current.schema?.on_delete === 'RESTRICT') {
     console.log(`  = Relation applications.${field}: on_delete RESTRICT`);
     continue;
   }
   if (current.schema) {
-    await directus.request(updateRelation('applications', field, { schema: { on_delete: 'RESTRICT' } }));
+    await directus.request(updateRelation(C.applications, field, { schema: { on_delete: 'RESTRICT' } }));
   } else {
-    await directus.request(deleteRelation('applications', field));
-    await directus.request(createRelation({ collection: 'applications', field, related_collection, ...(meta ? { meta } : {}), schema: { on_delete: 'RESTRICT' } }));
+    await directus.request(deleteRelation(C.applications, field));
+    await directus.request(createRelation({ collection: C.applications, field, related_collection, ...(meta ? { meta } : {}), schema: { on_delete: 'RESTRICT' } }));
   }
   console.log(`  ~ Relation applications.${field}: on_delete RESTRICT`);
 }
@@ -152,7 +153,7 @@ for (const { field, related_collection, meta } of restrictRelations) {
 console.log('\n[4/4] Rechte');
 // Nur veröffentlichte Felder; domains, apply_email, report_email, template_*, notify_reminders bleiben intern (Zugriff über App-Token)
 const EMPLOYER_PUBLIC_FIELDS = ['id', 'status', 'name', 'slug', 'legal_name', 'logo', 'color_primary', 'color_secondary', 'address_street', 'address_zip', 'address_city', 'phone', 'website', 'service_area', 'about', 'schedule_model', 'benefits', 'is_demo'];
-await ensurePublicRead('employers', { permissions: { status: { _eq: 'published' } }, fields: EMPLOYER_PUBLIC_FIELDS });
-await ensurePublicRead('jobs', { permissions: { _and: [{ status: { _eq: 'published' } }, { valid_through: { _gte: '$NOW' } }] } });
+await ensurePublicRead(C.employers, { permissions: { status: { _eq: 'published' } }, fields: EMPLOYER_PUBLIC_FIELDS });
+await ensurePublicRead(C.jobs, { permissions: { _and: [{ status: { _eq: 'published' } }, { valid_through: { _gte: '$NOW' } }] } });
 
 console.log('\nFertig.\n');

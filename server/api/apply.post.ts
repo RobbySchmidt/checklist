@@ -1,3 +1,4 @@
+import { C } from '#shared/utils/collections'
 // server/api/apply.post.ts
 // Nimmt die Kurzbewerbung an: Honeypot, Rate-Limit, Validierung, Stelle erneut prüfen, Speichern über App-Token, Benachrichtigung.
 import { applicationSchema, normalizePhone } from '#shared/utils/applicationSchema'
@@ -37,7 +38,7 @@ export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
 
   // Stelle erneut laden: zwischen Seitenaufruf und Absenden kann sie geschlossen worden sein (appItems wirft bei Ausfall 503)
-  const jobs = await appItems<Job & { employer: Employer }>('jobs', {
+  const jobs = await appItems<Job & { employer: Employer }>(C.jobs, {
     filter: { id: { _eq: input.job } }, fields: 'id,status,title,slug,valid_through,apply_email_override,employer.id,employer.name,employer.apply_email,employer.is_demo,employer.domains', limit: 1,
   })
   const job = jobs[0]
@@ -54,7 +55,7 @@ export default defineEventHandler(async (event) => {
     source, consent: true,
     user_agent: (getHeader(event, 'user-agent') || '').slice(0, 250), referrer: (getHeader(event, 'referer') || '').slice(0, 250),
   }
-  await appFetch('/items/applications', { method: 'POST', body: record })
+  await appFetch(`/items/${C.applications}`, { method: 'POST', body: record })
 
   // Benachrichtigung: Fehler hier dürfen die Antwort nicht kippen, die Bewerbung ist gespeichert
   let previewId: string | undefined

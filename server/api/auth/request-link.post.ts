@@ -1,3 +1,4 @@
+import { C } from '#shared/utils/collections'
 // Magic-Link anfordern. Antwortet immer ok, damit E-Mail-Adressen nicht erraten werden können.
 import { employerSiteUrl } from '#shared/utils/host'
 import { createLoginToken, tokenExpiry, TOKEN_MINUTES } from '#shared/utils/auth'
@@ -13,12 +14,12 @@ export default defineEventHandler(async (event) => {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: true }
   if (!limiter.check(email)) return { ok: true }
 
-  const users = await appItems<{ id: string; name: string; status: string; role: string; employer: { domains?: string[] | null } | null }>('portal_users', { filter: { email: { _eq: email }, status: { _eq: 'active' } }, fields: 'id,name,status,role,employer.domains', limit: 1 })
+  const users = await appItems<{ id: string; name: string; status: string; role: string; employer: { domains?: string[] | null } | null }>(C.portalUsers, { filter: { email: { _eq: email }, status: { _eq: 'active' } }, fields: 'id,name,status,role,employer.domains', limit: 1 })
   const user = users[0]
   if (!user) return { ok: true }
 
   const { token, hash } = createLoginToken()
-  await appFetch('/items/login_tokens', { method: 'POST', body: { user: user.id, token_hash: hash, expires_at: tokenExpiry() } })
+  await appFetch(`/items/${C.loginTokens}`, { method: 'POST', body: { user: user.id, token_hash: hash, expires_at: tokenExpiry() } })
 
   const config = useRuntimeConfig(event)
   // Nie aus dem Host-Header bauen (Link-Poisoning)

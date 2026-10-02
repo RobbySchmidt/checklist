@@ -2,19 +2,20 @@ import { aggregateReport, previousMonthRange } from '#shared/utils/report'
 import { employerSiteUrl } from '#shared/utils/host'
 import { appItems } from '../utils/directus'
 import { renderReportMail, sendMail } from '../utils/notify'
+import { C } from '#shared/utils/collections'
 
 export async function runReport(now = new Date(), { force = false } = {}) {
   if (!force && now.getDate() !== 1) return { skipped: 'nicht der 1. des Monats' }
   const config = useRuntimeConfig()
   const range = previousMonthRange(now)
-  const employers = await appItems<any>('employers', { filter: { status: { _eq: 'published' } }, fields: 'id,name,apply_email,report_email,domains' })
+  const employers = await appItems<any>(C.employers, { filter: { status: { _eq: 'published' } }, fields: 'id,name,apply_email,report_email,domains' })
   let sent = 0
   for (const e of employers) {
     try {
       const [jobs, views, applications] = await Promise.all([
-        appItems<any>('jobs', { filter: { employer: { _eq: e.id }, date_posted: { _lte: range.monthEnd } }, fields: 'status,valid_through' }),
-        appItems<any>('job_views', { filter: { employer: { _eq: e.id }, day: { _between: [range.monthStart, range.monthEnd] } }, fields: 'day,source,count' }),
-        appItems<any>('applications', { filter: { employer: { _eq: e.id } }, fields: 'date_created,first_contact_at,job.id,job.title' }),
+        appItems<any>(C.jobs, { filter: { employer: { _eq: e.id }, date_posted: { _lte: range.monthEnd } }, fields: 'status,valid_through' }),
+        appItems<any>(C.jobViews, { filter: { employer: { _eq: e.id }, day: { _between: [range.monthStart, range.monthEnd] } }, fields: 'day,source,count' }),
+        appItems<any>(C.applications, { filter: { employer: { _eq: e.id } }, fields: 'date_created,first_contact_at,job.id,job.title' }),
       ])
       if (!jobs.length) continue
       const report = aggregateReport({ ...range, views, applications, jobs })

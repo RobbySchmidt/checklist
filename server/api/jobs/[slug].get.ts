@@ -1,3 +1,4 @@
+import { C } from '#shared/utils/collections'
 // Eine sichtbare Stelle des Dienstes dieser Domain per Slug; der Dienst wird auf öffentliche Felder reduziert.
 import type { Job } from '#shared/utils/jobs'
 import { isJobVisible, toIsoDate } from '#shared/utils/jobs'
@@ -10,7 +11,7 @@ export default defineEventHandler(async (event) => {
   const employer = event.context.employer
   const slug = getRouterParam(event, 'slug')
   if (!employer || !slug) throw createError(NOT_FOUND)
-  const rows = await appItems<Job>('jobs', {
+  const rows = await appItems<Job>(C.jobs, {
     filter: { status: { _eq: 'published' }, valid_through: { _gte: toIsoDate(new Date()) }, employer: { id: { _eq: employer.id } }, slug: { _eq: slug } },
     fields: JOB_DETAIL_FIELDS, limit: 1,
   })

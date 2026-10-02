@@ -1,6 +1,7 @@
 import type { Employer } from '#shared/utils/jobs'
 import { normalizeHost } from '#shared/utils/host'
 import { appItems } from './directus'
+import { C } from '#shared/utils/collections'
 
 export interface SessionUser { id: string; name: string; email: string; role: 'dienst' | 'rhowerk'; employerId: string | null }
 
@@ -10,7 +11,7 @@ export async function requirePortalUser(event: any): Promise<{ user: SessionUser
   if (!sessionUser) throw createError({ statusCode: 401, statusMessage: 'Bitte anmelden' })
 
   // Nutzer bei jedem Request gegen die Datenbank prüfen: Sperrung und Rollenwechsel wirken sofort
-  const dbUsers = await appItems<{ id: string; status: string; role: 'dienst' | 'rhowerk'; employer: string | null }>('portal_users', { filter: { id: { _eq: sessionUser.id } }, fields: 'id,status,role,employer', limit: 1 })
+  const dbUsers = await appItems<{ id: string; status: string; role: 'dienst' | 'rhowerk'; employer: string | null }>(C.portalUsers, { filter: { id: { _eq: sessionUser.id } }, fields: 'id,status,role,employer', limit: 1 })
   const db = dbUsers[0]
   if (!db || db.status !== 'active') {
     await clearUserSession(event)
@@ -31,7 +32,7 @@ export async function requirePortalUser(event: any): Promise<{ user: SessionUser
     }
   }
   if (!employerId) throw createError({ statusCode: 403, statusMessage: 'Kein Dienst zugeordnet' })
-  const rows = await appItems<Employer>('employers', { filter: { id: { _eq: employerId } }, fields: '*,logo.id,logo.title', limit: 1 })
+  const rows = await appItems<Employer>(C.employers, { filter: { id: { _eq: employerId } }, fields: '*,logo.id,logo.title', limit: 1 })
   if (!rows[0]) throw createError({ statusCode: 404, statusMessage: 'Dienst nicht gefunden' })
   return { user, employer: rows[0] }
 }

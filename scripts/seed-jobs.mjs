@@ -1,3 +1,4 @@
+import { C } from '../shared/utils/collections.ts';
 // scripts/seed-jobs.mjs
 // Demo-Dienst „Pflegedienst Sonnenhof Leipzig" (fiktiv, is_demo) mit zwei Stellen. Idempotent (Dienst per slug, Stellen per slug).
 // Alle Namen, Adressen und Kontaktdaten sind erfunden. Aufruf: yarn directus:seed:jobs
@@ -8,7 +9,7 @@ const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0
 const plusDays = (n) => { const d = new Date(today); d.setDate(d.getDate() + n); return d; };
 
 console.log('\n[1/2] Demo-Dienst');
-const employerId = await upsertItem('employers', { slug: 'sonnenhof-leipzig' }, {
+const employerId = await upsertItem(C.employers, { slug: 'sonnenhof-leipzig' }, {
   status: 'published',
   name: 'Pflegedienst Sonnenhof Leipzig',
   slug: 'sonnenhof-leipzig',
@@ -36,7 +37,7 @@ const employerId = await upsertItem('employers', { slug: 'sonnenhof-leipzig' }, 
 }, 'sonnenhof-leipzig');
 
 console.log('\n[2/2] Stellen');
-await upsertItem('jobs', { slug: 'pflegefachkraft' }, {
+await upsertItem(C.jobs, { slug: 'pflegefachkraft' }, {
   status: 'published', employer: employerId,
   title: 'Pflegefachkraft (m/w/d)', slug: 'pflegefachkraft',
   employment_types: ['FULL_TIME', 'PART_TIME'], hours_min: 20, hours_max: 39, start_note: 'ab sofort',
@@ -48,7 +49,7 @@ await upsertItem('jobs', { slug: 'pflegefachkraft' }, {
   date_posted: iso(plusDays(-3)), valid_through: iso(plusDays(60)),
 }, 'pflegefachkraft');
 
-await upsertItem('jobs', { slug: 'pflegehilfskraft' }, {
+await upsertItem(C.jobs, { slug: 'pflegehilfskraft' }, {
   status: 'published', employer: employerId,
   title: 'Pflegehilfskraft (m/w/d)', slug: 'pflegehilfskraft',
   employment_types: ['PART_TIME'], hours_min: 20, hours_max: 30, start_note: 'ab sofort',
