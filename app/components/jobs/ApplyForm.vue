@@ -1,27 +1,27 @@
 <template>
   <form class="grid gap-5" novalidate @submit.prevent="submit">
-    <p v-if="done" class="rounded-lg bg-secondary p-5 text-base" role="status">
+    <p v-if="done" class="rounded-xl bg-secondary p-5 text-lg" role="status">
       Danke, {{ form.name }}! {{ employer.name }} meldet sich innerhalb von 24 Stunden bei dir.
       <a v-if="previewId" :href="`/__mail/${previewId}`" target="_blank" class="block mt-2 text-sm underline">Mailvorschau öffnen (nur Entwicklung)</a>
     </p>
     <template v-else>
       <div class="grid gap-1">
-        <label for="apply-name" class="text-sm font-medium">Dein Name</label>
+        <label for="apply-name" class="font-semibold">Dein Name</label>
         <input id="apply-name" v-model="form.name" type="text" autocomplete="name" required class="h-12 rounded-lg border border-border px-4 text-base">
         <p v-if="errors.name" class="text-sm text-destructive">{{ errors.name }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-phone" class="text-sm font-medium">Deine Telefonnummer</label>
+        <label for="apply-phone" class="font-semibold">Deine Telefonnummer</label>
         <input id="apply-phone" v-model="form.phone" type="tel" autocomplete="tel" inputmode="tel" required class="h-12 rounded-lg border border-border px-4 text-base">
         <p v-if="errors.phone" class="text-sm text-destructive">{{ errors.phone }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-email" class="text-sm font-medium">Deine E-Mail <span class="font-normal opacity-75">(optional)</span></label>
+        <label for="apply-email" class="font-semibold">Deine E-Mail <span class="font-normal text-muted-foreground">(optional)</span></label>
         <input id="apply-email" v-model="form.email" type="email" autocomplete="email" inputmode="email" class="h-12 rounded-lg border border-border px-4 text-base">
         <p v-if="errors.email" class="text-sm text-destructive">{{ errors.email }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-qualification" class="text-sm font-medium">Deine Qualifikation</label>
+        <label for="apply-qualification" class="font-semibold">Deine Qualifikation</label>
         <select id="apply-qualification" v-model="form.qualification" required class="h-12 rounded-lg border border-border px-4 text-base bg-background">
           <option value="" disabled>Bitte wählen</option>
           <option v-for="(label, key) in QUALIFICATION_LABELS" :key="key" :value="key">{{ label }}</option>
@@ -29,7 +29,7 @@
         <p v-if="errors.qualification" class="text-sm text-destructive">{{ errors.qualification }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-hours" class="text-sm font-medium">Wie viel möchtest du arbeiten?</label>
+        <label for="apply-hours" class="font-semibold">Wie viel möchtest du arbeiten?</label>
         <select id="apply-hours" v-model="form.hours_wish" required class="h-12 rounded-lg border border-border px-4 text-base bg-background">
           <option value="" disabled>Bitte wählen</option>
           <option v-for="(label, key) in HOURS_WISH_LABELS" :key="key" :value="key">{{ label }}</option>
@@ -37,11 +37,11 @@
         <p v-if="errors.hours_wish" class="text-sm text-destructive">{{ errors.hours_wish }}</p>
       </div>
       <div class="grid gap-1">
-        <label for="apply-start" class="text-sm font-medium">Ab wann? <span class="font-normal opacity-75">(optional)</span></label>
+        <label for="apply-start" class="font-semibold">Ab wann? <span class="font-normal text-muted-foreground">(optional)</span></label>
         <input id="apply-start" v-model="form.earliest_start" type="text" placeholder="z. B. ab sofort, ab Januar" class="h-12 rounded-lg border border-border px-4 text-base">
       </div>
       <div class="grid gap-1">
-        <label for="apply-message" class="text-sm font-medium">Möchtest du noch etwas sagen? <span class="font-normal opacity-75">(optional)</span></label>
+        <label for="apply-message" class="font-semibold">Möchtest du noch etwas sagen? <span class="font-normal text-muted-foreground">(optional)</span></label>
         <textarea id="apply-message" v-model="form.message" rows="3" class="rounded-lg border border-border px-4 py-3 text-base" />
         <p v-if="errors.message" class="text-sm text-destructive">{{ errors.message }}</p>
       </div>
@@ -52,7 +52,7 @@
       </label>
       <p v-if="errors.consent" class="text-sm text-destructive -mt-3">{{ errors.consent }}</p>
       <p v-if="errors._form" class="rounded-lg bg-destructive/10 p-3 text-sm text-destructive" role="alert">{{ errors._form }}</p>
-      <button type="submit" :disabled="busy" class="h-14 rounded-full bg-primary text-base font-medium text-primary-foreground disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
+      <button type="submit" :disabled="busy" class="h-14 rounded-full bg-primary text-lg font-bold text-primary-foreground disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring">
         {{ busy ? 'Wird gesendet …' : 'Rückruf anfordern' }}
       </button>
     </template>

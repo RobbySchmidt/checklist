@@ -9,7 +9,7 @@
           width="150"
           height="39"
           class="block h-auto w-[120px] xl:w-[150px]">
-        <span v-else class="text-xl font-medium tracking-tight">{{ siteName || 'Homepage' }}</span>
+        <span v-else class="text-lg font-semibold tracking-tight">{{ siteName || 'Homepage' }}</span>
       </NuxtLink>
 
       <WebsiteMainMenu v-if="navigation" :items="menuItems" :cta="ctaItem" :phone="general?.phone" />
@@ -27,7 +27,7 @@
         aria-controls="main-menu"
         :aria-label="store.menuOpen ? 'Navigation schließen' : 'Navigation öffnen'"
         :aria-expanded="store.menuOpen"
-        class="relative z-50 -mr-2 flex h-11 w-11 items-center justify-center rounded-lg text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:hidden"
+        class="relative z-50 -mr-2 flex h-11 w-11 items-center justify-center rounded-md text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring xl:hidden"
         @click="store.menuOpen = !store.menuOpen">
         <span class="relative block h-0.5 w-6">
           <span class="absolute left-0 block h-0.5 w-6 bg-current transition duration-300 ease-in-out motion-reduce:transition-none" :class="store.menuOpen ? 'rotate-45' : '-translate-y-1.5'" />

@@ -1,29 +1,25 @@
 <!-- app/pages/jobs/[slug]/google-vorschau.vue -->
 <template>
   <div v-if="job && employer" class="min-h-screen bg-background">
-    <p class="bg-destructive text-white text-center text-base px-4 py-3" role="note">Demo: Dies ist eine Nachbildung, keine echte Google-Seite.</p>
+    <p class="bg-destructive text-white text-center font-bold px-4 py-3" role="note">Demo: Dies ist eine Nachbildung, keine echte Google-Seite.</p>
 
-    <div class="mx-auto max-w-3xl px-4 py-8 space-y-10">
-      <div class="space-y-4">
-      <div class="h-12 rounded-lg border border-border bg-white px-5 flex items-center text-base">{{ query }}</div>
+    <div class="mx-auto max-w-3xl px-4 py-8 grid gap-6">
+      <div class="h-12 rounded-full border border-border bg-white px-5 flex items-center text-lg">{{ query }}</div>
 
-      <section aria-labelledby="box-heading" class="rounded-lg border border-border bg-white">
-        <h1 id="box-heading" class="px-5 py-4 text-xl font-medium leading-tight">Stellenangebote</h1>
-        <div class="divide-y border-y">
+      <section aria-labelledby="box-heading" class="rounded-2xl border border-border bg-white p-5 grid gap-3">
+        <h1 id="box-heading" class="text-xl font-bold">Stellenangebote</h1>
         <JobsJobboxCard :title="posting.title" :org="posting.hiringOrganization.name" :place="place" :chips="chips" :to="`/jobs/${job.slug}`" :logo-src="logoSrc" />
         <JobsJobboxCard title="Pflegefachkraft (m/w/d) für Zeitarbeit" org="Beispiel Personalservice" :place="employer.address_city" :chips="['Vollzeit', 'vor 5 Tagen']" via="Jobportal (fiktiv)" />
         <JobsJobboxCard title="Altenpfleger / Pflegefachkraft (m/w/d)" org="Beispiel Jobbörse" :place="`${employer.address_city} und Umgebung`" :chips="['Vollzeit', 'vor 12 Tagen']" via="Jobbörse (fiktiv)" />
-        </div>
-        <p class="px-5 py-4 text-sm opacity-75">Weitere Stellenangebote</p>
+        <p class="text-sm text-muted-foreground">Weitere Stellenangebote</p>
       </section>
-      </div>
 
-      <section class="border-l-2 pl-4 space-y-2">
-        <h2 class="font-medium">Was sich nicht simulieren lässt</h2>
+      <section class="rounded-xl border-l-4 border-primary bg-secondary/60 p-5 grid gap-2">
+        <h2 class="font-bold">Was sich nicht simulieren lässt</h2>
         <p>Ob Google die Stelle tatsächlich aufnimmt und wie schnell. Das entscheidet Google nach eigenen Regeln. Die Vorschau zeigt, wie es aussieht, wenn es klappt, und der Prüfbericht zeigt, dass die technischen Voraussetzungen erfüllt sind. Im Kundengespräch sollte das so gesagt werden, nicht als Garantie.</p>
       </section>
 
-      <section class="grid gap-2 text-sm opacity-75">
+      <section class="grid gap-2 text-sm text-muted-foreground">
         <p>Grundlage dieser Vorschau sind dieselben Daten, die als JobPosting-Markup auf der Stellenseite liegen. Prüfbericht: Dev-Toolbar auf der Stellenseite oder <a class="underline" href="https://search.google.com/test/rich-results" target="_blank" rel="noopener">Rich-Results-Test</a> mit der öffentlichen URL.</p>
         <NuxtLink :to="`/jobs/${job.slug}`" class="underline">Zur Stellenseite</NuxtLink>
       </section>

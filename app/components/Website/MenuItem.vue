@@ -28,7 +28,7 @@
       :id="`submenu-${menuItem.id}`"
       :inert="!isOpen || undefined"
       :aria-hidden="!isOpen || undefined"
-      class="overflow-hidden transition-[max-height,opacity] duration-200 motion-reduce:transition-none xl:absolute xl:left-0 xl:top-full xl:mt-1 xl:min-w-[220px] xl:rounded-lg xl:border xl:border-border xl:bg-popover xl:p-1 xl:text-popover-foreground xl:shadow-md"
+      class="overflow-hidden transition-[max-height,opacity] duration-200 motion-reduce:transition-none xl:absolute xl:left-0 xl:top-full xl:mt-1 xl:min-w-[220px] xl:rounded-md xl:border xl:border-border xl:bg-popover xl:p-1 xl:text-popover-foreground xl:shadow-md"
       :class="isOpen ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'">
       <template v-for="child in menuItem.children" :key="child.id">
         <li v-if="menuVisible(child)">
@@ -60,7 +60,7 @@
   })
 
   // mobil: große Listeneinträge mit Trenner · Desktop: Pill-Links wie shadcn-NavigationMenu
-  const linkClass = 'block whitespace-nowrap py-3.5 text-base font-medium transition-colors xl:rounded-lg xl:px-3 xl:py-2 xl:text-sm'
+  const linkClass = 'block whitespace-nowrap py-3.5 text-lg font-medium transition-colors xl:rounded-md xl:px-3 xl:py-2 xl:text-sm'
   const idleClass = 'text-foreground/80 hover:text-foreground xl:hover:bg-accent xl:hover:text-accent-foreground'
   const activeClass = 'text-foreground xl:bg-accent xl:text-accent-foreground'
 
