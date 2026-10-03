@@ -165,6 +165,14 @@
   footer.foot .bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; padding-top: 20px; font-size: 0.85rem; opacity: 0.65; }
   @media (max-width: 900px) { footer.foot .cols { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { footer.foot .cols { grid-template-columns: 1fr; } }
+  .parts { display: grid; gap: 0; border-top: 1px solid rgba(255,255,255,0.18); }
+  .part { display: grid; grid-template-columns: 72px 0.9fr; gap: 24px; padding-block: 32px; border-bottom: 1px solid rgba(255,255,255,0.18); align-items: start; }
+  .part .pn { font-size: 3.2rem; font-weight: 700; line-height: 0.9; letter-spacing: -0.04em; color: var(--mint); }
+  .part > div { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 32px; grid-column: 2; }
+  .part h3 { font-size: 1.6rem; }
+  .part p { opacity: 0.88; max-width: 60ch; }
+  .part { grid-template-columns: 72px 1fr; }
+  @media (max-width: 900px) { .part { grid-template-columns: 48px 1fr; } .part > div { grid-template-columns: 1fr; gap: 10px; } .part .pn { font-size: 2.4rem; } }
 </style>
 </head>
 <body>
@@ -174,6 +182,7 @@
     <a class="brand" href="#top">stellenpflege <span class="claim">Bewerbungen für Pflegedienste</span></a>
     <nav class="main" aria-label="Seite">
       <a href="#problem">Das Problem</a>
+      <a href="#produkt">Das Produkt</a>
       <a href="#so-gehts">So funktioniert es</a>
       <a href="#beleg">Beleg</a>
       <a href="#angebot">Angebot</a>
@@ -186,8 +195,8 @@
   <div class="hero dark">
     <div class="wrap grid">
       <div class="copy">
-        <h1>Ihre Stelle bei Google.<br>Die Bewerbung in einer Minute.</h1>
-        <p class="lead">Eine Stellenseite, die Google versteht. Eine Bewerbung vom Handy, ohne Lebenslauf. Jeden Morgen die Liste, wen Sie anrufen.</p>
+        <h1>Ihre Arbeitgeberseite. Ihre Stellen bei Google.</h1>
+        <p class="lead">Wir bauen Ihrem Pflegedienst eine eigene Arbeitgeberseite, bringen jede Stelle in die Google-Stellenansicht und machen die Bewerbung in einer Minute möglich. Im Portal sehen Sie, wen Sie heute anrufen.</p>
         <div class="actions">
           <a class="btn" href="#pilot">Vier Wochen kostenlos testen <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
           <a class="btn ghost" href="#so-gehts">So funktioniert es</a>
@@ -214,10 +223,24 @@
     </div>
   </section>
 
+  <section class="dark" id="produkt">
+    <div class="wrap">
+      <div class="head">
+        <h2>Was Sie bekommen: drei Bausteine, ein Festpreis.</h2>
+        <p>stellenpflege ist kein Stellenportal. Es ist Ihr eigener Auftritt als Arbeitgeber, unter Ihrer Domain, in Ihren Farben, mit allem, was danach kommt.</p>
+      </div>
+      <div class="parts">
+        <div class="part"><span class="pn">1</span><div><h3>Ihre Arbeitgeberseite</h3><p>Eine eigene Seite, die zeigt, warum man bei Ihnen arbeiten will: Team, Gehalt, Dienstplan-Modell, Benefits, Einrichtungen, Stimmen aus dem Team. Wir schreiben und bauen sie mit Ihnen in 14 Tagen. Das ist der größte Teil der 2.000 Euro.</p></div></div>
+        <div class="part"><span class="pn">2</span><div><h3>Stellenseiten, die Google versteht</h3><p>Jede Stelle bekommt eine eigene Seite mit dem Markup, aus dem Google seine Stellenansicht füllt. Dazu die Bewerbung in einer Minute vom Handy, ein Link für die Team-WhatsApp und ein Aushang mit QR-Code.</p></div></div>
+        <div class="part"><span class="pn">3</span><div><h3>Das Portal für Ihre Leitung</h3><p>Stellen selbst anlegen und pflegen. Jede Bewerbung sofort per Mail, morgens die Rückruf-Liste, nach 24 Stunden eine Erinnerung, am Monatsanfang die Zahlen. Das ist der laufende Teil für 149 Euro im Monat.</p></div></div>
+      </div>
+    </div>
+  </section>
+
   <section class="white" id="so-gehts">
     <div class="wrap">
       <div class="head">
-        <h2>Drei Schritte. Kein Vermittler, keine Jobbörse dazwischen.</h2>
+        <h2>So läuft es im Alltag. Kein Vermittler, keine Jobbörse dazwischen.</h2>
       </div>
 
       <div class="step">
@@ -283,10 +306,10 @@
       </div>
       <div class="offer">
         <div class="price">
-          <span class="small" style="opacity:0.8;">Arbeitgeberseite in 14 Tagen</span>
+          <span class="small" style="opacity:0.8;">Aufbau: Arbeitgeberseite, Stellenseiten und Portal in 14 Tagen</span>
           <span class="amount">2.000 € <small>einmalig, netto</small></span>
           <ul>
-            <li>Arbeitgeberseite mit Team, Benefits und Dienstplan-Modell</li>
+            <li>Eigene Arbeitgeberseite: Konzept, Texte, Gestaltung in Ihren Farben, mit Team, Benefits und Dienstplan-Modell</li>
             <li>Bis zu drei Stellenseiten mit Google-Markup</li>
             <li>Bewerbung vom Handy, ohne Lebenslauf</li>
             <li>Link für die Team-WhatsApp, QR-Aushang</li>
