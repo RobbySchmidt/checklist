@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arbeiten bei der AWO Burgenlandkreis – Entwurf D2</title>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<style>
+  @font-face { font-family: Figtree; font-weight: 300 900; font-display: swap; src: url(fonts/figtree.woff2) format("woff2"); }
+</style>
+<style type="text/tailwindcss">
+  /* D2: Markup aus „practice“ (Hero, JobsCards, TeamCards, Accordion, Banner, Footer), eigene Palette:
+     primary = AWO-Rot, gedämpft zu Weinrot (wie das Pflaume in practice), secondary = AWO-Dunkelblau,
+     background = rosé getöntes Hell aus dem primary. Figtree 400/500, Radius 0.75rem. */
+  @theme {
+    --color-primary: #872d38;
+    --color-secondary: #01233a;
+    --color-background: #efe6e7;
+    --color-white: #fcfafa;
+    --font-sans: "Figtree", sans-serif;
+    --radius-main: 0.75rem;
+    --text-f-2xl: clamp(1.125rem, 1.03rem + 0.49vw, 1.5rem);
+    --text-f-4xl: clamp(1.75rem, 1.62rem + 0.66vw, 2.25rem);
+    --text-f-6xl: clamp(2.45rem, 2.11rem + 1.71vw, 3.75rem);
+    --spacing-f-16: clamp(2.25rem, 1.79rem + 2.30vw, 4rem);
+    --spacing-f-24: clamp(3rem, 2.21rem + 3.95vw, 6rem);
+  }
+  html { @apply scroll-smooth scroll-pt-20; }
+  body { @apply text-secondary bg-white; }
+</style>
+</head>
+<body>
+<div class="bg-[#fff3c4] text-[#5c4300] text-sm px-4 py-2 text-center">Entwurf D2, intern. Aufbau aus „practice“, Texte und Fotos von awo-blk.de.</div>
+
+<header class="sticky top-0 z-50 bg-secondary text-background">
+  <nav class="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
+    <a href="#top"><img src="img/awo-logo-hell.svg" alt="AWO Kreisverband Burgenlandkreis e. V." class="h-10 w-auto"></a>
+    <ul class="hidden lg:flex items-center gap-8">
+      <li><a href="#stellenangebote" class="font-medium hover:opacity-75 duration-300 ease-in-out">Stellenangebote</a></li>
+      <li><a href="#team" class="font-medium hover:opacity-75 duration-300 ease-in-out">Team</a></li>
+      <li><a href="#faq" class="font-medium hover:opacity-75 duration-300 ease-in-out">FAQ</a></li>
+      <li><a href="tel:+493444144530" class="font-medium hover:opacity-75 duration-300 ease-in-out">034441 44530</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main id="top">
+  <div class="grid lg:grid-cols-[1fr_minmax(0,36rem)_minmax(0,36rem)_1fr] lg:min-h-144 bg-secondary text-background">
+    <div class="relative lg:col-start-3 lg:col-end-5 lg:row-start-1">
+      <img src="img/hm-team-vier.jpg" alt="Vier Pflegekräfte der AWO im Flur des Pflegeheims Hohenmölsen" class="block w-full aspect-video object-cover object-[30%_40%] lg:absolute lg:inset-0 lg:h-full lg:aspect-auto">
+    </div>
+    <div class="px-4 py-f-24 lg:pr-12 lg:col-start-2 lg:row-start-1 lg:self-center space-y-4">
+      <h1 class="text-f-6xl font-medium leading-tight">Pflege mit Wunschdienstplan</h1>
+      <p class="text-xl">Die AWO im Burgenlandkreis sucht Pflegefachkräfte und Auszubildende in Hohenmölsen, Zeitz und Naumburg.</p>
+      <a href="#stellenangebote" class="bg-primary text-white py-3 px-6 text-lg flex items-center gap-1.5 font-medium w-fit group rounded-main mt-12">
+        <span>Offene Stellen</span>
+        <svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Arbeitsorte: übernimmt die Rolle von „Über uns“ -->
+  <div class="py-f-24 space-y-10">
+    <div class="max-w-6xl mx-auto px-4 space-y-10">
+      <h2 class="font-medium text-f-4xl">Über uns</h2>
+      <p class="text-xl max-w-3xl">Die AWO ist seit 1990 im Burgenlandkreis zu Hause. Sie arbeiten stationär, in der Tagespflege oder ambulant auf Tour, mit Wunschdienstplan, 30 Tagen Urlaub und Gehaltserhöhung jedes Jahr.</p>
+    </div>
+    <ul class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+      <li class="space-y-3">
+        <img src="img/hohenmoelsen-luft.jpg" alt="Hohenmölsen aus der Luft, in der Mitte das AWO Alten- und Pflegeheim" class="block w-full aspect-[4/3] rounded-main object-cover">
+        <div class="grid"><span class="text-lg font-medium">Alten- und Pflegeheim</span><span class="opacity-75">Hohenmölsen</span></div>
+      </li>
+      <li class="space-y-3">
+        <img src="img/ambulant-auto.jpg" alt="Mitarbeiter des ambulanten Pflegedienstes neben dem Dienstwagen" class="block w-full aspect-[4/3] rounded-main object-cover">
+        <div class="grid"><span class="text-lg font-medium">Ambulanter Pflegedienst und Tagespflege</span><span class="opacity-75">Zeitz</span></div>
+      </li>
+      <li class="space-y-3">
+        <img src="img/rosengarten-luft.jpg" alt="Seniorenzentrum Am Rosengarten in Naumburg von oben" class="block w-full aspect-[4/3] rounded-main object-cover">
+        <div class="grid"><span class="text-lg font-medium">Seniorenzentrum „Am Rosengarten“</span><span class="opacity-75">Naumburg</span></div>
+      </li>
+    </ul>
+  </div>
+
+  <div id="stellenangebote" class="py-f-24 bg-background space-y-10">
+    <h2 class="max-w-6xl mx-auto px-4 font-medium text-f-4xl">Stellenangebote</h2>
+    <ul class="grid md:grid-cols-2 gap-6 max-w-6xl mx-auto px-4">
+      <li><a href="#" class="rounded-main h-full flex flex-col gap-6 bg-primary hover:bg-secondary duration-300 ease-in-out group text-white p-6">
+        <h3 class="grid"><span class="text-3xl mb-1">Pflegefachkraft</span><span class="text-xl opacity-75">(m/w/d)</span></h3>
+        <div class="flex flex-wrap gap-x-2 text-lg"><span>Hohenmölsen</span><span class="opacity-50">·</span><span>Alten- und Pflegeheim</span></div>
+        <div class="mt-auto flex items-center gap-1.5 font-medium"><span>mehr erfahren</span><svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      </a></li>
+      <li><a href="#" class="rounded-main h-full flex flex-col gap-6 bg-primary hover:bg-secondary duration-300 ease-in-out group text-white p-6">
+        <h3 class="grid"><span class="text-3xl mb-1">Pflegefachkraft</span><span class="text-xl opacity-75">(m/w/d)</span></h3>
+        <div class="flex flex-wrap gap-x-2 text-lg"><span>Zeitz</span><span class="opacity-50">·</span><span>Ambulanter Pflegedienst</span></div>
+        <div class="mt-auto flex items-center gap-1.5 font-medium"><span>mehr erfahren</span><svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      </a></li>
+      <li><a href="#" class="rounded-main h-full flex flex-col gap-6 bg-primary hover:bg-secondary duration-300 ease-in-out group text-white p-6">
+        <h3 class="grid"><span class="text-3xl mb-1">Pflegefachkraft</span><span class="text-xl opacity-75">(m/w/d)</span></h3>
+        <div class="flex flex-wrap gap-x-2 text-lg"><span>Naumburg</span><span class="opacity-50">·</span><span>Seniorenzentrum „Am Rosengarten“</span></div>
+        <div class="mt-auto flex items-center gap-1.5 font-medium"><span>mehr erfahren</span><svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      </a></li>
+      <li><a href="#" class="rounded-main h-full flex flex-col gap-6 bg-primary hover:bg-secondary duration-300 ease-in-out group text-white p-6">
+        <h3 class="grid"><span class="text-3xl mb-1">Ausbildung Pflegefachkraft</span><span class="text-xl opacity-75">(m/w/d)</span></h3>
+        <div class="flex flex-wrap gap-x-2 text-lg"><span>Naumburg</span><span class="opacity-50">·</span><span>Start 1. August</span></div>
+        <div class="mt-auto flex items-center gap-1.5 font-medium"><span>mehr erfahren</span><svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></div>
+      </a></li>
+    </ul>
+  </div>
+
+  <div id="team" class="py-f-24 space-y-10 text-background bg-secondary">
+    <h2 class="max-w-6xl mx-auto px-4 font-medium text-f-4xl">Team</h2>
+    <ul class="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
+      <li><img src="img/hm-kollegin.jpg" alt="Pflegekraft vor der Eingangstür des Pflegeheims" class="block w-full aspect-[3/4] rounded-main object-cover object-[22%_50%]"></li>
+      <li><img src="img/hm-team-drei.jpg" alt="Drei Mitarbeitende des Pflegeheims Hohenmölsen" class="block w-full aspect-[3/4] rounded-main object-cover object-[45%_50%]"></li>
+      <li><img src="img/hm-tablet.jpg" alt="Zwei Kolleginnen schauen gemeinsam auf ein Tablet" class="block w-full aspect-[3/4] rounded-main object-cover object-[30%_50%]"></li>
+      <li><img src="img/hm-spiel.jpg" alt="Pflegekräfte bereiten Getränke und ein Brettspiel vor" class="block w-full aspect-[3/4] rounded-main object-cover object-[40%_50%]"></li>
+      <li><img src="img/hm-flur.jpg" alt="Ein Pfleger schiebt einen Rollstuhl durch den Flur" class="block w-full aspect-[3/4] rounded-main object-cover object-[65%_50%]"></li>
+      <li><img src="img/hm-fenster.jpg" alt="Eine Mitarbeiterin schaut aus einem Fenster mit Blumenkasten" class="block w-full aspect-[3/4] rounded-main object-cover object-[55%_50%]"></li>
+    </ul>
+  </div>
+
+  <div id="faq" class="py-f-24 space-y-10 max-w-6xl mx-auto px-4">
+    <h2 class="font-medium text-f-4xl">FAQ</h2>
+    <ul class="border-b-2 border-secondary max-w-3xl" data-accordion>
+      <li class="border-t-2 border-secondary"><h3><button type="button" class="w-full py-3 flex cursor-pointer items-center justify-between text-left text-lg font-medium"><span>Brauche ich einen Lebenslauf?</span><svg class="shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
+        <div role="region" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]"><div class="overflow-hidden"><p class="pb-3">Nein. Für den ersten Schritt reichen Name, Telefonnummer und Ihre Qualifikation. Zeugnisse bringen Sie zum Gespräch mit.</p></div></div></li>
+      <li class="border-t-2 border-secondary"><h3><button type="button" class="w-full py-3 flex cursor-pointer items-center justify-between text-left text-lg font-medium"><span>Wie schnell melden Sie sich?</span><svg class="shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
+        <div role="region" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]"><div class="overflow-hidden"><p class="pb-3">Innerhalb von 24 Stunden ruft die Leitung der Einrichtung zurück. Dienstzeiten und Gehalt klären Sie direkt am Telefon.</p></div></div></li>
+      <li class="border-t-2 border-secondary"><h3><button type="button" class="w-full py-3 flex cursor-pointer items-center justify-between text-left text-lg font-medium"><span>Ich habe noch keine Berufserfahrung. Geht das?</span><svg class="shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
+        <div role="region" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]"><div class="overflow-hidden"><p class="pb-3">Ja. Berufserfahrung ist erwünscht, aber nicht zwingend. Voraussetzung für die Fachkraftstellen ist das Examen in der Alten- oder Krankenpflege.</p></div></div></li>
+      <li class="border-t-2 border-secondary"><h3><button type="button" class="w-full py-3 flex cursor-pointer items-center justify-between text-left text-lg font-medium"><span>Was bietet die AWO außer dem Gehalt?</span><svg class="shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
+        <div role="region" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]"><div class="overflow-hidden"><p class="pb-3">30 Tage Urlaub, eine jährliche Sonderzahlung, betriebliche Altersvorsorge, kostenlose Massagen, Fortbildungen und digitale Pflegedokumentation.</p></div></div></li>
+      <li class="border-t-2 border-secondary"><h3><button type="button" class="w-full py-3 flex cursor-pointer items-center justify-between text-left text-lg font-medium"><span>Wer ist meine Ansprechpartnerin?</span><svg class="shrink-0" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button></h3>
+        <div role="region" class="grid transition-all duration-300 ease-in-out grid-rows-[0fr]"><div class="overflow-hidden"><p class="pb-3">Frau Witt in der Geschäftsstelle in Hohenmölsen, Telefon <a href="tel:+493444144530" class="underline">034441 44530</a>.</p></div></div></li>
+    </ul>
+  </div>
+
+  <div class="py-f-24 bg-background">
+    <div class="max-w-6xl mx-auto px-4 space-y-10">
+      <div class="bg-primary p-6 md:p-16 rounded-main text-background">
+        <div class="space-y-6">
+          <h2 class="font-medium text-f-4xl">Nichts Passendes dabei?</h2>
+          <p class="text-xl max-w-3xl">Rufen Sie uns einfach an oder hinterlassen Sie Ihre Nummer. Wir melden uns, wenn etwas frei wird.</p>
+          <a href="tel:+493444144530" class="text-lg bg-secondary py-3 px-6 flex items-center gap-1.5 font-medium w-fit group rounded-main mt-12">
+            <span>034441 44530 anrufen</span>
+            <svg class="group-hover:translate-x-1 duration-300 ease-in-out" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="bg-secondary text-background">
+  <div class="max-w-6xl mx-auto px-4 py-f-16 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+    <div class="space-y-4 lg:col-span-2">
+      <span class="text-f-2xl font-medium">AWO Burgenlandkreis</span>
+      <p class="max-w-sm opacity-75">Pflege, Wohnen und Kinderbetreuung im Burgenlandkreis, seit 1990.</p>
+    </div>
+    <div class="space-y-4">
+      <h2 class="font-medium">Navigation</h2>
+      <ul class="space-y-2">
+        <li><a href="#stellenangebote" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">Stellenangebote</a></li>
+        <li><a href="#team" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">Team</a></li>
+        <li><a href="#faq" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">FAQ</a></li>
+        <li><a href="https://awo-blk.de/" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">awo-blk.de</a></li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <h2 class="font-medium">Kontakt</h2>
+      <address class="not-italic space-y-2">
+        <p class="opacity-75">Clara-Zetkin-Straße 20<br>06679 Hohenmölsen</p>
+        <a href="tel:+493444144530" class="block opacity-75 hover:opacity-100 duration-300 ease-in-out">034441 44530</a>
+      </address>
+    </div>
+  </div>
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="py-6 border-t-2 border-background/20 flex flex-col md:flex-row md:justify-between gap-4 text-sm">
+      <p class="opacity-75">© 2026 AWO Kreisverband Burgenlandkreis e. V.</p>
+      <ul class="flex gap-6">
+        <li><a href="https://awo-blk.de/impressum" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">Impressum</a></li>
+        <li><a href="https://awo-blk.de/datenschutz" class="opacity-75 hover:opacity-100 duration-300 ease-in-out">Datenschutz</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // wie Accordion.vue: ein Eintrag offen, aria-expanded/aria-controls, geschlossene Inhalte inert
+  document.querySelectorAll('[data-accordion]').forEach((list, n) => {
+    const items = [...list.children];
+    let open = null;
+    const render = () => items.forEach((li, i) => {
+      const btn = li.querySelector('button'), panel = li.querySelector('[role=region]'), on = i === open;
+      btn.id = `acc${n}-b${i}`; panel.id = `acc${n}-p${i}`;
+      btn.setAttribute('aria-controls', panel.id); panel.setAttribute('aria-labelledby', btn.id);
+      btn.setAttribute('aria-expanded', on); panel.inert = !on;
+      panel.classList.toggle('grid-rows-[1fr]', on); panel.classList.toggle('grid-rows-[0fr]', !on);
+      btn.querySelector('svg').classList.toggle('rotate-180', on);
+    });
+    items.forEach((li, i) => li.querySelector('button').addEventListener('click', () => { open = open === i ? null : i; render(); }));
+    render();
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arbeiten bei der AWO Burgenlandkreis – Entwurf A</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap">
+<style>
+  /* Variante A: nach der Style-Referenz (weiße Fläche, enge Inter, ein Akzent, Radius 12, keine Schatten, dunkler Fuß).
+     Der eine Akzent ist hier das AWO-Rot statt Ember. */
+  :root {
+    --accent: #e3001b; --accent-ink: #ffffff;
+    --abyss: #000710; --carbon: #15191e; --ink: #000000; --paper: #ffffff; --fog: #f3f3f7;
+    --mist: #b9bbc6; --steel: #8b8d98; --pewter: #6f737b; --graphite: #60646c;
+    --r: 12px; --r-tag: 6px; --max: 1200px;
+    --font: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-size: 16px; line-height: 1.5; letter-spacing: -0.01em; font-feature-settings: "calt" 0, "liga" 0, "ss03", "cv01", "cv10"; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+  .wrap { max-width: var(--max); margin: 0 auto; padding-inline: 24px; }
+  .bar { background: var(--carbon); color: #fff; font-size: 12px; font-weight: 500; text-align: center; padding: 8px 16px; }
+  .bar a { color: #ff8a8f; text-decoration: none; }
+  header.nav { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid #e6e6ec; }
+  header.nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; height: 72px; }
+  header.nav img { height: 40px; width: auto; }
+  header.nav nav { display: flex; gap: 32px; font-size: 14px; font-weight: 500; }
+  header.nav nav a { text-decoration: none; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 8px 20px; border-radius: var(--r); background: var(--accent); color: var(--accent-ink); font-weight: 600; font-size: 16px; text-decoration: none; border: 0; cursor: pointer; font-family: inherit; letter-spacing: -0.01em; }
+  .btn.sm { min-height: 40px; font-size: 14px; padding: 8px 16px; }
+  .ghost { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; font-size: 14px; text-decoration: none; min-height: 48px; }
+  .ghost svg { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+  h1 { margin: 0; font-size: clamp(40px, 5.2vw, 64px); font-weight: 600; line-height: 1; letter-spacing: -0.03em; text-wrap: balance; hyphens: auto; }
+  h2 { margin: 0; font-size: clamp(30px, 4vw, 48px); font-weight: 600; line-height: 1.05; letter-spacing: -0.025em; text-wrap: balance; }
+  h3 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+  p { margin: 0; }
+  .sub { color: var(--graphite); font-size: 20px; line-height: 1.4; max-width: 44ch; }
+  .muted { color: var(--graphite); }
+  .cap { color: var(--pewter); font-size: 14px; }
+  section { padding-block: 80px; }
+  .fog { background: var(--fog); }
+  .head { display: grid; gap: 16px; margin-bottom: 48px; max-width: 760px; }
+
+  .hero { padding-block: 72px 80px; }
+  .hero .grid { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 48px; align-items: center; }
+  .hero .copy { display: grid; gap: 24px; }
+  .capture { display: flex; gap: 8px; max-width: 460px; }
+  .capture input { flex: 1; min-width: 0; height: 48px; border: 1px solid var(--mist); border-radius: var(--r); padding: 0 16px; font: inherit; }
+  .capture input::placeholder { color: var(--steel); }
+  .hero .photo { border-radius: var(--r); overflow: hidden; aspect-ratio: 3 / 2; }
+  .hero .photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .facts div { display: grid; gap: 8px; }
+  .facts b { font-size: 48px; font-weight: 500; line-height: 1; letter-spacing: -0.025em; }
+  .facts span { color: var(--graphite); font-size: 14px; }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .benefits .card { background: var(--paper); border-radius: var(--r); padding: 32px; display: grid; gap: 8px; align-content: start; }
+  .benefits .card p { color: var(--graphite); }
+
+  .houses { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .house { display: grid; gap: 16px; align-content: start; }
+  .house .ph { border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 10; background: var(--fog); }
+  .house .ph img { width: 100%; height: 100%; object-fit: cover; }
+  .house p { color: var(--graphite); font-size: 14px; line-height: 1.43; }
+  .tag { display: inline-block; border-radius: var(--r-tag); background: var(--fog); padding: 2px 8px; font-size: 12px; font-weight: 500; color: var(--graphite); }
+
+  .jobs { border-top: 1px solid var(--mist); }
+  .job { display: grid; grid-template-columns: 1.4fr 1fr auto; gap: 24px; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--mist); text-decoration: none; }
+  .job .meta { color: var(--graphite); font-size: 14px; }
+  .job .go { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; color: var(--accent); }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; counter-reset: s; }
+  .steps div { display: grid; gap: 8px; align-content: start; padding-top: 24px; border-top: 1px solid var(--ink); }
+  .steps div::before { counter-increment: s; content: counter(s); font-size: 36px; font-weight: 500; line-height: 1; letter-spacing: -0.02em; }
+  .steps p { color: var(--graphite); }
+
+  .apply { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  form { background: var(--paper); border: 1px solid var(--mist); border-radius: var(--r); padding: 32px; display: grid; gap: 16px; }
+  label { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+  label input, label select { height: 48px; border: 1px solid var(--mist); border-radius: var(--r); padding: 0 16px; font: inherit; background: var(--paper); }
+  .consent { display: flex; gap: 10px; align-items: flex-start; font-weight: 400; font-size: 14px; color: var(--graphite); }
+  .consent input { height: 18px; width: 18px; margin-top: 2px; }
+  .quote { border-left: 2px solid var(--accent); padding-left: 24px; display: grid; gap: 12px; margin-top: 32px; }
+  .quote p { font-size: 20px; line-height: 1.4; letter-spacing: -0.02em; }
+
+  footer { background: var(--abyss); color: #fff; padding-block: 64px 32px; font-size: 14px; }
+  footer .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+  footer h4 { margin: 0 0 12px; font-size: 14px; font-weight: 600; }
+  footer a, footer p { color: var(--mist); text-decoration: none; display: block; line-height: 2; }
+  footer .logo { background: #fff; display: inline-block; padding: 10px 14px; border-radius: var(--r); }
+  footer .logo img { height: 34px; }
+  footer .base { margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.14); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--steel); }
+  .draft { background: #fff7d6; color: #6b4e00; font-size: 13px; padding: 8px 16px; text-align: center; }
+
+  @media (max-width: 900px) {
+    header.nav nav { display: none; }
+    .hero .grid, .apply { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: repeat(2, 1fr); }
+    .benefits, .houses, .steps { grid-template-columns: 1fr; }
+    .job { grid-template-columns: 1fr; gap: 8px; }
+    footer .cols { grid-template-columns: 1fr 1fr; }
+    section { padding-block: 56px; }
+  }
+</style>
+</head>
+<body>
+<div class="draft">Entwurf für die interne Abstimmung, Variante A. Texte aus awo-blk.de, markierte Stellen sind noch von der AWO zu ergänzen.</div>
+<div class="bar">Vier offene Stellen im Burgenlandkreis. <a href="#stellen">Zu den Stellen</a></div>
+<header class="nav"><div class="wrap">
+  <a href="#top"><img src="img/awo-logo.svg" alt="AWO Kreisverband Burgenlandkreis e. V."></a>
+  <nav aria-label="Seitennavigation"><a href="#vorteile">Was wir bieten</a><a href="#einrichtungen">Einrichtungen</a><a href="#stellen">Offene Stellen</a><a href="#ablauf">So läuft es ab</a></nav>
+  <a class="btn sm" href="#bewerben">Rückruf anfordern</a>
+</div></header>
+
+<main id="top">
+  <section class="hero"><div class="wrap grid">
+    <div class="copy">
+      <h1>Pflegen im Burgenlandkreis. Mit Wunschdienstplan.</h1>
+      <p class="sub">Altenpflegeheim, Seniorenzentrum, Tagespflege oder ambulant auf Tour: Bei der AWO arbeiten Sie dort, wo Sie wohnen, mit einem Dienstplan, der sich nach Ihren Wünschen richtet.</p>
+      <form class="capture" onsubmit="event.preventDefault()" style="border:0;padding:0;display:flex;background:none">
+        <input type="tel" inputmode="tel" placeholder="Ihre Telefonnummer" aria-label="Ihre Telefonnummer">
+        <button class="btn" type="submit">Rückruf anfordern</button>
+      </form>
+      <p class="cap">Kein Lebenslauf nötig. Wir rufen innerhalb von 24 Stunden zurück.</p>
+      <a class="ghost" href="#stellen"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>Vier offene Stellen ansehen</a>
+    </div>
+    <div class="photo"><img src="img/awo-haus.jpg" alt="Gebäude des AWO Kreisverbands Burgenlandkreis mit AWO-Logo an der Fassade" width="900" height="600"></div>
+  </div></section>
+
+  <section class="fog" style="padding-block:56px"><div class="wrap facts">
+    <div><b>1990</b><span>gegründet, gemeinnütziger Verein</span></div>
+    <div><b>7</b><span>Einrichtungen in Hohenmölsen, Zeitz, Naumburg und Teuchern</span></div>
+    <div><b>30</b><span>Tage Urlaub, dazu jährliche Sonderzahlung</span></div>
+    <div><b>24 h</b><span>bis zu unserem Rückruf auf Ihre Bewerbung</span></div>
+  </div></section>
+
+  <section id="vorteile" class="fog" style="padding-top:24px"><div class="wrap">
+    <div class="head"><h2>Was Sie bei uns bekommen</h2><p class="muted">So steht es in unseren Stellenausschreibungen. Ohne Sternchen.</p></div>
+    <div class="benefits">
+      <div class="card"><h3>Wunschdienstplan</h3><p>Sie sagen, wann Sie können. Der Dienstplan richtet sich danach.</p></div>
+      <div class="card"><h3>Bezahlung über dem Durchschnitt</h3><p>Dazu jedes Jahr eine Gehaltserhöhung. <span class="tag">Gehaltsrahmen: von der AWO zu ergänzen</span></p></div>
+      <div class="card"><h3>30 Tage Urlaub</h3><p>Dazu eine jährliche Sonderzahlung.</p></div>
+      <div class="card"><h3>Kostenlose Massagen</h3><p>Regelmäßige physiotherapeutische Massagen, kostenlos für Mitarbeitende.</p></div>
+      <div class="card"><h3>Betriebliche Altersvorsorge</h3><p>Ein sicherer Arbeitsplatz bei einem Träger, der seit über 30 Jahren hier ist.</p></div>
+      <div class="card"><h3>Digitale Dokumentation</h3><p>Pflegedokumentation am Gerät statt auf Papier. Dazu betriebliche Entwicklungs- und Fortbildungsmöglichkeiten.</p></div>
+    </div>
+  </div></section>
+
+  <section id="einrichtungen"><div class="wrap">
+    <div class="head"><h2>Wo Sie arbeiten können</h2><p class="muted">Vier Orte im Burgenlandkreis, ein Träger.</p></div>
+    <div class="houses">
+      <div class="house"><div class="ph"><img src="img/hohenmoelsen-luft.jpg" alt="Luftbild von Hohenmölsen mit dem AWO Alten- und Pflegeheim" width="900" height="599" loading="lazy"></div><span class="tag">Hohenmölsen</span><h3>Alten- und Pflegeheim</h3><p>80 Seniorinnen und Senioren, mitten im Zentrum. Mit Cafeteria, Friseur und eigener Küche.</p></div>
+      <div class="house"><div class="ph"><img src="img/zeitz-pflegedienst.jpg" alt="Backsteingebäude in Zeitz mit AWO-Fahnen, Sitz von Pflegedienst und Tagespflege" width="900" height="600" loading="lazy"></div><span class="tag">Zeitz</span><h3>Ambulanter Pflegedienst und Tagespflege</h3><p>Touren in Zeitz, Hohenmölsen, Teuchern und Umgebung. Tagespflege montags bis freitags von 8 bis 16 Uhr.</p></div>
+      <div class="house"><div class="ph"><img src="img/rosengarten-luft.jpg" alt="Luftbild des AWO Seniorenzentrums Am Rosengarten in Naumburg im Grünen" width="900" height="600" loading="lazy"></div><span class="tag">Naumburg</span><h3>Seniorenzentrum „Am Rosengarten“</h3><p>63 Bewohnerinnen und Bewohner auf vier Etagen. Hier bilden wir auch aus, mit Übernahmegarantie.</p></div>
+    </div>
+  </div></section>
+
+  <section id="stellen" class="fog"><div class="wrap">
+    <div class="head"><h2>Offene Stellen</h2><p class="muted">Jede Stelle hat eine eigene Seite mit allen Angaben. Die Bewerbung dauert eine Minute.</p></div>
+    <div class="jobs">
+      <a class="job" href="#bewerben"><div><h3>Pflegefachkraft (m/w/d)</h3><div class="tags"><span class="tag" style="background:#fff">ab sofort</span></div></div><div class="meta">Alten- und Pflegeheim, Hohenmölsen</div><span class="go">Ansehen und bewerben →</span></a>
+      <a class="job" href="#bewerben"><div><h3>Pflegefachkraft (m/w/d)</h3><div class="tags"><span class="tag" style="background:#fff">ab sofort</span></div></div><div class="meta">Ambulanter Pflegedienst, Zeitz</div><span class="go">Ansehen und bewerben →</span></a>
+      <a class="job" href="#bewerben"><div><h3>Pflegefachkraft (m/w/d)</h3><div class="tags"><span class="tag" style="background:#fff">ab sofort</span></div></div><div class="meta">Seniorenzentrum „Am Rosengarten“, Naumburg</div><span class="go">Ansehen und bewerben →</span></a>
+      <a class="job" href="#bewerben"><div><h3>Ausbildung zur Pflegefachfrau / zum Pflegefachmann (m/w/d)</h3><div class="tags"><span class="tag" style="background:#fff">Ausbildung</span><span class="tag" style="background:#fff">Start 1. August</span><span class="tag" style="background:#fff">Übernahmegarantie</span></div></div><div class="meta">Seniorenzentrum „Am Rosengarten“, Naumburg</div><span class="go">Ansehen und bewerben →</span></a>
+    </div>
+  </div></section>
+
+  <section id="ablauf"><div class="wrap">
+    <div class="head"><h2>So läuft es ab</h2></div>
+    <div class="steps">
+      <div><h3>Sie hinterlassen Ihre Nummer</h3><p>Name, Telefon, Qualifikation, Wunschstunden. Eine Minute vom Handy, ohne Unterlagen.</p></div>
+      <div><h3>Wir rufen zurück</h3><p>Innerhalb von 24 Stunden meldet sich die Leitung der Einrichtung bei Ihnen. Sie klären Dienstzeiten und Gehalt am Telefon.</p></div>
+      <div><h3>Sie lernen das Team kennen</h3><p>Ein Gespräch in der Einrichtung Ihrer Wahl. Danach entscheiden beide Seiten. <span class="tag">Ablauf mit der AWO abstimmen</span></p></div>
+    </div>
+  </div></section>
+
+  <section id="bewerben" class="fog"><div class="wrap apply">
+    <div>
+      <div class="head" style="margin-bottom:0"><h2>In einer Minute bewerben</h2><p class="muted">Kein Lebenslauf, kein Anschreiben. Zeugnisse bringen Sie zum Gespräch mit.</p></div>
+      <div class="quote"><p>„Platzhalter: ein Satz einer Kollegin aus dem Pflegedienst, mit Vorname, Funktion und Jahren bei der AWO.“</p><span class="cap">Von der AWO zu ergänzen, am besten mit Foto.</span></div>
+      <p class="cap" style="margin-top:32px">Lieber per Post oder Telefon? AWO Kreisverband Burgenlandkreis e. V., z. H. Frau Witt, Clara-Zetkin-Straße 20, 06679 Hohenmölsen. Telefon 034441 44530.</p>
+    </div>
+    <form onsubmit="event.preventDefault()">
+      <label>Ihr Name<input type="text" autocomplete="name"></label>
+      <label>Ihre Telefonnummer<input type="tel" inputmode="tel" autocomplete="tel"></label>
+      <label>Ihre Qualifikation<select><option>Bitte wählen</option><option>Pflegefachkraft</option><option>Pflegehilfskraft</option><option>Ausbildung gesucht</option><option>Quereinstieg</option></select></label>
+      <label>Wo möchten Sie arbeiten?<select><option>Egal, beraten Sie mich</option><option>Hohenmölsen</option><option>Zeitz</option><option>Naumburg</option></select></label>
+      <label class="consent"><input type="checkbox"><span>Die AWO darf mich zu dieser Bewerbung anrufen. Mehr in der Datenschutzerklärung.</span></label>
+      <button class="btn" type="submit">Rückruf anfordern</button>
+    </form>
+  </div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><span class="logo"><img src="img/awo-logo.svg" alt="AWO Kreisverband Burgenlandkreis e. V."></span><p style="margin-top:16px;line-height:1.6">Clara-Zetkin-Straße 20<br>06679 Hohenmölsen<br>Telefon 034441 44530</p></div>
+    <div><h4>Arbeiten bei uns</h4><a href="#vorteile">Was wir bieten</a><a href="#stellen">Offene Stellen</a><a href="#ablauf">Ablauf</a></div>
+    <div><h4>Einrichtungen</h4><a href="#einrichtungen">Hohenmölsen</a><a href="#einrichtungen">Zeitz</a><a href="#einrichtungen">Naumburg</a><a href="#einrichtungen">Teuchern</a></div>
+    <div><h4>Rechtliches</h4><a href="https://awo-blk.de/impressum">Impressum</a><a href="https://awo-blk.de/datenschutz">Datenschutz</a><a href="https://awo-blk.de/">awo-blk.de</a></div>
+  </div>
+  <div class="base"><span>© 2026 AWO Kreisverband Burgenlandkreis e. V.</span><span>Stellenseite von stellenpflege</span></div>
+</div></footer>
+</body>
+</html>

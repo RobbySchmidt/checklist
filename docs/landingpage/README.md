@@ -8,6 +8,8 @@ Quelle unter `src/v2`, Bilder unter `src/img` (2x-Screenshots aus dem Dev-Server
 node docs/landingpage/src/inline.mjs v2
 ```
 
+`inline.mjs` bettet `.png` und `.jpg` aus `src/img` ein. `agb-hero.jpg` und `agb-team.jpg` zeigen den Entwurf der AWO-Arbeitgeberseite (`docs/arbeitgeberseite/awo-arbeitgeberseite-d6.html`) mit echtem Namen und echten Fotos: Die Landingpage ist damit nur für den internen Gebrauch (Chef, AWO-Gespräch), öffentlich erst nach Freigabe durch die AWO.
+
 Später wird die Landingpage nach Nuxt übernommen und unter der Produkt-Domain ausgeliefert.
 
 ## Quellen der Vergleichszahlen (Stand Oktober 2026)

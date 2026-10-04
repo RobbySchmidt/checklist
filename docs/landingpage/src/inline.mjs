@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 const here = dirname(fileURLToPath(import.meta.url))
 const [variant = 'v2', out = resolve(here, '..', `stellenpflege-landingpage-${variant}.html`)] = process.argv.slice(2)
 let html = readFileSync(resolve(here, variant, 'landingpage.template.html'), 'utf8')
-html = html.replace(/src="img\/([a-z0-9-]+\.png)"/g, (_, f) => `src="data:image/png;base64,${readFileSync(resolve(here, 'img', f)).toString('base64')}"`)
+const mime = { png: 'image/png', jpg: 'image/jpeg' }
+html = html.replace(/src="img\/([a-z0-9-]+\.(png|jpg))"/g, (_, f, ext) => `src="data:${mime[ext]};base64,${readFileSync(resolve(here, 'img', f)).toString('base64')}"`)
 writeFileSync(out, html)
 console.log(`geschrieben: ${out} (${(statSync(out).size / 1024 / 1024).toFixed(2)} MB)`)
